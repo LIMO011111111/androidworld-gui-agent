@@ -55,6 +55,9 @@ _ALWAYS_SAFE = (
     actions.WAIT,
 )
 
+# Button names that commit the work of a form or editor.
+_COMMIT_BUTTONS = frozenset({"save", "send", "sms", "ok", "done", "create", "add"})
+
 # Actions that should visibly change the screen. If they do not, we look twice.
 _EXPECT_CHANGE = (
     actions.CLICK,
@@ -149,6 +152,8 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
         "blocked": {},
         "done_rejections": 0,
         "goal_value_rejections": 0,
+        "prefilled_replaced": 0,
+        "done_hints": 0,
         "action_errors": 0,
         "apps_opened": [],
         "packages_seen": [],
@@ -358,6 +363,21 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
       self._log(record, obs, resolved)
       return self._result(done=False, record=record)
 
+    if (
+        cfg.replace_prefilled_text
+        and action.action_type == actions.INPUT_TEXT
+        and resolved.target is not None
+        and resolved.target.editable
+        and resolved.target.text
+        and resolved.target.text != resolved.target.hint
+        # Not when the model is continuing its own text in that field.
+        and not action.text.startswith(resolved.target.text)
+        and resolved.target.text not in "".join(self.stats["typed_texts"])
+    ):
+      # The field already shows a value: replace it instead of appending.
+      resolved.env_action["clear_text"] = True
+      record["resolved"]["cleared_prefilled"] = resolved.target.text
+      self.stats["prefilled_replaced"] += 1
     record["resolved"]["env_action"] = dict(resolved.env_action)
 
     # The guardrails judged the screen from before the model call, which can
@@ -443,6 +463,21 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
       outcome = "already on the home screen"
     else:
       outcome = "screen did NOT change"
+    if (
+        cfg.done_hint
+        and error_text is None
+        and changed
+        and self._is_commit_action(resolved)
+    ):
+      tracker = self._tracker(goal)
+      typed = self.stats["typed_texts"]
+      if tracker.values and typed and not tracker.missing_parts(typed):
+        outcome += (
+            ". All values from the goal are typed and you pressed a"
+            " save/send button: if the goal is fully done, reply"
+            ' status "complete" now instead of pressing it again'
+        )
+        self.stats["done_hints"] += 1
     self._memory.add_step(resolved.description, outcome)
     self._last_effect = f"{resolved.description} -> {outcome}"
 
@@ -544,6 +579,14 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
     record["stop_reason"] = self.stop_reason
     self._log(record, obs)
     return self._result(done=True, record=record)
+
+  @staticmethod
+  def _is_commit_action(resolved: actions.ResolvedAction) -> bool:
+    """A tap on a button that commits the work: Save, Send, SMS, OK, Done."""
+    if resolved.action.action_type != actions.CLICK or resolved.target is None:
+      return False
+    name = (resolved.target.text or resolved.target.description or "").strip().lower()
+    return name in _COMMIT_BUTTONS
 
   def _tracker(self, goal: str) -> goal_values.GoalTracker:
     if self._goal_tracker is None or self._goal_tracker.goal != goal:

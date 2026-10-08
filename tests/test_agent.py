@@ -565,3 +565,44 @@ def test_goal_tracker_lets_a_complete_run_finish_at_once():
   results = [agent.step(GOAL) for _ in range(6)]
   assert results[-1].done
   assert agent.stats["goal_value_rejections"] == 0
+
+
+def test_prefilled_text_is_cleared_before_typing_but_a_hint_is_not():
+  prefilled = [
+      fakes.el("Create contact", (0, 100, 1080, 200), package="com.google.android.contacts"),
+      fakes.el("Save", (860, 100, 1040, 200), cls="android.widget.Button",
+               clickable=True, package="com.google.android.contacts"),
+      fakes.el(".md", (100, 400, 980, 520), hint="extension",
+               cls="android.widget.EditText", editable=True, package="com.google.android.contacts"),
+      fakes.el("", (100, 700, 980, 820), hint="Phone",
+               cls="android.widget.EditText", editable=True, package="com.google.android.contacts"),
+  ]
+  screens = dict(SCREENS, form=prefilled)
+  replies = [
+      reply(thought="ext", action_type="input_text", index=2, text=".txt"),
+      reply(thought="phone", action_type="input_text", index=3, text="+11417776317"),
+  ]
+  cfg = config_lib.AgentConfig(
+      name="test", observation="tree", grounding="index", wait_for_stable=False,
+      transition_pause_s=0.0, status_bar=False, verify_before_done=False,
+      replace_prefilled_text=True,
+  )
+  phone = fakes.FakePhone(screens, "form", lambda p, a: None)
+  agent = agent_lib.GuiAgent(phone, cfg, fakes.ScriptedModel(replies))
+  agent.reset(go_home=True)
+  agent.step(GOAL)
+  agent.step(GOAL)
+  assert phone.executed[0].clear_text is True  # ".md" was real text
+  assert not phone.executed[1].clear_text  # "Phone" was only the hint
+  assert agent.stats["prefilled_replaced"] == 1
+
+
+def test_done_hint_appears_once_all_values_are_typed_and_save_is_pressed():
+  agent, _, model = make_agent(HAPPY_PATH, status_bar=False, done_hint=True)
+  for _ in range(6):
+    agent.step(GOAL)
+  last_user = model.calls[-1]["messages"][1]["content"]
+  assert 'reply status "complete" now' in last_user
+  assert agent.stats["done_hints"] == 1
+  # Before the number was typed, the earlier Save-free steps had no hint.
+  assert 'status "complete" now' not in model.calls[3]["messages"][1]["content"]

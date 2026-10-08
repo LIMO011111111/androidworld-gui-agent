@@ -1,0 +1,15 @@
+{
+  "_comment": "V6 = V5 (8B model, V2 settings) plus two code fixes for the two failure patterns that survived every version: (1) input_text into a field that already holds text clears it first (extension-field loop); (2) once every goal value is typed and a save/send button was pressed, the history line asks for status complete (never-said-done). The goal-value extraction is used only inside the done hint; there is no tracker block in the prompt and no veto (both hurt in V4).",
+  "name": "v6_fixes",
+  "model": "qwen3-vl:8b-instruct",
+  "observation": "tree",
+  "grounding": "index",
+  "wait_for_stable": false,
+  "transition_pause_s": 2.0,
+  "screen_change_hint": false,
+  "loop_guard": false,
+  "status_bar": false,
+  "verify_before_done": false,
+  "replace_prefilled_text": true,
+  "done_hint": true
+}

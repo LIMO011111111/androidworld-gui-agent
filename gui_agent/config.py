@@ -116,6 +116,16 @@ class AgentConfig:
   # "complete" while a value was never typed (fix for `lost_value`, without a
   # second model call). At most `max_done_rejections` vetoes.
   goal_tracker: bool = False
+  # V6: when input_text targets a field that already holds text (other than
+  # its hint), select-all + delete first so the new text replaces it
+  # (fix for the "tap the prefilled extension field 15 times" loop).
+  replace_prefilled_text: bool = False
+  # V6: after every value from the goal was typed and a save/send/ok button
+  # was pressed, remind the model in the history line to report complete
+  # (fix for "device state correct, never said done"). Uses the goal-value
+  # extraction on its own; it does not need `goal_tracker` (no prompt block,
+  # no veto).
+  done_hint: bool = False
 
   # --- Safety -----------------------------------------------------------------
   # Which of the apps in APP_PACKAGES this agent may operate. To add an app,
