@@ -226,4 +226,4 @@ against the Save loop. Result: **0/9**, at twice V2's cost per step
 `README.md`, section "Quick start" (`scripts/setup_mac.sh`, then
 `python run_eval.py --config configs/<version>.json`, then
 `python summarize.py`). Repository: private GitHub repo
-`androidworld-gui-agent`, commit `<hash after the final push>`.
+`androidworld-gui-agent`, commit `5e1f1a0`.
