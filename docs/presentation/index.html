@@ -55,6 +55,9 @@
       .reveal .ver.v1 { background: var(--gray-200); color: var(--text-strong); }
       .reveal .ver.v2 { background: var(--tum-blue-light); color: var(--tum-blue-darker); }
       .reveal .ver.v3 { background: var(--tum-blue); color: #fff; }
+      .reveal .ver.v4 { background: var(--gray-200); color: var(--text-strong); }
+      .reveal .ver.v5 { background: var(--tum-blue-dark, #0065bd); color: #fff; }
+      .reveal .ver.v6 { background: var(--tum-blue-darker, #003359); color: #fff; }
       /* Day stamp in the eyebrow: which lecture a decision comes from. */
       .reveal .eyebrow .day { color: var(--text-muted); font-weight: var(--weight-regular); }
       .reveal section.tum-dark .eyebrow .day, .reveal section.tum-deep .eyebrow .day { color: rgba(255,255,255,.6); }
@@ -184,7 +187,7 @@
             <div class="col" style="flex:0 0 46%">
               <table class="compact roomy" style="font-size:18px">
                 <tbody>
-                  <tr><td>Model</td><td><strong>qwen3-vl:4b-instruct</strong>, 4.4B parameters</td></tr>
+                  <tr><td>Model</td><td><strong>qwen3-vl:4b-instruct</strong>, 4.4B parameters (V5, V6 on the MacBook: qwen3-vl:8b-instruct, 6.1 GB)</td></tr>
                   <tr><td>Where it runs</td><td>laptop, Ollama server at <code>localhost:11434</code></td></tr>
                   <tr><td>Quantisation</td><td>Q4_K_M, 4 bits per weight</td></tr>
                   <tr><td>Memory for weights</td><td>4.4B × 0.5 byte + projector ≈ <strong>3.3 GB</strong></td></tr>
@@ -533,7 +536,7 @@ keyboard_enter · wait · status</pre>
               <tr><td>Feedback</td><td>Does it know what happened?</td><td><span class="fail">weak</span>: "executed"</td><td>"your action changed nothing": <span class="fail">wrong on Save</span>, Markor autosaves without a visible change</td></tr>
               <tr><td>Verification</td><td>Did the result work?</td><td><span class="fail">none before done</span>: the missing surname goes through</td><td>check step with the same 4B model: <span class="fail">accepted the missing surname 3 of 3 times</span></td></tr>
               <tr><td>Recovery</td><td>Retry, revise, roll back or stop?</td><td>invalid JSON: retry with the error, 2×. Timeout 300 s: ERROR</td><td>+ loop guard: same action, same screen, 3× blocked. <span class="fail">Fired on Save</span>, ended 3 runs</td></tr>
-              <tr><td>Constraints</td><td>Which rules must the system enforce?</td><td><span class="pass">✓</span> in code, not in the prompt: step limit, payment ban, app scope</td><td><span class="pass">✓</span> same, held in all 27 runs</td></tr>
+              <tr><td>Constraints</td><td>Which rules must the system enforce?</td><td><span class="pass">✓</span> in code, not in the prompt: step limit, payment ban, app scope</td><td><span class="pass">✓</span> same, held in all 81 runs on two machines</td></tr>
             </tbody>
           </table>
           <p class="sub" style="margin-top:14px;font-size:18px">Every V3 mechanism assumes that a successful action changes the screen. Where that assumption fails, the safety net turns a pass into a fail.</p>
@@ -607,8 +610,8 @@ keyboard_enter · wait · status</pre>
             <thead><tr><th style="width:13%">Failure</th><th style="width:24%">What we tried</th><th style="width:11%">Placed in</th><th style="width:22%">Did it work?</th><th>Where it really belongs</th></tr></thead>
             <tbody>
               <tr><td>grounding</td><td>index instead of coordinates <span class="ver v2">V2</span></td><td>Programs</td><td><span class="pass">yes</span>: no more taps into nothing</td><td>Programs, as done</td></tr>
-              <tr><td>wrong_app</td><td>open_app by exact name only</td><td>Programs</td><td><span class="pass">yes</span>: held in all 27 runs</td><td>Programs, as done</td></tr>
-              <tr><td>lost_value</td><td>status bar with notes <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">no</span>: the surname was never read, not forgotten</td><td>Programs, but earlier: give the model tree + screenshot, or check the device state before done</td></tr>
+              <tr><td>wrong_app</td><td>open_app by exact name only</td><td>Programs</td><td><span class="pass">yes</span>: held in all 81 runs on two machines</td><td>Programs, as done</td></tr>
+              <tr><td>lost_value</td><td>status bar with notes <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">no</span>: the surname was never read, not forgotten</td><td>Parameters: the 8B model fixed it (V5 <span class="ver v5">V5</span>); a code tracker did not (V4)</td></tr>
               <tr><td>false_done</td><td>check step before done <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">no</span>: the checker was the same 4B model</td><td>Parameters: a stronger model for the check. Or Programs that read state the UI does not show</td></tr>
               <tr><td>Save loop</td><td>"no effect" hint + loop guard <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">backfired</span>: Markor autosaves, no visible change</td><td>Instructions: one sentence in a Markor skill file, "Save shows no confirmation"</td></tr>
             </tbody>
@@ -648,6 +651,29 @@ keyboard_enter · wait · status</pre>
           <aside class="notes">Mac-Läufe des Kollegen (07./08.10., sein Bericht): V1 5/9 (Contacts 2/3, Markor 2/3, SMS 1/3), V2 2/9, V3 0/9, 11 ERROR (Emulator-Abstürze, ersetzt), Emulator-RAM-Wechsel 2 auf 4 GB mitten in der Messung. Windows: 0 ERROR, durchgehend gleiche Einstellung. Gleiches Modell dem Namen nach, aber anderer Ollama-Build und anderer Digest, also formal ein anderes Modell; deshalb gehen Einzelläufe mit gleichem Seed anders aus (Mac Contacts V1 2/3 vs. 3/3, Markor V2 1/3 vs. 3/3). Die Rangfolge und die Fehlermuster sind auf beiden Rechnern gleich. Antwort auf "how many times did you run it?": 54 Läufe auf zwei Rechnern. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
+        <!-- 26b · Three more single-change tests on the MacBook — content.md #26b -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Three more single-change tests</p>
+          <h2 class="title" style="max-width:44ch">A bigger model fixed the lost surname. Two code fixes never fired.</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:16px">
+            <thead><tr><th style="width:22%"></th><th>V2 <span class="ver v2">V2</span></th><th>V4 = V2 + goal tracker in code <span class="ver v4">V4</span></th><th>V5 = V2 + 8B model <span class="ver v5">V5</span></th><th>V6 = V5 + clear field, "say done" hint <span class="ver v6">V6</span></th></tr></thead>
+            <tbody>
+              <tr><td>success</td><td>2 / 9</td><td>1 / 9</td><td><strong>3 / 9</strong></td><td>1 / 9</td></tr>
+              <tr><td>Contacts</td><td>1 / 3</td><td>0 / 3</td><td><strong>2 / 3</strong></td><td>0 / 3</td></tr>
+              <tr><td>runs with a lost surname</td><td><span class="fail">2</span></td><td>0</td><td><span class="pass">0</span></td><td>0</td></tr>
+              <tr><td>model time per step</td><td>6.3 s</td><td>9.3 s</td><td>7.3 s</td><td>14.6 s, laptop under load</td></tr>
+            </tbody>
+          </table>
+          <ul class="bullets" style="margin-top:16px;gap:6px">
+            <li style="font-size:19px">V4: the code veto never fired; the 4B model looped instead (12× back, 10 to 15 taps on one field). Every prompt line is an intervention</li>
+            <li style="font-size:19px">V5: +16 % time per step, surname never lost again; the extension-field loop and the missing "done" stay</li>
+            <li style="font-size:19px">V6: the field loop is taps, not typing; the done hint waited for a visible change, Markor's Save gives none (V3's assumption, repeated)</li>
+          </ul>
+          <p class="sub" style="margin-top:10px;font-size:17px">Same model, same seeds, temperature 0: Contacts went 2 / 3 → 0 / 3 between V5 and V6. Three runs find patterns, not rankings.</p>
+          <aside class="notes">Mac-Läufe 08.10. (runs/summary.md des Kollegen, 54 Läufe, V1 bis V6). V4 = V2 plus Code-Tracker: Code zieht die Werte aus dem Goal (Name, Nummer, Dateiname, Text), zeigt jeden Schritt, was noch nicht getippt ist, und blockt "complete", solange etwas fehlt. 1/9: Das Veto hat nie gefeuert, dafür Schleifen (12× back auf dem Home-Screen, 10 bis 15× Tipp auf das Endungsfeld). V5 = V2 mit qwen3-vl:8b-instruct (6,1 GB): 3/9, 7,3 statt 6,3 s pro Schritt, Nachname nie wieder verloren, Contacts 2/3; Endungsfeld-Schleife und fehlendes "done" bleiben. V6 = V5 plus zwei Code-Fixes genau für diese zwei Muster: Feld mit Vorbelegung vor dem Tippen leeren, und nach Save/Send bei vollständig getippten Werten um "complete" bitten. 1/9: Die Endungsfeld-Schleife besteht aus Klicks, nie aus input_text, also hatte die Lösch-Regel nichts zu tun; der Hinweis war an "Bildschirm hat sich geändert" gekoppelt, Markors Save ändert nichts, also kam er bei Markor nie (derselbe Fehler wie in V3). Die 14,6 s pro Schritt sind Last auf dem Laptop (erste Schritte bis 76 s), nicht V6. Contacts 2/3 auf 0/3 bei gleichem Modell, gleichen Seeds und unverändertem Contacts-Pfad: so groß ist das Rauschen bei 3 Läufen. Bezug zu Folie 25: Für lost_value war die Antwort Parameters (8B), nicht Programs (Tracker).</aside>
+        </section>
+
         <!-- 27 · Reproduce it — content.md #27 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> Run it yourself</p>
@@ -657,7 +683,7 @@ keyboard_enter · wait · status</pre>
           <ul class="bullets">
             <li>Same task seeds for every version (AndroidWorld's own seed formula)</li>
             <li>Temperature 0, fixed model seed; model name, size, quantisation and digest recorded per run<small>"if you change quantisation, or switch model, re-run your evaluation. It is a different model."</small></li>
-            <li>AndroidWorld pinned to one commit; setup scripts for macOS and Windows; 209 unit tests without an emulator</li>
+            <li>AndroidWorld pinned to one commit; setup scripts for macOS and Windows; 226 unit tests without an emulator</li>
             <li>Every run leaves <code>trajectory.jsonl</code>, screenshots with the tap marked, <code>recording.mp4</code>, one log row</li>
           </ul>
           <aside class="notes">Bewertungskriterium "reproducibility". Wer das Repo klont, kann die Tabelle nachbauen.</aside>
@@ -742,7 +768,7 @@ keyboard_enter · wait · status</pre>
             <li>Status bar with scratch notes written by code (lost_value)</li>
             <li>Check step before done: the model is asked a second question, with a veto budget (false_done)</li>
           </ul>
-          <p class="sub" style="margin-top:24px">Results: [to be run]</p>
+          <p class="sub" style="margin-top:24px">Result: 0 / 9 on both machines. The check step accepted the missing surname 3 of 3 times; the loop guard and the "no effect" hint fired on Markor's Save, which autosaves without a visible change.</p>
         </section>
         <!-- B3 · Backup: Skills, memory, RAG — content.md #B3 -->
         <section data-background-color="#ffffff">

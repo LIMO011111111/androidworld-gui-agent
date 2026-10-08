@@ -997,6 +997,29 @@ Rechts: gleiches Skript, gleiche Seeds, Temperatur 0. Gleiche Muster: Nachname f
 
 ---
 
+## Folie 26b: Three more single-change tests (MacBook)
+
+**Überschrift:** A bigger model fixed the lost surname. Two code fixes never fired.
+
+**Auf der Folie:** eine Tabelle V2, V4, V5, V6 (Erfolg, Contacts, verlorene Nachnamen, Modellzeit), darunter drei Punkte, unten der Satz zum Rauschen.
+
+**Um was es geht:** Drei weitere Experimente mit je genau einer Änderung, alle auf dem Mac, gleiche Seeds wie alles andere. Sie prüfen die Behauptungen von Folie 25: Wo gehört der Fix für den verlorenen Nachnamen hin, und helfen gezielte Code-Fixes gegen die zwei Muster, die alle Versionen überlebt haben? Ungefähr 75 Sekunden.
+
+**Was man verstehen soll:** Das größere Modell hat den Nachnamen gelöst (Parameters), der Code-Tracker nicht (Programs). Die zwei V6-Fixes waren richtig gedacht und falsch angesetzt: Die Endungsfeld-Schleife besteht aus Klicks, nicht aus Tippen, und der "sag done"-Hinweis wartete auf eine sichtbare Änderung, die Markors Save nie liefert. Dass Contacts bei gleichem Modell und gleichen Seeds von 2/3 auf 0/3 fällt, zeigt, wie viel Rauschen in drei Läufen steckt.
+
+### Was du sagst, in dieser Reihenfolge
+
+1. „Auf dem Mac haben wir drei weitere Versionen gefahren, jede mit genau einer Änderung gegenüber V2."
+2. „V4: Code schreibt die Werte aus der Aufgabe mit und blockt ‚complete', solange einer fehlt. Das Veto hat nie gefeuert, dafür hat das 4B-Modell neue Schleifen gedreht. Für ein so kleines Modell ist jede Zeile im Prompt selbst ein Eingriff."
+3. „V5: dasselbe mit dem 8B-Modell. 16 Prozent mehr Zeit pro Schritt, der Nachname ging nie wieder verloren. Für lost_value war die Antwort also Parameters, nicht Programs."
+4. „V6: zwei Code-Fixes für die zwei Muster, die übrig blieben. Beide haben in den fehlgeschlagenen Läufen nie gegriffen. Der Hinweis wartete auf eine sichtbare Änderung, Markor speichert ohne eine. Denselben Fehler hatten wir in V3 schon einmal gemacht."
+5. „Und: Contacts fiel von 2 von 3 auf 0 von 3, bei gleichem Modell und gleichen Seeds. Drei Läufe finden Muster, keine Rangfolge."
+
+### Vor dem Vortrag prüfen
+
+- Zahlen gegen `runs/summary.md` vom Mac (Spalten v4_tracker, v5_8b, v6_fixes).
+- Die 14,6 s pro Schritt bei V6 nur mit dem Zusatz „Laptop unter Last" nennen, nicht als Eigenschaft von V6.
+
 ## Folie 27: Reproduce it (Run it yourself)
 
 **Überschrift:** One command per version. The config is the whole agent.
