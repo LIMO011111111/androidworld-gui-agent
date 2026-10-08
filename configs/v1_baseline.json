@@ -1,0 +1,14 @@
+{
+  "_comment": "V1 baseline: the model sees only the screenshot and has to produce tap coordinates itself (GELab-Zero style). Only the mandatory guardrails are active.",
+  "name": "v1_baseline",
+  "model": "qwen3-vl:4b-instruct",
+  "observation": "screenshot",
+  "grounding": "coordinate",
+  "coordinate_space": "relative_1000",
+  "wait_for_stable": false,
+  "transition_pause_s": 2.0,
+  "screen_change_hint": false,
+  "loop_guard": false,
+  "status_bar": false,
+  "verify_before_done": false
+}

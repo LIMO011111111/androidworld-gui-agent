@@ -1,0 +1,13 @@
+{
+  "_comment": "V2 = V1 with exactly ONE change: the observation is the accessibility tree and taps are grounded by index in our code. Everything else is identical to V1, so the before-after difference is attributable to this change.",
+  "name": "v2_index",
+  "model": "qwen3-vl:4b-instruct",
+  "observation": "tree",
+  "grounding": "index",
+  "wait_for_stable": false,
+  "transition_pause_s": 2.0,
+  "screen_change_hint": false,
+  "loop_guard": false,
+  "status_bar": false,
+  "verify_before_done": false
+}

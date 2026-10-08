@@ -1,0 +1,5 @@
+# Installed on top of AndroidWorld's own requirements (see scripts/setup_mac.sh).
+# AndroidWorld already pins numpy; these are the only extra packages we use.
+pillow
+requests
+pytest

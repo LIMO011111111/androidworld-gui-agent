@@ -1,0 +1,11 @@
+.venv/
+third_party/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+runs*/*
+!runs*/log.csv
+!runs*/log.md
+!runs*/log_replaced.csv
+!runs*/summary.md

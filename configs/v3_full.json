@@ -1,0 +1,12 @@
+{
+  "_comment": "V3 = V2 plus the full harness: wait until the screen is stable, tell the model when an action had no effect, loop guard, status bar with scratch notes, and a check step before done.",
+  "name": "v3_full",
+  "model": "qwen3-vl:4b-instruct",
+  "observation": "tree",
+  "grounding": "index",
+  "wait_for_stable": true,
+  "screen_change_hint": true,
+  "loop_guard": true,
+  "status_bar": true,
+  "verify_before_done": true
+}
