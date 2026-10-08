@@ -102,10 +102,10 @@
           <hr class="rule" />
           <div class="agenda">
             <div class="agenda-row"><span class="num">1</span><div><b>The assignment</b><span>What we were asked to build, and the three tasks we chose to run it on.</span></div></div>
-            <div class="agenda-row"><span class="num">2</span><div><b>How we built it</b><span>One agent, three versions. The decisions behind it, from the model to the guardrails.</span></div></div>
+            <div class="agenda-row"><span class="num">2</span><div><b>How we built it</b><span>One agent, six versions. The decisions behind it, from the model to the guardrails.</span></div></div>
             <div class="agenda-row"><span class="num">3</span><div><b>How we measured</b><span>When a run stops, what counts as a pass, and the one row we wrote per run.</span></div></div>
             <div class="agenda-row"><span class="num">4</span><div><b>What happened</b><span>The V1 numbers, one failure step by step, and the diagnosis.</span></div></div>
-            <div class="agenda-row"><span class="num">5</span><div><b>What we changed and learned</b><span>One change, the before-and-after numbers, and where a fix belongs.</span></div></div>
+            <div class="agenda-row"><span class="num">5</span><div><b>What we changed and learned</b><span>One change at a time, the before-and-after numbers, where a fix belongs, and what is left open.</span></div></div>
           </div>
           <aside class="notes">Die fünf Kapitel sind der rote Faden: Aufgabe, Bau, Messung, Ergebnis, Änderung und Erkenntnis. Jede Folie trägt oben ihr Kapitel.</aside>
         </section>
@@ -174,7 +174,7 @@
           <p class="section-num">2</p>
           <h2 class="title title--xl">How we built it</h2>
           <hr class="rule rule--wide" />
-          <p class="lead" style="max-width:44ch">One agent, three versions. The decisions behind it, from the model to the guardrails.</p>
+          <p class="lead" style="max-width:44ch">One agent, six versions. The decisions behind it, from the model to the guardrails.</p>
           <aside class="notes">Kapitelwechsel. Ein Satz: One agent, three versions. The decisions behind it, from the model to the guardrails.</aside>
         </section>
 
@@ -285,7 +285,7 @@
               </ul>
             </div>
             <div class="col">
-              <p class="sub" style="font-weight:700;color:var(--text-strong)">Accessibility tree <span class="ver v2">V2</span><span class="ver v3">V3</span></p>
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">Accessibility tree <span class="ver v2">V2</span><span class="ver v3">V3</span><span class="ver v4">V4</span><span class="ver v5">V5</span><span class="ver v6">V6</span></p>
               <pre class="mono" style="margin-top:12px">[1] ImageButton "Create contact"
 [2] Button "Don't allow"
 [7] EditText "First name"
@@ -293,6 +293,7 @@
               <ul class="bullets" style="margin-top:16px">
                 <li>~980 prompt tokens per step, exact bounds</li>
                 <li>Whatever has no description is simply not there</li>
+                <li>V4 to V6 keep the tree and change what is around it (slide 26b)</li>
               </ul>
             </div>
           </div>
@@ -552,6 +553,22 @@ keyboard_enter · wait · status</pre>
           <aside class="notes">Kapitelwechsel. Ein Satz: One change, the before-and-after numbers, and where a fix belongs.</aside>
         </section>
 
+        <!-- 22b · What 81 runs let us say — content.md #22b -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> In one breath</p>
+          <h2 class="title" style="max-width:42ch">Six sentences that 81 runs on two machines support</h2>
+          <hr class="rule" />
+          <ul class="bullets" style="gap:12px">
+            <li>Moving grounding into code made every step 3× faster and removed the taps into nothing<small>V1 → V2, both machines</small></li>
+            <li>With the tree, the 4B model lost the surname in 5 of 6 Contacts runs; the 8B model in 0 of 6<small>V2 + V3 vs. V5 + V6, MacBook</small></li>
+            <li>Every harness mechanism we added cost steps and none raised the success rate<small>V3 +1.7, V4 +1.9 steps per run; 2 / 9 → 0 / 9 and 1 / 9</small></li>
+            <li>A correct screen without "done" happened in every version from V2 on<small>the agent has to know it is finished; the checker does not help it</small></li>
+            <li>Not one task instance passed in all six versions; the two .txt notes never passed after V1<small>same seed, same values: the extension field decides</small></li>
+            <li>The payment ban never had to fire; the home-screen rule did, in V2, V3 and V6<small>81 runs, 0 payment attempts; 6 blocked home-screen taps on the Mac, each answered with "use open_app"</small></li>
+          </ul>
+          <aside class="notes">Liams Einstieg in Kapitel 5: sechs Sätze, jeder mit Beleg, bevor die Details kommen. (1) Folie 24, Windows 90 → 28 s, Mac 23,5 → 6,3 s. (2) V2 Contacts 2 von 3 verloren, V3 3 von 3; V5 und V6 je 0 von 3 (V6 Run 2 kam nie bis zum Formular, zählt nicht als verloren). (3) Mac: Schritte pro Lauf 12,9 (V2) → 14,6 (V3) → 14,8 (V4); Erfolg 2/9 → 0/9 → 1/9. (4) V2 Markor 1, V3 Markor 1, V4 SMS 3, V5 Markor 3, V6 Contacts 3. (5) Backup B12. (6) Payment-Ban: 0 Treffer in 81 Läufen; Home-Screen-Regel: 6 geblockte Taps auf dem Mac (V2: 3, V3: 2, V6: 1, inkl. ersetzter Läufe; stats.blocked.home_screen in result.json), 0 in V1 (Screenshot), V4 (back statt Tap) und V5. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
         <!-- 23 · The improvement — content.md #23 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> V1 → V2 → V3</p>
@@ -674,6 +691,75 @@ keyboard_enter · wait · status</pre>
           <aside class="notes">Mac-Läufe 08.10. (runs/summary.md des Kollegen, 54 Läufe, V1 bis V6). V4 = V2 plus Code-Tracker: Code zieht die Werte aus dem Goal (Name, Nummer, Dateiname, Text), zeigt jeden Schritt, was noch nicht getippt ist, und blockt "complete", solange etwas fehlt. 1/9: Das Veto hat nie gefeuert, dafür Schleifen (12× back auf dem Home-Screen, 10 bis 15× Tipp auf das Endungsfeld). V5 = V2 mit qwen3-vl:8b-instruct (6,1 GB): 3/9, 7,3 statt 6,3 s pro Schritt, Nachname nie wieder verloren, Contacts 2/3; Endungsfeld-Schleife und fehlendes "done" bleiben. V6 = V5 plus zwei Code-Fixes genau für diese zwei Muster: Feld mit Vorbelegung vor dem Tippen leeren, und nach Save/Send bei vollständig getippten Werten um "complete" bitten. 1/9: Die Endungsfeld-Schleife besteht aus Klicks, nie aus input_text, also hatte die Lösch-Regel nichts zu tun; der Hinweis war an "Bildschirm hat sich geändert" gekoppelt, Markors Save ändert nichts, also kam er bei Markor nie (derselbe Fehler wie in V3). Die 14,6 s pro Schritt sind Last auf dem Laptop (erste Schritte bis 76 s), nicht V6. Contacts 2/3 auf 0/3 bei gleichem Modell, gleichen Seeds und unverändertem Contacts-Pfad: so groß ist das Rauschen bei 3 Läufen. Bezug zu Folie 25: Für lost_value war die Antwort Parameters (8B), nicht Programs (Tracker).</aside>
         </section>
 
+        <!-- 26c · V4 trace — content.md #26c -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> V4, step by step <span class="ver v4">V4</span></p>
+          <h2 class="title" style="max-width:44ch">V4: the code veto never fired. The prompt block did.</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:40px">
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">V2, Contacts run 1 (Hugo Pereira)</p>
+              <pre class="prompt" style="font-size:14px;margin-top:8px">1. navigate_home -> executed
+2. click [6] "Search" -> BLOCKED: do not tap or type on the
+   home screen. Open the app you need with open_app
+3. open_app contacts -> executed
+... 11. status complete -> PASS</pre>
+              <p class="sub" style="font-weight:700;color:var(--text-strong);margin-top:18px">V4, same seed, same model</p>
+              <pre class="prompt" style="font-size:14px;margin-top:8px">1. navigate_home -> executed
+2. navigate_back -> executed
+3. navigate_back -> executed
+...
+12. navigate_back -> executed      => FAIL, step_limit</pre>
+            </div>
+            <div class="col" style="flex:0 0 44%">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">The model's own thought, steps 4 to 12, identical every time</p>
+              <p class="sub" style="font-size:17px;margin-top:8px;font-style:italic">"I need to open the Contacts app to create a new contact. Since it's not visible on this screen, I should navigate back to find it."</p>
+              <ul class="bullets" style="margin-top:16px;gap:8px">
+                <li style="font-size:18px">It looks for the app on the screen and forgets <code>open_app</code></li>
+                <li style="font-size:18px">V2 made the same mistake, but tapped: the guardrail answered and the model obeyed. V4 pressed "back": no rule fires, nothing answers</li>
+                <li style="font-size:18px">The tracker block is never mentioned in any thought. The only prompt difference to V2 is that block</li>
+                <li style="font-size:18px">All 3 Contacts runs: 0 / 3, 36 steps, no field ever touched</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Mac, V4 Contacts Run 1 (Seed 1155463587), trajectory.jsonl. Gedanken-Log Schritt 4 bis 12 wörtlich gleich. V2-Erfolg auf demselben Seed hing an einer Guardrail-Nachricht: Der Tap auf die Suchleiste wurde geblockt, und die Nachricht sagte dem Modell, was es stattdessen tun soll. In V4 wählte das Modell "back" statt Tap, darauf gibt es keine Regel und ohne V3-Hinweis "screen did not change" merkt es nichts. Warum das 4B-Modell mit dem Tracker-Block "back" statt Tap wählt, steht nicht im Log; wir wissen nur: Der Block ist der einzige Unterschied. Für ein 4B-Modell ist Prompt-Text ein Eingriff, kein neutraler Informationsort. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 26d · V5/V6 traces — content.md #26d -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> V5 and V6, step by step <span class="ver v5">V5</span><span class="ver v6">V6</span></p>
+          <h2 class="title" style="max-width:44ch">The 8B model types the surname in 8 steps. The hint it ignores.</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:40px">
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">V5, Contacts run 3 (Isla Martin), <span class="pass">PASS</span> in 8 steps</p>
+              <pre class="prompt" style="font-size:14px;margin-top:8px">3. click [0] "Create contact"
+4. input_text "Isla" at x=491 y=387
+5. input_text "Martin" into [8] "Last name"
+6. input_text "+15256606183" into [10] "Phone"
+7. click [2] "Save"
+8. status complete -> PASS</pre>
+              <p class="sub" style="font-size:16px;margin-top:10px">V2 on the same seed: "Isla", then straight to "Phone", Save, "complete" → FAIL. Same screen, same prompt, 4B vs. 8B.</p>
+            </div>
+            <div class="col" style="flex:0 0 50%">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">V6, Note + SMS run 3, the done hint fires once</p>
+              <pre class="prompt" style="font-size:13px;margin-top:8px">13. input_text "Ignorance is bliss." into [7] "Type a message"
+14. click [8] "SMS" -> executed. All values from the goal are
+    typed and you pressed a save/send button: if the goal is
+    fully done, reply status "complete" now
+15. click [8] "SMS" -> executed. (same hint again)
+16. navigate_home -> executed
+17. status complete -> FAIL, checker 0.5</pre>
+              <ul class="bullets" style="margin-top:12px;gap:6px">
+                <li style="font-size:17px">The hint is read and still the button is pressed again</li>
+                <li style="font-size:17px">On Markor "Save" it never appears: Save changes nothing on screen, and we gated the hint on a change</li>
+                <li style="font-size:17px">Checker 0.5: the note exists, the SMS did not arrive. Pressing "SMS" twice is not sending <span style="color:var(--text-muted)">[check video]</span></li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Links: Mac V5 Contacts Run 3 (Seed 596600690), 8 Schritte, alle drei Werte, PASS. Derselbe Seed in V2 (Folie 20 bei Bela ist der Windows-Zwilling davon): Vorname, Telefon, Save, "complete", FAIL. Einziger Unterschied: 8B statt 4B. Rechts: V6 Note+SMS Run 3 (Seed 3564688147). Der Done-Hint hängt an der History-Zeile von Schritt 14 und 15; das Modell drückt trotzdem noch einmal SMS und geht dann nach Hause. Teilpunkte 0,5 heißt: Notiz da, SMS nicht angekommen; ob der zweite SMS-Tap die Nachricht verworfen hat oder der erste nie gesendet hat, muss das Video klären. Bei Markor-Save kam der Hinweis nie, weil wir ihn an "Bildschirm geändert" gekoppelt haben (Backup B7). Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
         <!-- 27 · Reproduce it — content.md #27 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> Run it yourself</p>
@@ -701,6 +787,40 @@ keyboard_enter · wait · status</pre>
             <li>Three runs per task find patterns, not rankings<small>one run moves a task by 33 points; the trajectories carry the findings, not the rates</small></li>
           </ul>
           <aside class="notes">Stand nach allen 27 Windows-Läufen und dem Mac-Bericht (08.10.). Jede Zeile ein Finding mit Beleg: (1) Folie 24, Kosten und keine Tipps ins Leere in V2; (2) Folie 21, Save-Schleife, V3 0/9; (3) Folie 20/21, Prüfschritt winkt Nachname 3/3 durch; (4) Folie 24/25, Einzelläufe schwanken. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 28b · Limitations — content.md #28b -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Limitations</p>
+          <h2 class="title" style="max-width:40ch">What these numbers cannot tell you</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:16px">
+            <thead><tr><th style="width:24%">Limit</th><th style="width:44%">What it means</th><th>Evidence</th></tr></thead>
+            <tbody>
+              <tr><td>3 runs per task</td><td>Rates cannot rank versions; one run moves a task by 33 points</td><td>V5 → V6 Contacts 2 / 3 → 0 / 3 with no code change on that path</td></tr>
+              <tr><td>Two machines, two model files</td><td>Same model name, different Ollama build and digest: formally a different model. Single runs are not comparable across machines</td><td>Windows ef33995b vs. Mac ee4b975b; Mac V2 2 / 9 vs. Windows 3 / 9</td></tr>
+              <tr><td>Emulator noise on the Mac</td><td>11 crashes re-run, emulator RAM changed 2 → 4 GB mid-measurement, V6 timed under laptop load</td><td><code>runs/log_replaced.csv</code>; V6 14.6 s per step vs. V5 7.3 s, same model</td></tr>
+              <tr><td>Failure classes are suggestions</td><td>Code proposes one of five classes from the trajectory; only the runs shown in this talk were confirmed against the recording</td><td><code>log.md</code> marks unreviewed rows with (?)</td></tr>
+              <tr><td>Strict PASS rule</td><td>A correct device state without "complete" is a FAIL; the checker also gives 0.5 for a note without the SMS, which we count as FAIL</td><td>At least one such run in every version from V2 on</td></tr>
+              <tr><td>Small local models, three tasks</td><td>4B and 8B at 4-bit; no cloud-model baseline, tree + screenshot together never tested, 3 of 116 AndroidWorld tasks</td><td>configs/, slide 7</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">Ehrliche Grenzen, bevor jemand danach fragt. (1) Drei Läufe pro Task: Muster ja, Rangfolge nein; V5 gegen V6 bei Contacts ist der Beleg, dort hat sich im Code nichts geändert, bis ein Wert getippt ist. (2) Zwei Rechner, zwei Digests: Dozentenregel, anderer Digest ist anderes Modell. (3) Mac-Emulator: elf Abstürze ersetzt (Regel vorab festgelegt, zwei der ersetzten Läufe waren PASS), RAM-Wechsel mitten in V1/V2, V6-Zeiten unter Last. (4) Fehlerklassen: Vorschlag aus dem Trajektorien-Log (Backup B8), Review gegen Video nur für die gezeigten Läufe. (5) PASS-Regel streng: korrekter Zustand ohne "complete" zählt als FAIL, 0,5 Teilpunkte zählen als FAIL. (6) Nur kleine lokale Modelle, drei Tasks, "both" (Tree plus Screenshot) nie getestet. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 28c · Outlook — content.md #28c -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Outlook</p>
+          <h2 class="title" style="max-width:40ch">What we would do next, in this order</h2>
+          <hr class="rule" />
+          <ul class="bullets" style="gap:14px">
+            <li>Verify from the device, not from the screen<small>read the contacts database and Markor's file list over adb before "done": catches lost_value and false_done with any model (Programs)</small></li>
+            <li>Observation "both": tree for pointing, screenshot for layout<small>the surname was lost only with the tree; the config already has the option, it was never run</small></li>
+            <li>App knowledge as Instructions, not as loop guards<small>one Markor skill file: "Save shows no confirmation; name and extension are separate fields". The mechanism exists (<code>use_skills</code>), off to keep V1 → V2 clean</small></li>
+            <li>Split actor and verifier<small>4B acts, 8B checks: V5 showed the 8B model reads the form correctly, and the check costs one call per run</small></li>
+            <li>Fix the done hint, then rank properly<small>fire on the commit tap, not on a visible change; 10 runs per task on one machine and one digest</small></li>
+          </ul>
+          <aside class="notes">Reihenfolge nach erwartetem Nutzen pro Aufwand. (1) Zustand statt Bildschirm prüfen: adb kann die Kontakt-DB und Markors Dateiliste lesen, das ist der Verifier, den V3 gebraucht hätte, unabhängig vom Modell. (2) "both" steht als Option in observation.py, nie gelaufen, nur Kostenfrage (Screenshot ca. 1900 Tokens). (3) Markor-Wissen als Skill-Datei (Folie 25, Instructions-Spalte), Mechanismus ist gebaut, use_skills=false in allen Configs. (4) Actor/Verifier-Split: der Prüfschritt aus V3 mit dem 8B-Modell statt demselben 4B. (5) Done-Hint-Bedingung von "Bildschirm geändert" auf "Commit-Tap" umstellen (Backup B7), dann zehn Läufe pro Task auf einem Rechner, damit man ranken darf. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 29 · Close — content.md #29 -->
@@ -732,7 +852,7 @@ keyboard_enter · wait · status</pre>
         <section class="center tum-deep" data-background-color="#003359">
           <h2 class="title title--xl">Backup</h2>
           <hr class="rule rule--wide" />
-          <p class="lead" style="max-width:44ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train</p>
+          <p class="lead" style="max-width:48ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train · Technical: goal tracker · V6 rules · failure classifier · payment ban · config knobs · all 54 Mac runs · same seed, six versions</p>
           <aside class="notes">Nur für die Fragerunde.</aside>
         </section>
 
@@ -778,7 +898,7 @@ keyboard_enter · wait · status</pre>
           <table class="compact airy" style="font-size:19px;margin-top:6px">
             <thead><tr><th style="width:18%">Concept</th><th style="width:40%">In our agent</th><th>Why</th></tr></thead>
             <tbody>
-              <tr><td><strong>Skills</strong></td><td>Built, switched off in all three versions. One tip file per app, added to the prompt only while that app is open</td><td>Tips cost tokens only when relevant. A tip changes the agent, so it would break the V1 → V2 comparison</td></tr>
+              <tr><td><strong>Skills</strong></td><td>Built, switched off in all six versions. One tip file per app, added to the prompt only while that app is open</td><td>Tips cost tokens only when relevant. A tip changes the agent, so it would break the V1 → V2 comparison</td></tr>
               <tr><td><strong>User memory</strong></td><td>Not built. The only memory is the note line inside one run <span class="ver v3">V3</span></td><td>Every run starts fresh with new task values. Nothing is worth keeping between runs</td></tr>
               <tr><td><strong>RAG</strong></td><td>Not built</td><td>Nothing to retrieve: the agent needs the current screen, and the tree delivers it every step</td></tr>
             </tbody>
@@ -842,6 +962,197 @@ keyboard_enter · wait · status</pre>
           <aside class="notes">Tag 5 "One training step" (Attempts, Reward, Advantage, Update) und Tabelle "Which stage does the failure belong to?". Unser Fall erfüllt die RL-Bedingungen (Erfolg > 0, verlässlicher Reward, gute Strategie selten), aber die Kostenregel spricht dagegen: Minuten pro Versuch statt 10.000 Versuche in 10 Sekunden. Darum Fix in Programs (Folie 22). Letzter Satz von D5 als Schluss.</aside>
         </section>
 
+        <!-- B6 · Backup: goal-value tracker — content.md #B6 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · Goal-value tracker <span class="ver v4">V4</span></p>
+          <h2 class="title" style="max-width:44ch">What code reads out of the goal, and how it decides "typed"</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:40px">
+            <div class="col">
+              <table class="compact mid" style="font-size:15px">
+                <thead><tr><th>Rule (in order)</th><th>Example value</th></tr></thead>
+                <tbody>
+                  <tr><td>free text after "with the following text:"</td><td>Actions speak louder than words.</td></tr>
+                  <tr><td>quoted strings</td><td>"Isla Martin"</td></tr>
+                  <tr><td>file name: stem must be typed, extension shown as a hint</td><td>brave_nest_2023_07_27 + .txt</td></tr>
+                  <tr><td>phone numbers, compared by the last 7 digits</td><td>+19371228774</td></tr>
+                  <tr><td>runs of capitalised words, each word its own part, minus app names and verbs</td><td>Mariam, Chen</td></tr>
+                </tbody>
+              </table>
+              <p class="sub" style="margin-top:10px;font-size:15px">Match: case, spaces, dashes and a trailing dot ignored; all typed chunks are also joined, so a value typed in two pieces counts.</p>
+            </div>
+            <div class="col" style="flex:0 0 44%">
+              <pre class="prompt" style="font-size:13px">VALUES FROM THE GOAL (tracked by code from what you typed):
+- file "brave_nest_2023_07_27.txt" = name "brave_nest_2023_07_27"
+  + extension ".txt" (if there is a separate extension
+  field, the extension goes there): typed
+- "Actions speak louder than words.": NOT typed yet</pre>
+              <ul class="bullets" style="margin-top:12px;gap:6px">
+                <li style="font-size:17px">Shown every step as the last block of the prompt</li>
+                <li style="font-size:17px">"complete" with a value missing → rejected, at most 2 times per run, no model call</li>
+                <li style="font-size:17px">In V4 the rejection never happened; the block itself changed behaviour</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">gui_agent/goal_values.py, 226 Unit-Tests insgesamt. Reihenfolge der Regeln: Freitext zuerst und aus dem Rest entfernt, damit Großbuchstaben im Notiztext nicht als Namen gelesen werden. Dateiendung ist absichtlich kein Pflichtteil, weil Markor sie in einem eigenen Feld vorbelegt. Dieselbe Extraktion nutzt der Fehlerklassifizierer (B8) für "goal value never typed" und V6 für den Done-Hint (B7).</aside>
+        </section>
+
+        <!-- B7 · Backup: V6 rules — content.md #B7 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · The two V6 rules <span class="ver v6">V6</span></p>
+          <h2 class="title" style="max-width:44ch">Two code rules, their firing conditions, and why the failing runs never met them</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:15px">
+            <thead><tr><th style="width:17%">Rule</th><th style="width:38%">Fires when (all of)</th><th style="width:22%">Effect</th><th>In the 9 V6 runs</th></tr></thead>
+            <tbody>
+              <tr><td>clear prefilled text</td><td><code>input_text</code> into an editable element · the element shows text that is not its hint · the new text does not continue it · the agent has not typed it before</td><td>select all + delete before typing (<code>clear_text</code> on the device action)</td><td><span class="fail">0 ×</span>: the extension-field loop is 8 to 14 <code>click</code>s on ".md", never an <code>input_text</code></td></tr>
+              <tr><td>done hint</td><td>a tap on Save / Send / SMS / OK / Done / Create / Add · every goal value typed (B6) · no action error · <strong>the screen changed</strong></td><td>history line gets: "if the goal is fully done, reply status complete now instead of pressing it again"</td><td><span class="fail">1 ×</span> (Note + SMS run 3, after "SMS"; the agent pressed again). On Markor "Save" the screen never changes, so 0 ×</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:17px">Both rules were written from the V4/V5 logs and gated on a condition the failing trajectories do not meet. The "screen changed" gate is V3's autosave mistake, repeated. Fix: fire on the commit tap itself.</p>
+          <aside class="notes">gui_agent/agent.py, Flags replace_prefilled_text und done_hint in config.py, Tests in tests/test_agent.py. Beide Regeln sind Code, kein Prompt-Block, kein Veto, damit der V4-Effekt (Prompt-Text ändert Verhalten) nicht wiederkommt. Lehre: Vor dem Coden die Trajektorie lesen, ob der Pfad überhaupt durch die Regel führt. Beim Endungsfeld ist die eigentliche Frage, warum das Modell klickt statt tippt; das ist ein Perception-Problem, kein Harness-Problem.</aside>
+        </section>
+
+        <!-- B8 · Backup: failure classifier — content.md #B8 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · Failure classifier</p>
+          <h2 class="title" style="max-width:44ch">How the suggested failure class is computed: root cause first, then symptom</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:15px">
+            <thead><tr><th style="width:13%">Order</th><th style="width:15%">Class</th><th>Signal in the trajectory (counted by code, no model)</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>wrong_app</td><td>open_app for an app off the list, an action outside the allowed apps, or home-screen taps and the agent never entered an app</td></tr>
+              <tr><td>2</td><td>lost_value</td><td>typed text that is not in the goal, or some goal values typed and others never (B6) while the agent said "complete"</td></tr>
+              <tr><td>3</td><td>grounding</td><td>≥ 2 actions without screen change, or a loop-guard block, or a tap on no element plus one no-effect action</td></tr>
+              <tr><td>4</td><td>too_early</td><td>an effect that showed only after the extra wait (measured only with <code>wait_for_stable</code>, i.e. V3)</td></tr>
+              <tr><td>5</td><td>false_done</td><td>"complete" reported, verifier says FAIL, none of the above</td></tr>
+              <tr><td>else</td><td>grounding (?)</td><td>out of steps with no clearer signal: evidence says "check the recording"</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:12px;font-size:17px">Every row in <code>log.csv</code> carries the evidence string ("goal value(s) never typed: 'Martin'; 2 action(s) did not change the screen") and a <code>failure_reviewed</code> flag: the suggestion can be checked, not just believed.</p>
+          <aside class="notes">gui_agent/failure.py. Reihenfolge ist Ursache vor Symptom: Ein Lauf, der einen erfundenen Wert tippt und dann "complete" sagt, ist lost_value, nicht false_done. Ein einzelner Tap ins Leere reicht nicht für grounding, weil der Tree nur Blatt-Elemente listet und ein korrekter Tap auf das Padding einer Zeile auch "nichts trifft". too_early ist bei V1/V2 nicht messbar, nur aus dem Video. Die Review-Spalte ist der Grund, warum in log.md ein (?) hinter unbestätigten Klassen steht.</aside>
+        </section>
+
+        <!-- B9 · Backup: payment ban — content.md #B9 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · Payment ban</p>
+          <h2 class="title" style="max-width:44ch">Payment ban: two layers, six deny rules, no off switch</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:40px">
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">Layer 1 · app scope</p>
+              <ul class="bullets" style="margin-top:8px;gap:6px">
+                <li style="font-size:17px"><code>open_app</code> only by exact name from the allow-list (Contacts, Markor, Simple SMS Messenger, …)</li>
+                <li style="font-size:17px">Any action while a package outside the scope is in front is blocked, except leaving it</li>
+                <li style="font-size:17px">Home-screen taps are blocked: apps are opened by name, never by searching the launcher</li>
+              </ul>
+              <p class="sub" style="font-weight:700;color:var(--text-strong);margin-top:18px">Layer 2 · deny rules, checked before every action</p>
+            </div>
+            <div class="col" style="flex:0 0 52%">
+              <table class="compact" style="font-size:14px">
+                <tbody>
+                  <tr><td>a</td><td>opening an app that exists to buy or pay</td></tr>
+                  <tr><td>b</td><td>anything but leaving while such an app is visible</td></tr>
+                  <tr><td>c</td><td>anything but leaving on a payment form (a payment field on screen, or two payment signals)</td></tr>
+                  <tr><td>d</td><td>taps and typing on, or next to, an element labelled pay / buy / checkout / add to cart: every element under the tap point is hit-tested, and the row around the label too</td></tr>
+                  <tr><td>e</td><td>typing or Enter without a known target while a payment element is on screen</td></tr>
+                  <tr><td>f</td><td>typing a card number (13 to 19 digits, Luhn check) or an IBAN (mod-97 check), in one go or in consecutive chunks</td></tr>
+                </tbody>
+              </table>
+              <p class="sub" style="margin-top:8px;font-size:14px">A blocked action costs a step and tells the model why: "BLOCKED by the payment guardrail: … Go back and continue without paying."</p>
+            </div>
+          </div>
+          <aside class="notes">gui_agent/guardrails.py, Tests in tests/test_guardrails.py (ein gescriptetes Modell, das "Pay" tippt, erzeugt null Geräteaktionen). Die Regel sitzt zwischen Grounding und Ausführung (Stufe 5 auf Folie 8), hat kein Config-Flag und sieht den Tree, nicht die Modellantwort: Auch ein Koordinaten-Tap wird gegen die Elemente unter dem Punkt geprüft. In allen 81 Läufen auf zwei Rechnern hat kein Lauf eine Zahlung versucht; gefeuert hat nur die Home-Screen-Regel (Folie 14).</aside>
+        </section>
+
+        <!-- B10 · Backup: config knobs — content.md #B10 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · The config is the whole agent</p>
+          <h2 class="title" style="max-width:44ch">One config file per version: what each one switches on</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:36px">
+            <div class="col" style="flex:0 0 56%">
+              <table class="compact" style="font-size:14px">
+                <thead><tr><th></th><th>V1</th><th>V2</th><th>V3</th><th>V4</th><th>V5</th><th>V6</th></tr></thead>
+                <tbody>
+                  <tr><td>model</td><td>4B</td><td>4B</td><td>4B</td><td>4B</td><td><strong>8B</strong></td><td>8B</td></tr>
+                  <tr><td>observation / grounding</td><td>screenshot / coordinate</td><td>tree / index</td><td>tree / index</td><td>tree / index</td><td>tree / index</td><td>tree / index</td></tr>
+                  <tr><td>wait_for_stable</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td><td>·</td></tr>
+                  <tr><td>screen_change_hint</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td><td>·</td></tr>
+                  <tr><td>loop_guard (abort after 3)</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td><td>·</td></tr>
+                  <tr><td>status_bar</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td><td>·</td></tr>
+                  <tr><td>verify_before_done</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td><td>·</td></tr>
+                  <tr><td>goal_tracker</td><td>·</td><td>·</td><td>·</td><td><strong>on</strong></td><td>·</td><td>·</td></tr>
+                  <tr><td>replace_prefilled_text, done_hint</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td><strong>on</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">Fixed in every version</p>
+              <table class="compact" style="font-size:14px">
+                <tbody>
+                  <tr><td>temperature / seed</td><td>0 / 42</td></tr>
+                  <tr><td>num_ctx / max output</td><td>8,192 / 400 tokens</td></tr>
+                  <tr><td>request timeout</td><td>300 s → ERROR</td></tr>
+                  <tr><td>parse retries</td><td>2, with the error in the prompt</td></tr>
+                  <tr><td>history lines kept</td><td>8</td></tr>
+                  <tr><td>tree elements max</td><td>70, status bar dropped</td></tr>
+                  <tr><td>screenshot max side</td><td>1,024 px</td></tr>
+                  <tr><td>step budget</td><td>min(20, complexity × 10)</td></tr>
+                  <tr><td>done rejections max</td><td>2 (V3 check step, V4 veto)</td></tr>
+                  <tr><td>skills, payment ban</td><td>off / always on</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <aside class="notes">gui_agent/config.py (AgentConfig) und configs/*.json. Jeder Lauf kopiert seine Config in meta.json, zusammen mit Modellname, Größe, Quantisierung und Digest. Links: genau eine Zeile pro Versionssprung ändert sich, außer V3 (fünf auf einmal, deshalb Paket-Test). Rechts: alles, was nie angefasst wurde.</aside>
+        </section>
+
+        <!-- B11 · Backup: all 54 Mac runs — content.md #B11 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · MacBook Air M4, all 54 scored runs</p>
+          <h2 class="title" style="max-width:44ch">Success and cost, V1 to V6, same 9 task instances</h2>
+          <hr class="rule" />
+          <table class="compact" style="font-size:15px">
+            <thead><tr><th></th><th>V1 <span class="ver v1">V1</span></th><th>V2 <span class="ver v2">V2</span></th><th>V3 <span class="ver v3">V3</span></th><th>V4 <span class="ver v4">V4</span></th><th>V5 <span class="ver v5">V5</span></th><th>V6 <span class="ver v6">V6</span></th></tr></thead>
+            <tbody>
+              <tr><td>ContactsAddContact</td><td>2 / 3</td><td>1 / 3</td><td>0 / 3</td><td>0 / 3</td><td>2 / 3</td><td>0 / 3</td></tr>
+              <tr><td>MarkorCreateNote</td><td>2 / 3</td><td>1 / 3</td><td>0 / 3</td><td>1 / 3</td><td>1 / 3</td><td>1 / 3</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>1 / 3</td><td>0 / 3</td><td>0 / 3</td><td>0 / 3</td><td>0 / 3</td><td>0 / 3</td></tr>
+              <tr><td><strong>all tasks</strong></td><td><strong>5 / 9</strong></td><td><strong>2 / 9</strong></td><td><strong>0 / 9</strong></td><td><strong>1 / 9</strong></td><td><strong>3 / 9</strong></td><td><strong>1 / 9</strong></td></tr>
+              <tr><td>model time per step</td><td>23.5 s</td><td>6.3 s</td><td>12.7 s</td><td>9.3 s</td><td>7.3 s</td><td>14.6 s*</td></tr>
+              <tr><td>time per run</td><td>368 s</td><td>137 s</td><td>251 s</td><td>195 s</td><td>153 s</td><td>301 s*</td></tr>
+              <tr><td>prompt tokens per call</td><td>1,906</td><td>1,008</td><td>1,200</td><td>1,051</td><td>1,009</td><td>1,043</td></tr>
+              <tr><td>steps per run</td><td>12.8</td><td>12.9</td><td>14.6</td><td>14.8</td><td>13.6</td><td>14.4</td></tr>
+              <tr><td>invalid model replies</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:10px;font-size:15px">* V6 timed while the laptop was under other load (first steps up to 76 s, later runs 10 to 15 s); same model and prompt size as V5. 11 ERROR runs (all V3, emulator crashes) re-run with the same seed and excluded from every rate. Ollama 0.35.1; model digests are recorded per run in <code>meta.json</code>.</p>
+          <aside class="notes">runs/summary.md auf dem Mac, Stand 08.10. abends. Spalte V6 Zeit mit Sternchen, siehe Folie 28b. Bei Nachfrage nach dem Digest: meta.json jedes Laufs enthält ihn.</aside>
+        </section>
+
+        <!-- B12 · Backup: same seed, six versions — content.md #B12 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Technical · Same seed, six versions</p>
+          <h2 class="title" style="max-width:44ch">The same nine task instances through every version (steps used)</h2>
+          <hr class="rule" />
+          <table class="compact" style="font-size:14px">
+            <thead><tr><th>task</th><th>seed</th><th>V1</th><th>V2</th><th>V3</th><th>V4</th><th>V5</th><th>V6</th></tr></thead>
+            <tbody>
+              <tr><td>Contacts · Hugo Pereira</td><td>1155463587</td><td><span class="pass">PASS</span> 11</td><td><span class="pass">PASS</span> 11</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 12</td></tr>
+              <tr><td>Contacts · Mariam Chen</td><td>1324763856</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 11</td><td><span class="fail">FAIL</span> 12</td><td><span class="pass">PASS</span> 12</td><td><span class="fail">FAIL</span> 12</td></tr>
+              <tr><td>Contacts · Isla Martin</td><td>596600690</td><td><span class="pass">PASS</span> 11</td><td><span class="fail">FAIL</span> 9</td><td><span class="fail">FAIL</span> 12</td><td><span class="fail">FAIL</span> 12</td><td><span class="pass">PASS</span> 8</td><td><span class="fail">FAIL</span> 12</td></tr>
+              <tr><td>Markor · wise_yacht.md</td><td>1448135622</td><td><span class="pass">PASS</span> 9</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 16</td><td><span class="pass">PASS</span> 11</td><td><span class="pass">PASS</span> 11</td><td><span class="fail">FAIL</span> 13</td></tr>
+              <tr><td>Markor · brave_nest.txt</td><td>2337133809</td><td><span class="pass">PASS</span> 11</td><td><span class="fail">FAIL</span> 9</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 9</td><td><span class="fail">FAIL</span> 14</td></tr>
+              <tr><td>Markor · quick_eagle.md</td><td>1196614525</td><td><span class="fail">FAIL</span> 9</td><td><span class="pass">PASS</span> 9</td><td><span class="fail">FAIL</span> 10</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 16</td><td><span class="pass">PASS</span> 14</td></tr>
+              <tr><td>Note + SMS · fair_ant.txt</td><td>3221046986</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td></tr>
+              <tr><td>Note + SMS · fierce_violin.txt</td><td>3411394365</td><td><span class="pass">PASS</span> 16</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td></tr>
+              <tr><td>Note + SMS · lively_goat.md</td><td>3564688147</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 16</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 18</td><td><span class="fail">FAIL</span> 17</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:10px;font-size:15px">Same seed = same name, number, file name and text. No instance passes in every version; the .txt tasks (extension field) never pass after V1. Reading across a row shows the noise; reading down a column shows the pattern.</p>
+          <aside class="notes">runs/summary.md, Tabelle "Same task instance, side by side", Mac. Nützlich bei der Frage "ist das nicht alles Zufall?": Zeilen sind das Rauschen, Spalten das Muster. Hugo Pereira: V1 und V2 bestehen, ab V3 nie wieder, in V4 wegen Back-Schleife, in V5/V6 wegen Umwegen (Foto, wait). Die .txt-Instanzen scheitern ab V2 immer am Endungsfeld oder am Dateinamen mit Endung im Namensfeld.</aside>
+        </section>
 
       </div>
     </div>

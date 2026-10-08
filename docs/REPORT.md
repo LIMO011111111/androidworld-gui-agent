@@ -1,4 +1,4 @@
-# GUI agent for AndroidWorld: project report (draft)
+# GUI agent for AndroidWorld: project report
 
 > All 27 scored runs (3 versions × 3 tasks × 3 runs) are complete; numbers
 > are from `runs/summary.md`. Every place marked **[check video]** is a

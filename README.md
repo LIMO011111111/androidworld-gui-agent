@@ -150,6 +150,15 @@ They differ only in config flags, so a difference in results can be attributed.
 V1 to V2 is exactly one change (observation and grounding) and is the
 documented improvement. V3 stacks the remaining harness fixes on top.
 
+Three more single-change versions were run on the MacBook (results in
+`docs/REPORT.md`, sections 7b to 7d):
+
+| config | base | the one change |
+|---|---|---|
+| `configs/v4_tracker.json` | V2 | goal-value tracker in code (`gui_agent/goal_values.py`): lists untyped goal values every step and vetoes "complete" while one is missing |
+| `configs/v5_8b.json` | V2 | model `qwen3-vl:8b-instruct` instead of 4B |
+| `configs/v6_fixes.json` | V5 | `replace_prefilled_text` (clear a prefilled field before typing) and `done_hint` (ask for "complete" after a save/send tap once every goal value is typed) |
+
 ## Guardrails
 
 Enforced in code after the model has decided and before anything reaches the
@@ -207,7 +216,7 @@ under "Known limits".
   `runs_windows/` (Windows 11 laptop, 27 runs, 0 ERROR). Same script, same seeds,
   temperature 0; the model digests differ (different Ollama builds), so the two
   tables are kept apart and compared, not merged. Same ranking (V1 > V2 > V3) and
-  the same failure patterns on both.
+  the same failure patterns on both. V4 to V6 were run on the MacBook only.
 
 ## Presentation
 

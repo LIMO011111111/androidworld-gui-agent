@@ -815,6 +815,21 @@ Satz unten: Jeder V3-Mechanismus nimmt an, dass eine erfolgreiche Aktion den Bil
 
 ---
 
+## Folie 22b: In one breath (Liam)
+
+**Überschrift:** Six sentences that 81 runs on two machines support
+
+**Auf der Folie:** sechs Sätze, jeder mit einer Belegzeile.
+
+**Um was es geht:** Der Einstieg in Kapitel 5. Die Zuhörer sollen die Behauptungen hören, bevor die Folien sie beweisen. Ungefähr 60 Sekunden, nicht alle sechs vorlesen; drei laut sagen, die anderen stehen lassen.
+
+**Was du sagst, in dieser Reihenfolge**
+
+1. „Bevor es ins Detail geht: Das sind die Sätze, die wir nach 81 Läufen auf zwei Rechnern unterschreiben."
+2. „Grounding in Code: jeder Schritt dreimal schneller, keine Taps ins Leere mehr."
+3. „Mit der Textliste verliert das 4B-Modell den Nachnamen in fünf von sechs Fällen, das 8B-Modell in null von sechs."
+4. „Und: Kein einziges Harness-Feature hat die Erfolgsquote erhöht. Jedes hat Schritte gekostet. Die nächsten Folien zeigen, warum."
+
 ## Folie 23: Was sich zwischen den Versionen geändert hat
 
 **Überschrift:** What changed between the versions: one change for V2, five more for V3
@@ -1020,6 +1035,38 @@ Rechts: gleiches Skript, gleiche Seeds, Temperatur 0. Gleiche Muster: Nachname f
 - Zahlen gegen `runs/summary.md` vom Mac (Spalten v4_tracker, v5_8b, v6_fixes).
 - Die 14,6 s pro Schritt bei V6 nur mit dem Zusatz „Laptop unter Last" nennen, nicht als Eigenschaft von V6.
 
+## Folie 26c: V4, step by step (Liam)
+
+**Überschrift:** V4: the code veto never fired. The prompt block did.
+
+**Auf der Folie:** links zwei kurze Traces (V2 und V4, gleicher Seed), rechts der wörtliche Gedanke des Modells und vier Punkte.
+
+**Um was es geht:** Der Beleg für „jede Prompt-Zeile ist ein Eingriff" als echter Lauf, im selben Format wie Belas Folie 20. Ungefähr 75 Sekunden.
+
+**Was man verstehen soll:** V2 hat auf diesem Seed bestanden, weil eine Guardrail-Nachricht dem Modell gesagt hat, was es tun soll. V4 hat dieselbe Idee („die App ist nicht zu sehen"), wählt aber „back" statt Tap, und darauf antwortet keine Regel. Der Tracker-Block war das Einzige, was sich im Prompt geändert hat, und er wird in keinem Gedanken erwähnt.
+
+**Was du sagst, in dieser Reihenfolge**
+
+1. „V4 war die Idee: Code zählt mit, welche Werte aus der Aufgabe schon getippt sind, und blockt ‚complete', solange einer fehlt. Das Veto hat in neun Läufen nie gefeuert."
+2. „Stattdessen das hier: Contacts, Run 1. Links oben V2, gleicher Seed: Tap auf die Suchleiste, geblockt, die Nachricht sagt ‚nimm open_app', Schritt 3 macht es richtig, bestanden."
+3. „Links unten V4: Home, dann elfmal zurück. Rechts der Gedanke des Modells, Schritt 4 bis 12 wörtlich identisch: ‚Die App ist nicht zu sehen, ich gehe zurück.' Auf ‚back' antwortet keine Regel."
+4. „Der Tracker-Block kommt in keinem Gedanken vor. Er ist der einzige Unterschied im Prompt. Für ein 4B-Modell ist Prompt-Text kein neutraler Ort für Information."
+
+## Folie 26d: V5 and V6, step by step (Liam)
+
+**Überschrift:** The 8B model types the surname in 8 steps. The hint it ignores.
+
+**Auf der Folie:** links der V5-Trace (Isla Martin, PASS in 8 Schritten), rechts der V6-Trace mit dem Done-Hint in der History-Zeile.
+
+**Um was es geht:** Das eine, was geholfen hat (Modellgröße), und das eine, was nicht geholfen hat (der Hinweis), als Läufe statt als Quoten. Ungefähr 75 Sekunden.
+
+**Was du sagst, in dieser Reihenfolge**
+
+1. „V5: dasselbe Setup wie V2, nur 8B statt 4B. Links Isla Martin, derselbe Seed, bei dem V2 den Nachnamen übersprungen hat: Vorname, Nachname, Nummer, Save, fertig, acht Schritte."
+2. „V6: zwei Code-Fixes für die zwei Muster, die übrig waren. Rechts der eine Fall, in dem der Hinweis wirklich im Prompt stand: Schritt 14, nach dem SMS-Button, ‚alle Werte getippt, wenn fertig, sag complete'. Schritt 15: SMS nochmal. Schritt 16: Home."
+3. „Bei Markor-Save kam der Hinweis gar nicht, weil wir ihn an eine sichtbare Änderung gekoppelt haben. Markor speichert ohne eine. Denselben Fehler hatte V3 schon gemacht."
+4. „Bilanz: Modellgröße schließt Wissenslücken. Interaktions- und Abschlussprobleme bleiben, und dafür haben wir noch keinen Fix, der greift. Was wir als Nächstes tun würden, kommt gleich."
+
 ## Folie 27: Reproduce it (Run it yourself)
 
 **Überschrift:** One command per version. The config is the whole agent.
@@ -1098,6 +1145,36 @@ Punkt 1 bis 3 sind die Lektionen aus der Analyse des Kollegen, bestätigt durch 
 - „War das Projekt dann ein Misserfolg?" Nein. Die Aufgabe war, zu messen, wo der Agent bricht, und das belegt zu erklären. Das haben wir mit 54 Läufen auf zwei Rechnern. Ein Agent, der auf dem Papier besser aussieht, aber nie gemessen wurde, wäre der Misserfolg gewesen.
 
 ---
+
+## Folie 28b: Limitations
+
+**Überschrift:** What these numbers cannot tell you
+
+**Auf der Folie:** eine Tabelle mit sechs Grenzen, je mit Bedeutung und Beleg.
+
+**Um was es geht:** Die Grenzen selbst nennen, bevor sie gefragt werden. Ungefähr 60 Sekunden, die Tabelle nicht vorlesen, zwei Zeilen herausgreifen.
+
+**Was du sagst, in dieser Reihenfolge**
+
+1. „Drei Läufe pro Task reichen für Muster, nicht für eine Rangfolge. Bester Beleg: Contacts fiel zwischen V5 und V6 von zwei auf null von drei, ohne dass sich im Code auf diesem Pfad etwas geändert hat."
+2. „Zwei Rechner, zwei Modelldateien, elf ersetzte Abstürze auf dem Mac, und V6 wurde unter Last gemessen. Deshalb vergleichen wir Einzelläufe nie über Rechner hinweg."
+3. „Die Fehlerklassen sind Vorschläge aus dem Log; bestätigt gegen das Video sind nur die Läufe, die wir hier gezeigt haben."
+4. „Und die PASS-Regel ist streng: richtiger Zustand ohne ‚done' ist ein FAIL. Das hat jede Version ab V2 mindestens einmal getroffen."
+
+## Folie 28c: Outlook
+
+**Überschrift:** What we would do next, in this order
+
+**Auf der Folie:** fünf Punkte, geordnet nach Nutzen pro Aufwand.
+
+**Was man verstehen soll:** Jeder Punkt folgt aus einer gemessenen Schwäche, nichts ist spekulativ. Ungefähr 60 Sekunden.
+
+**Was du sagst, in dieser Reihenfolge**
+
+1. „Zuerst: den Zustand vom Gerät lesen statt vom Bildschirm. adb kann die Kontaktdatenbank und Markors Dateiliste lesen. Das fängt verlorene Werte und falsches ‚done' mit jedem Modell."
+2. „Zweitens: Tree und Screenshot zusammen. Der Nachname ging nur mit dem Tree verloren. Die Option steht in der Config, wir haben sie nie gefahren."
+3. „Drittens: Markor-Wissen als ein Satz in einer Skill-Datei, nicht als Loop-Guard. Der Mechanismus ist gebaut, war aus, um V1 gegen V2 sauber zu halten."
+4. „Viertens: Actor und Verifier trennen, 4B handelt, 8B prüft. Fünftens: die Done-Hint-Bedingung reparieren und dann zehn Läufe pro Task auf einem Rechner, damit wir ranken dürfen."
 
 ## Folien 29 bis 31: Schluss
 
