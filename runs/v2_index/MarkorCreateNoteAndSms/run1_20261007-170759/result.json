@@ -1,0 +1,45 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.5,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 16,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "partial credit from the checker: 0.50; 2 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs/v2_index/MarkorCreateNoteAndSms/run1_20261007-170759/recording.mp4",
+  "duration_s": 146.6,
+  "stats": {
+    "steps": 16,
+    "model_calls": 16,
+    "model_seconds": 67.05792812599611,
+    "prompt_tokens": 15571,
+    "completion_tokens": 816,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "fair_ant_XOdi.txt",
+      "Actions speak louder than words.",
+      "+13192815309",
+      "Actions speak louder than words."
+    ]
+  }
+}

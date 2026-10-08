@@ -1,0 +1,41 @@
+{
+  "verifier": "ERROR",
+  "state_score": null,
+  "declared_done": false,
+  "stop_reason": "error",
+  "steps": 7,
+  "budget": 18,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "AdbControllerError: Error executing adb command: [adb -P 5037 -s emulator-5554 shell settings get global airplane_mode_on]\nCaused by: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'settings', 'get', 'global', 'airplane_mode_on']' returned non-zero exit status 1.\nadb stdout: [b\"adb: device 'emulator-5554' not found\\n\"]\nadb stderr: [None]; recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037\n* daemon started successfully\nadb: device offline",
+  "recording": "",
+  "duration_s": 109.5,
+  "stats": {
+    "steps": 7,
+    "model_calls": 7,
+    "model_seconds": 30.26964933199997,
+    "prompt_tokens": 6964,
+    "completion_tokens": 382,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 1,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_06_01_fierce_violin.txt",
+      "Gym membership renewal due on the 20th."
+    ]
+  }
+}

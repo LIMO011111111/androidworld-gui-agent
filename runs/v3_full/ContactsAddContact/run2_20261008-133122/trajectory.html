@@ -1,0 +1,28 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>ContactsAddContact run 2</title><style>
+:root { --bg:#f6f7f9; --card:#fff; --ink:#1c1f24; --muted:#5d6672; --line:#dfe3e8;
+        --ok:#1a7f4b; --bad:#b3261e; --warn:#9a6700; --code:#f0f2f5; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#14171b; --card:#1d2126; --ink:#e7eaee; --muted:#9aa4b0; --line:#2e343b;
+          --ok:#5cc98d; --bad:#ff8a80; --warn:#e3b341; --code:#262b31; } }
+* { box-sizing: border-box; }
+body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--ink);
+       font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width:1000px; margin:0 auto; }
+h1 { font-size:22px; margin:0 0 4px; }
+.goal { color:var(--muted); margin:0 0 16px; }
+.facts { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 24px; padding:0; list-style:none; }
+.facts li { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:6px 10px; }
+.facts b { font-weight:600; }
+.pass { color:var(--ok); } .fail { color:var(--bad); } .warn { color:var(--warn); }
+.step { display:grid; grid-template-columns:220px 1fr; gap:16px; background:var(--card);
+        border:1px solid var(--line); border-radius:12px; padding:14px; margin:0 0 14px; }
+.step img { width:100%; border-radius:8px; border:1px solid var(--line); display:block; }
+.step h2 { font-size:16px; margin:0 0 6px; }
+.thought { color:var(--muted); margin:0 0 8px; }
+.row { margin:0 0 6px; overflow-wrap:anywhere; }
+.label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+code, pre { background:var(--code); border-radius:6px; font:13px/1.45 ui-monospace,Menlo,Consolas,monospace; }
+code { padding:1px 5px; } pre { padding:10px; overflow:auto; max-height:320px; white-space:pre-wrap; }
+details { margin-top:8px; } summary { cursor:pointer; color:var(--muted); }
+@media (max-width:640px) { .step { grid-template-columns:1fr; } .step img { max-width:260px; } }
+</style></head><body><main><h1>ContactsAddContact, run 2</h1><p class='goal'>Create a new contact for Mariam Chen. Their number is +18332445674.</p><ul class='facts'><li><b>Verifier:</b> <span class="fail">ERROR</span></li><li><b>Agent:</b> v3_full</li><li><b>Model:</b> qwen3-vl:4b-instruct</li><li><b>Observation:</b> tree</li><li><b>Grounding:</b> index</li><li><b>Steps:</b> 1 (budget 12)</li><li><b>Stop reason:</b> error</li><li><b>Failure class:</b> —</li><li><b>Seed:</b> 1324763856</li></ul></main></body></html>

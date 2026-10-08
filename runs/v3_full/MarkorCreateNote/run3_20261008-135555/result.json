@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "loop_abort",
+  "steps": 10,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; 3 repeated action(s) blocked by the loop guard; 2 action(s) only showed an effect after an extra wait; ended by loop_abort",
+  "note": "2 action(s) did not change the screen; 3 repeated action(s) blocked by the loop guard; 2 action(s) only showed an effect after an extra wait; ended by loop_abort",
+  "recording": "runs/v3_full/MarkorCreateNote/run3_20261008-135555/recording.mp4",
+  "duration_s": 139.5,
+  "stats": {
+    "steps": 10,
+    "model_calls": 10,
+    "model_seconds": 93.70580029096163,
+    "prompt_tokens": 10719,
+    "completion_tokens": 595,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 2,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {
+      "loop_guard": 3
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "final_quick_eagle.md",
+      "Winter is coming."
+    ]
+  }
+}

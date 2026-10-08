@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 16,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; 2 repeated action(s) blocked by the loop guard; 3 action(s) only showed an effect after an extra wait; ended by step_limit; 1 done claim(s) rejected by the check step",
+  "note": "device state was correct, but the agent never reported done; 2 action(s) did not change the screen; 2 repeated action(s) blocked by the loop guard; 3 action(s) only showed an effect after an extra wait; ended by step_limit; 1 done claim(s) rejected by the check step",
+  "recording": "runs/v3_full/MarkorCreateNote/run1_20261008-134622/recording.mp4",
+  "duration_s": 306.8,
+  "stats": {
+    "steps": 16,
+    "model_calls": 17,
+    "model_seconds": 250.216044374989,
+    "prompt_tokens": 20998,
+    "completion_tokens": 1250,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 3,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 3,
+    "blocked": {
+      "loop_guard": 2
+    },
+    "done_rejections": 1,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_01_26_wise_yacht",
+      "Ignorance is bliss."
+    ]
+  }
+}

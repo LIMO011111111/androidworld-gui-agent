@@ -1,0 +1,41 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "goal value(s) never typed: 'Actions speak louder than words.'; '+13192815309'; ended by step_limit; no clear signal: check the recording",
+  "note": "goal value(s) never typed: 'Actions speak louder than words.'; '+13192815309'; ended by step_limit; no clear signal: check the recording",
+  "recording": "runs/v4_tracker/MarkorCreateNoteAndSms/run1_20261008-175115/recording.mp4",
+  "duration_s": 238.5,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 160.43760758498684,
+    "prompt_tokens": 18973,
+    "completion_tokens": 1032,
+    "invalid_replies": 0,
+    "no_effect_actions": 0,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "fair_ant_XOdi"
+    ]
+  }
+}

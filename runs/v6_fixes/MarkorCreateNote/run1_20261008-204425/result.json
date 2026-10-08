@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 13,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "7 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "7 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs/v6_fixes/MarkorCreateNote/run1_20261008-204425/recording.mp4",
+  "duration_s": 265.9,
+  "stats": {
+    "steps": 13,
+    "model_calls": 13,
+    "model_seconds": 181.56956166797318,
+    "prompt_tokens": 13540,
+    "completion_tokens": 709,
+    "invalid_replies": 0,
+    "no_effect_actions": 7,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "prefilled_replaced": 0,
+    "done_hints": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_01_26_wise_yacht.md",
+      "Ignorance is bliss."
+    ]
+  }
+}

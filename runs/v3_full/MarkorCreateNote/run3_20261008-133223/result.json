@@ -1,0 +1,33 @@
+{
+  "verifier": "ERROR",
+  "state_score": null,
+  "declared_done": false,
+  "stop_reason": "error",
+  "steps": 0,
+  "budget": 20,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "AdbControllerError: Error executing adb command: [adb -P 5037 -s emulator-5554 shell whoami]\nCaused by: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'whoami']' returned non-zero exit status 1.\nadb stdout: [b\"adb: device 'emulator-5554' not found\\n\"]\nadb stderr: [None]",
+  "recording": "",
+  "duration_s": 3.0,
+  "stats": {
+    "steps": 0,
+    "model_calls": 0,
+    "model_seconds": 0.0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "invalid_replies": 0,
+    "no_effect_actions": 0,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [],
+    "packages_seen": [],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": []
+  }
+}

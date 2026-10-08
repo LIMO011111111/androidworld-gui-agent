@@ -1,0 +1,40 @@
+{
+  "verifier": "ERROR",
+  "state_score": null,
+  "declared_done": false,
+  "stop_reason": "error",
+  "steps": 7,
+  "budget": 16,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "AdbControllerError: Error executing adb command: [adb -P 5037 -s emulator-5554 shell settings get global airplane_mode_on]\nCaused by: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'settings', 'get', 'global', 'airplane_mode_on']' returned non-zero exit status 1.\nadb stdout: [b'adb: device offline\\n']\nadb stderr: [None]; recording: no recording could be pulled from the device",
+  "recording": "",
+  "duration_s": 148.6,
+  "stats": {
+    "steps": 7,
+    "model_calls": 7,
+    "model_seconds": 72.33102583499567,
+    "prompt_tokens": 8413,
+    "completion_tokens": 469,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 1,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Ignorance is bliss."
+    ]
+  }
+}

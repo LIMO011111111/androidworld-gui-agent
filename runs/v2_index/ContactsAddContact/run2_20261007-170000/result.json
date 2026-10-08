@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "1 tap(s) on the home screen blocked (apps must be opened by name); 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "note": "1 tap(s) on the home screen blocked (apps must be opened by name); 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "recording": "runs/v2_index/ContactsAddContact/run2_20261007-170000/recording.mp4",
+  "duration_s": 106.3,
+  "stats": {
+    "steps": 12,
+    "model_calls": 12,
+    "model_seconds": 62.62658129099873,
+    "prompt_tokens": 11963,
+    "completion_tokens": 699,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {
+      "home_screen": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Mariam",
+      "+18332445674"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "note": "device state was correct, but the agent never reported done; 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "recording": "runs/v2_index/MarkorCreateNoteAndSms/run2_20261008-130812/recording.mp4",
+  "duration_s": 262.8,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 170.206059836004,
+    "prompt_tokens": 19007,
+    "completion_tokens": 1022,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 1,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_06_01_fierce_violin",
+      "Gym membership renewal due on the 20th.",
+      "+19371228774",
+      "Gym membership renewal due on the 20th."
+    ]
+  }
+}

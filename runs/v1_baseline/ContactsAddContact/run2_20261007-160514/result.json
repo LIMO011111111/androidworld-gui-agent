@@ -1,0 +1,42 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "1 tap(s) landed on no UI element; 1 action(s) did not change the screen; ended by step_limit",
+  "note": "device state was correct, but the agent never reported done; 1 tap(s) landed on no UI element; 1 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs/v1_baseline/ContactsAddContact/run2_20261007-160514/recording.mp4",
+  "duration_s": 491.8,
+  "stats": {
+    "steps": 12,
+    "model_calls": 12,
+    "model_seconds": 364.6615012959992,
+    "prompt_tokens": 22605,
+    "completion_tokens": 691,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 1,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Mariam",
+      "Chen",
+      "+18332445674"
+    ]
+  }
+}

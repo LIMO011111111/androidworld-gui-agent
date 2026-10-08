@@ -1,0 +1,48 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.5,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 17,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "partial credit from the checker: 0.50; 2 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs/v6_fixes/MarkorCreateNoteAndSms/run3_20261008-211052/recording.mp4",
+  "duration_s": 297.4,
+  "stats": {
+    "steps": 17,
+    "model_calls": 17,
+    "model_seconds": 216.21611254301388,
+    "prompt_tokens": 18561,
+    "completion_tokens": 961,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 2,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "prefilled_replaced": 0,
+    "done_hints": 2,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "lively_goat_LEKc",
+      "Ignorance is bliss.",
+      "+13992866708",
+      "Ignorance is bliss."
+    ]
+  }
+}

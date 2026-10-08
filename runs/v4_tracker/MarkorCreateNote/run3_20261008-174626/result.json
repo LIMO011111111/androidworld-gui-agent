@@ -1,0 +1,42 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 16,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "goal value(s) never typed: 'Winter is coming.'; 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "note": "goal value(s) never typed: 'Winter is coming.'; 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "recording": "runs/v4_tracker/MarkorCreateNote/run3_20261008-174626/recording.mp4",
+  "duration_s": 215.5,
+  "stats": {
+    "steps": 16,
+    "model_calls": 16,
+    "model_seconds": 154.5298502910009,
+    "prompt_tokens": 16517,
+    "completion_tokens": 1028,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "final_quick_eagle"
+    ]
+  }
+}

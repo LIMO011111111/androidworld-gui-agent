@@ -1,0 +1,43 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 12,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs/v1_baseline/ContactsAddContact/run3_20261007-161326/recording.mp4",
+  "duration_s": 310.3,
+  "stats": {
+    "steps": 11,
+    "model_calls": 11,
+    "model_seconds": 244.9557154589993,
+    "prompt_tokens": 20599,
+    "completion_tokens": 610,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.permissioncontroller",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Isla",
+      "Martin",
+      "+15256606183"
+    ]
+  }
+}

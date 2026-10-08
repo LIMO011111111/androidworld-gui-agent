@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 10,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "1 tap(s) landed on no UI element; 1 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "1 tap(s) landed on no UI element; 1 action(s) did not change the screen; agent reported complete, verifier says fail; recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037\n* daemon started successfully\nadb: device offline",
+  "recording": "",
+  "duration_s": 367.8,
+  "stats": {
+    "steps": 10,
+    "model_calls": 10,
+    "model_seconds": 287.22398249900107,
+    "prompt_tokens": 18591,
+    "completion_tokens": 585,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 1,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts",
+      "com.google.android.permissioncontroller",
+      "com.android.settings"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Hugo",
+      "Pereira"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "goal value(s) never typed: '+13920741751'; 2 action(s) did not change the screen; ended by step_limit",
+  "note": "goal value(s) never typed: '+13920741751'; 2 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs/v5_8b/ContactsAddContact/run1_20261008-182314/recording.mp4",
+  "duration_s": 171.8,
+  "stats": {
+    "steps": 12,
+    "model_calls": 12,
+    "model_seconds": 129.3293728330027,
+    "prompt_tokens": 11621,
+    "completion_tokens": 668,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts",
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 1,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Hugo",
+      "Pereira"
+    ]
+  }
+}

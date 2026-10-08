@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "too_early",
+  "failure_evidence": "1 tap(s) on the home screen blocked (apps must be opened by name); 4 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "note": "1 tap(s) on the home screen blocked (apps must be opened by name); 4 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "recording": "runs/v3_full/ContactsAddContact/run1_20261008-132703/recording.mp4",
+  "duration_s": 259.1,
+  "stats": {
+    "steps": 12,
+    "model_calls": 13,
+    "model_seconds": 203.74799028900452,
+    "prompt_tokens": 16130,
+    "completion_tokens": 778,
+    "invalid_replies": 0,
+    "no_effect_actions": 0,
+    "late_changes": 4,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 3,
+    "blocked": {
+      "home_screen": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts",
+      "com.android.camera2"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Hugo",
+      "+13920741751"
+    ]
+  }
+}

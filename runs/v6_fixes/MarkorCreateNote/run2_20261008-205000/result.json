@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 14,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "5 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "5 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs/v6_fixes/MarkorCreateNote/run2_20261008-205000/recording.mp4",
+  "duration_s": 266.3,
+  "stats": {
+    "steps": 14,
+    "model_calls": 14,
+    "model_seconds": 194.21778725099284,
+    "prompt_tokens": 14725,
+    "completion_tokens": 816,
+    "invalid_replies": 0,
+    "no_effect_actions": 5,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "prefilled_replaced": 0,
+    "done_hints": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "brave_nest_2023_07_27.txt",
+      "Actions speak louder than words."
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 16,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "4 action(s) did not change the screen; ended by step_limit",
+  "note": "device state was correct, but the agent never reported done; 4 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs/v5_8b/MarkorCreateNote/run3_20261008-183831/recording.mp4",
+  "duration_s": 192.6,
+  "stats": {
+    "steps": 16,
+    "model_calls": 16,
+    "model_seconds": 137.0391991239885,
+    "prompt_tokens": 16082,
+    "completion_tokens": 1008,
+    "invalid_replies": 0,
+    "no_effect_actions": 4,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "final_quick_eagle",
+      "Winter is coming."
+    ]
+  }
+}

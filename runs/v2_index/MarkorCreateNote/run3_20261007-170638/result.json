@@ -1,0 +1,41 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 9,
+  "budget": 16,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs/v2_index/MarkorCreateNote/run3_20261007-170638/recording.mp4",
+  "duration_s": 80.7,
+  "stats": {
+    "steps": 9,
+    "model_calls": 9,
+    "model_seconds": 42.982703623001726,
+    "prompt_tokens": 8489,
+    "completion_tokens": 545,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "final_quick_eagle",
+      "Winter is coming."
+    ]
+  }
+}

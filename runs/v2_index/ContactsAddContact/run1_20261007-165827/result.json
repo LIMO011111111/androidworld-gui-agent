@@ -1,0 +1,44 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 12,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs/v2_index/ContactsAddContact/run1_20261007-165827/recording.mp4",
+  "duration_s": 92.8,
+  "stats": {
+    "steps": 11,
+    "model_calls": 11,
+    "model_seconds": 56.156145332999586,
+    "prompt_tokens": 11311,
+    "completion_tokens": 573,
+    "invalid_replies": 0,
+    "no_effect_actions": 0,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {
+      "home_screen": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Hugo",
+      "Pereira",
+      "+13920741751"
+    ]
+  }
+}

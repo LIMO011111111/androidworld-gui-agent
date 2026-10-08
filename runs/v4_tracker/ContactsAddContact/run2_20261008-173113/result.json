@@ -1,0 +1,36 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "stayed on the home screen and never used open_app; 11 action(s) did not change the screen; ended by step_limit",
+  "note": "stayed on the home screen and never used open_app; 11 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs/v4_tracker/ContactsAddContact/run2_20261008-173113/recording.mp4",
+  "duration_s": 119.4,
+  "stats": {
+    "steps": 12,
+    "model_calls": 12,
+    "model_seconds": 82.05621454502398,
+    "prompt_tokens": 11200,
+    "completion_tokens": 538,
+    "invalid_replies": 0,
+    "no_effect_actions": 11,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher"
+    ],
+    "launcher_steps": 11,
+    "stale_screens": 0,
+    "typed_texts": []
+  }
+}

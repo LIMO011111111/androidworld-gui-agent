@@ -1,0 +1,424 @@
+E1008 17:27:29.130420 1593364 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 17:30:53.335823 1601032 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 17:34:00.304013 1608087 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 17:37:07.934858 1614029 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 17:41:17.980525 1623258 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 17:46:03.410840 1633580 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 17:50:53.127235 1644619 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 17:56:04.698120 1657134 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 18:01:31.734815 1669188 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 18:22:56.027255 1699380 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 18:26:44.671218 1708291 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 18:29:43.521443 1715683 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 18:32:31.392388 1721608 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 18:35:43.646822 1731553 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 18:38:13.296320 1738839 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 18:42:21.883819 1748942 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 18:46:22.191614 1761127 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 18:50:17.045812 1771908 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 353, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "~/Downloads/androidworld-gui-agent/run_eval.py", line 206, in main
+    cfg = config_lib.AgentConfig.from_file(args.config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Downloads/androidworld-gui-agent/gui_agent/config.py", line 205, in from_file
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'configs/v6_fixes.json'
+E1008 20:14:41.904210 1869973 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 20:24:53.760354 1888387 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Could not get a11y tree, retrying.
+ERROR:absl:Failed to execute ADB command (try 1 of 3): [adb -P 5037 -s emulator-5554 shell am start  -W -n com.android.settings/.Settings]
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/.venv/lib/python3.11/site-packages/android_env/components/adb_controller.py", line 122, in execute_command
+    cmd_output = subprocess.check_output(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'am', 'start', '', '-W', '-n', 'com.android.settings/.Settings']' timed out after 5.0 seconds
+ERROR:absl:**stdout**:
+ERROR:absl:    b'Starting: Intent { cmp=com.android.settings/.Settings }'
+ERROR:absl:Failed to execute ADB command (try 1 of 3): [adb -P 5037 start-server]
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/.venv/lib/python3.11/site-packages/android_env/components/adb_controller.py", line 122, in execute_command
+    cmd_output = subprocess.check_output(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'am', 'start', '', '-W', '-n', 'com.android.settings/.Settings']' timed out after 5.0 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "~/Downloads/androidworld-gui-agent/.venv/lib/python3.11/site-packages/android_env/components/adb_controller.py", line 122, in execute_command
+    cmd_output = subprocess.check_output(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', 'start-server']' returned non-zero exit status 255.
+ERROR:absl:**stdout**:
+ERROR:absl:    b'* daemon not running; starting now at tcp:5037'
+ERROR:absl:    b"ADB server didn't ACK"
+ERROR:absl:    b'Full server startup log: /var/folders/27/9405d5wx5pl43k8scphy8gs40000gn/T//adb.501.log'
+ERROR:absl:    b'Server had pid: 11522'
+ERROR:absl:    b'--- adb starting (pid 11522) ---'
+ERROR:absl:    b'10-08 20:27:08.163 11522 1891787 I adb     : main.cpp:65 Android Debug Bridge version 1.0.41'
+ERROR:absl:    b'10-08 20:27:08.163 11522 1891787 I adb     : main.cpp:65 Version 37.0.1-15733141'
+ERROR:absl:    b'10-08 20:27:08.163 11522 1891787 I adb     : main.cpp:65 Installed as ~/Library/Android/sdk/platform-tools/adb'
+ERROR:absl:    b'10-08 20:27:08.163 11522 1891787 I adb     : main.cpp:65 Running on Darwin 25.5.0 (arm64)'
+ERROR:absl:    b'10-08 20:27:08.163 11522 1891787 I adb     : main.cpp:65 '
+ERROR:absl:    b'10-08 20:27:09.099 11522 1891787 F adb     : main.cpp:168 could not install *smartsocket* listener: Address already in use'
+ERROR:absl:    b''
+ERROR:absl:    b'* failed to start daemon'
+ERROR:absl:    b'error: cannot connect to daemon'
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 20:37:18.667865 1904766 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.google.android.contacts.
+E1008 20:44:01.567734 1918340 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 20:49:36.532579 1929967 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 20:55:11.503890 1940602 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+E1008 20:59:48.373071 1949930 trace.cc:86] Unknown tracer: none
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 21:05:39.716437 1962516 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+E1008 21:10:32.832210 1973865 trace.cc:86] Unknown tracer: none
+WARNING:absl:Could not get a11y tree, retrying.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/net.gsantner.markor.
+WARNING:absl:Skipping app snapshot loading : Snapshot not found in /data/data/android_world/snapshots/com.simplemobiletools.smsmessenger.

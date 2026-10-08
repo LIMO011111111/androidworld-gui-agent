@@ -1,0 +1,42 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 16,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs/v5_8b/MarkorCreateNote/run1_20261008-183248/recording.mp4",
+  "duration_s": 133.9,
+  "stats": {
+    "steps": 11,
+    "model_calls": 11,
+    "model_seconds": 92.37564954299887,
+    "prompt_tokens": 11500,
+    "completion_tokens": 649,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_01_26_wise_yacht",
+      "Ignorance is bliss."
+    ]
+  }
+}

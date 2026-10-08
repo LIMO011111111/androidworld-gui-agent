@@ -1,0 +1,49 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 12,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "1 tap(s) on the home screen blocked (apps must be opened by name); 3 action(s) did not change the screen; ended by step_limit",
+  "note": "device state was correct, but the agent never reported done; 1 tap(s) on the home screen blocked (apps must be opened by name); 3 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs/v6_fixes/ContactsAddContact/run3_20261008-203739/recording.mp4",
+  "duration_s": 321.6,
+  "stats": {
+    "steps": 12,
+    "model_calls": 12,
+    "model_seconds": 239.70179554104107,
+    "prompt_tokens": 13262,
+    "completion_tokens": 682,
+    "invalid_replies": 0,
+    "no_effect_actions": 3,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 2,
+    "blocked": {
+      "home_screen": 1
+    },
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "prefilled_replaced": 0,
+    "done_hints": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts",
+      "contacts",
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Isla",
+      "Martin",
+      "+15256606183"
+    ]
+  }
+}

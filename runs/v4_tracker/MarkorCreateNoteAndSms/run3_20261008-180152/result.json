@@ -1,0 +1,46 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "note": "device state was correct, but the agent never reported done; 1 action(s) did not change the screen; ended by step_limit; no clear signal: check the recording",
+  "recording": "runs/v4_tracker/MarkorCreateNoteAndSms/run3_20261008-180152/recording.mp4",
+  "duration_s": 289.1,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 202.11119470896665,
+    "prompt_tokens": 21199,
+    "completion_tokens": 963,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 2,
+    "blocked": {},
+    "done_rejections": 0,
+    "goal_value_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 1,
+    "stale_screens": 0,
+    "typed_texts": [
+      "lively_goat_LEKc",
+      "Ignorance is bliss.",
+      "+13992866708",
+      "Ignorance is bliss."
+    ]
+  }
+}

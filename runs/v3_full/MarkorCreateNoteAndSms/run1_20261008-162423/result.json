@@ -1,0 +1,48 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; 1 repeated action(s) blocked by the loop guard; 6 action(s) only showed an effect after an extra wait; ended by step_limit",
+  "note": "2 action(s) did not change the screen; 1 repeated action(s) blocked by the loop guard; 6 action(s) only showed an effect after an extra wait; ended by step_limit",
+  "recording": "runs/v3_full/MarkorCreateNoteAndSms/run1_20261008-162423/recording.mp4",
+  "duration_s": 309.5,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 216.68588508201356,
+    "prompt_tokens": 22270,
+    "completion_tokens": 1028,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 6,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 3,
+    "blocked": {
+      "loop_guard": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "android",
+      "com.google.android.apps.messaging",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 1,
+    "stale_screens": 1,
+    "typed_texts": [
+      "fair_ant_XOdi",
+      ".txt",
+      "Actions speak louder than words."
+    ]
+  }
+}
