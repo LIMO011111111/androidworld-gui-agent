@@ -1,0 +1,830 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>MarkorCreateNoteAndSms run 2</title><style>
+:root { --bg:#f6f7f9; --card:#fff; --ink:#1c1f24; --muted:#5d6672; --line:#dfe3e8;
+        --ok:#1a7f4b; --bad:#b3261e; --warn:#9a6700; --code:#f0f2f5; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#14171b; --card:#1d2126; --ink:#e7eaee; --muted:#9aa4b0; --line:#2e343b;
+          --ok:#5cc98d; --bad:#ff8a80; --warn:#e3b341; --code:#262b31; } }
+* { box-sizing: border-box; }
+body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--ink);
+       font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width:1000px; margin:0 auto; }
+h1 { font-size:22px; margin:0 0 4px; }
+.goal { color:var(--muted); margin:0 0 16px; }
+.facts { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 24px; padding:0; list-style:none; }
+.facts li { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:6px 10px; }
+.facts b { font-weight:600; }
+.pass { color:var(--ok); } .fail { color:var(--bad); } .warn { color:var(--warn); }
+.step { display:grid; grid-template-columns:220px 1fr; gap:16px; background:var(--card);
+        border:1px solid var(--line); border-radius:12px; padding:14px; margin:0 0 14px; }
+.step img { width:100%; border-radius:8px; border:1px solid var(--line); display:block; }
+.step h2 { font-size:16px; margin:0 0 6px; }
+.thought { color:var(--muted); margin:0 0 8px; }
+.row { margin:0 0 6px; overflow-wrap:anywhere; }
+.label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+code, pre { background:var(--code); border-radius:6px; font:13px/1.45 ui-monospace,Menlo,Consolas,monospace; }
+code { padding:1px 5px; } pre { padding:10px; overflow:auto; max-height:320px; white-space:pre-wrap; }
+details { margin-top:8px; } summary { cursor:pointer; color:var(--muted); }
+@media (max-width:640px) { .step { grid-template-columns:1fr; } .step img { max-width:260px; } }
+</style></head><body><main><h1>MarkorCreateNoteAndSms, run 2</h1><p class='goal'>Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger</p><ul class='facts'><li><b>Verifier:</b> <span class="fail">FAIL</span></li><li><b>Agent:</b> v1_baseline</li><li><b>Model:</b> qwen3-vl:4b-instruct</li><li><b>Observation:</b> screenshot</li><li><b>Grounding:</b> coordinate</li><li><b>Steps:</b> 18 (budget 18)</li><li><b>Stop reason:</b> model_done</li><li><b>Failure class:</b> grounding</li><li><b>Seed:</b> 3411394365</li></ul><p class="goal">Evidence: 6 action(s) did not change the screen; agent reported complete, verifier says fail</p><p><a href="recording.mp4">Screen recording (recording.mp4)</a></p><section class="step"><div><img src="screens/step_01.jpg" loading="lazy" alt="Screen before step 1"></div><div><h2>Step 1 of 18: open_app markor</h2><p class="thought">“I need to open the Markor app to create a new note. It&#x27;s not visible on the home screen, so I should navigate to the app drawer or search for it.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;markor&quot;, &quot;thought&quot;: &quot;I need to open the Markor app to create a new note. It&#x27;s not visible on the home screen, so I should navigate to the app drawer or search for it.&quot;}</code></p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>86.25s / 1847+57 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+No actions yet.
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to open the Markor app to create a new note. It&#x27;s not visible on the home screen, so I should navigate to the app drawer or search for it.&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;markor&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_02.jpg" loading="lazy" alt="Screen before step 2"></div><div><h2>Step 2 of 18: click at x=880 y=860</h2><p class="thought">“I need to create a new note in Markor. The red plus button at the bottom right corner is likely used for creating a new file.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 880, &quot;y&quot;: 860, &quot;thought&quot;: &quot;I need to create a new note in Markor. The red plus button at the bottom right corner is likely used for creating a new file.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[1] ImageButton desc=&quot;Create a new file or folder&quot; (clickable) → tap at [950, 2064]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>86.97s / 1852+57 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to create a new note in Markor. The red plus button at the bottom right corner is likely used for creating a new file.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 880, &quot;y&quot;: 860}</pre></details></div></section><section class="step"><div><img src="screens/step_03.jpg" loading="lazy" alt="Screen before step 3"></div><div><h2>Step 3 of 18: input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398</h2><p class="thought">“The current screen shows the file creation dialog in Markor. The name field is currently set to &#x27;my_note&#x27;, which needs to be changed to &#x27;2023_06_01_fierce_violin&#x27;. The extension should also be corrected to &#x27;.txt&#x27;. After editing the name, I will proceed by clicking &#x27;OK&#x27; to create the note.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 342, &quot;y&quot;: 398, &quot;text&quot;: &quot;2023_06_01_fierce_violin&quot;, &quot;thought&quot;: &quot;The current screen shows the file creation dialog in Markor. The name field is currently set to &#x27;my_note&#x27;, which needs to be changed to &#x27;2023_06_01_fierce_violin&#x27;. The extension should also be corrected to &#x27;.txt&#x27;. After editing the name, I will proceed by clicking &#x27;OK&#x27; to create the note.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[1] EditText hint=&quot;my_note&quot; (editable) → tap at [369, 955]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>93.1s / 1869+123 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The current screen shows the file creation dialog in Markor. The name field is currently set to &#x27;my_note&#x27;, which needs to be changed to &#x27;2023_06_01_fierce_violin&#x27;. The extension should also be corrected to &#x27;.txt&#x27;. After editing the name, I will proceed by clicking &#x27;OK&#x27; to create the note.&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 342, &quot;y&quot;: 398, &quot;text&quot;: &quot;2023_06_01_fierce_violin&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_04.jpg" loading="lazy" alt="Screen before step 4"></div><div><h2>Step 4 of 18: click at x=848 y=462</h2><p class="thought">“The user has entered the filename correctly. Now, I need to confirm the creation of the file by clicking &#x27;OK&#x27;.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 848, &quot;y&quot;: 462, &quot;thought&quot;: &quot;The user has entered the filename correctly. Now, I need to confirm the creation of the file by clicking &#x27;OK&#x27;.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[11] Button &quot;OK&quot; (clickable) → tap at [916, 1109]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>83.86s / 1904+53 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The user has entered the filename correctly. Now, I need to confirm the creation of the file by clicking &#x27;OK&#x27;.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 848, &quot;y&quot;: 462}</pre></details></div></section><section class="step"><div><img src="screens/step_05.jpg" loading="lazy" alt="Screen before step 5"></div><div><h2>Step 5 of 18: input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300</h2><p class="thought">“The note title has been entered, and the keyboard is active. The next step is to type the content of the note as specified in the goal.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;Gym membership renewal due on the 20th.&quot;, &quot;thought&quot;: &quot;The note title has been entered, and the keyboard is active. The next step is to type the content of the note as specified in the goal.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[8] EditText (empty) id=document__fragment__edit__highlighting_editor (editable) → tap at [540, 720]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>88.18s / 1921+76 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The note title has been entered, and the keyboard is active. The next step is to type the content of the note as specified in the goal.&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;Gym membership renewal due on the 20th.&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_06.jpg" loading="lazy" alt="Screen before step 6"></div><div><h2>Step 6 of 18: click at x=749 y=86</h2><p class="thought">“The note content has been entered correctly. The next step is to save the note so it can be shared via SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 749, &quot;y&quot;: 86, &quot;thought&quot;: &quot;The note content has been entered correctly. The next step is to save the note so it can be shared via SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[4] TextView desc=&quot;Save&quot; (clickable) → tap at [809, 206]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>net.gsantner.markor</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>108.69s / 1952+51 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The note content has been entered correctly. The next step is to save the note so it can be shared via SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 749, &quot;y&quot;: 86}</pre></details></div></section><section class="step"><div><img src="screens/step_07.jpg" loading="lazy" alt="Screen before step 7"></div><div><h2>Step 7 of 18: open_app simple sms messenger</h2><p class="thought">“The note has been created and the text has been entered. The next step is to share the note via SMS using Simple SMS Messenger.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;simple sms messenger&quot;, &quot;thought&quot;: &quot;The note has been created and the text has been entered. The next step is to share the note via SMS using Simple SMS Messenger.&quot;}</code></p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>109.91s / 1968+49 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The note has been created and the text has been entered. The next step is to share the note via SMS using Simple SMS Messenger.&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;simple sms messenger&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_08.jpg" loading="lazy" alt="Screen before step 8"></div><div><h2>Step 8 of 18: click at x=499 y=199</h2><p class="thought">“The current screen shows the Simple SMS Messenger app with no stored conversations. To proceed, I need to start a new conversation by clicking on the &#x27;Start a conversation&#x27; link.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 499, &quot;y&quot;: 199, &quot;thought&quot;: &quot;The current screen shows the Simple SMS Messenger app with no stored conversations. To proceed, I need to start a new conversation by clicking on the &#x27;Start a conversation&#x27; link.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[8] TextView &quot;Start a conversation&quot; (clickable) → tap at [539, 478]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>95.89s / 1978+63 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The current screen shows the Simple SMS Messenger app with no stored conversations. To proceed, I need to start a new conversation by clicking on the &#x27;Start a conversation&#x27; link.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 499, &quot;y&quot;: 199}</pre></details></div></section><section class="step"><div><img src="screens/step_09.jpg" loading="lazy" alt="Screen before step 9"></div><div><h2>Step 9 of 18: click at x=277 y=148</h2><p class="thought">“I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148, &quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [299, 355]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>94.85s / 1995+59 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+1. open_app markor -&gt; executed
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_10.jpg" loading="lazy" alt="Screen before step 10"></div><div><h2>Step 10 of 18: click at x=277 y=148</h2><p class="thought">“I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148, &quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [299, 355]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>103.07s / 2010+59 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-1 omitted)
+2. click at x=880 y=860 -&gt; executed
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_11.jpg" loading="lazy" alt="Screen before step 11"></div><div><h2>Step 11 of 18: click at x=277 y=148</h2><p class="thought">“I need to select the contact or number field to enter +19371228774 for sending the SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148, &quot;thought&quot;: &quot;I need to select the contact or number field to enter +19371228774 for sending the SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [299, 355]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>88.37s / 2011+56 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-2 omitted)
+3. input_text &quot;2023_06_01_fierce_violin&quot; at x=342 y=398 -&gt; executed
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to select the contact or number field to enter +19371228774 for sending the SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_12.jpg" loading="lazy" alt="Screen before step 12"></div><div><h2>Step 12 of 18: click at x=277 y=148</h2><p class="thought">“I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148, &quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [299, 355]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>85.89s / 1994+59 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-3 omitted)
+4. click at x=848 y=462 -&gt; executed
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_13.jpg" loading="lazy" alt="Screen before step 13"></div><div><h2>Step 13 of 18: click at x=277 y=148</h2><p class="thought">“I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148, &quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [299, 355]</p><p class="row warn"><span class="label">Effect</span><br>screen did not change · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>90.56s / 1995+59 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-4 omitted)
+5. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=300 -&gt; executed
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to select the contact or number field to enter the phone number +19371228774 for sending the SMS.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 277, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_14.jpg" loading="lazy" alt="Screen before step 14"></div><div><h2>Step 14 of 18: input_text &quot;+19371228774&quot; at x=500 y=148</h2><p class="thought">“I need to enter the phone number +19371228774 into the contact field to send the SMS. The keyboard is already active, so I can type directly.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 148, &quot;text&quot;: &quot;+19371228774&quot;, &quot;thought&quot;: &quot;I need to enter the phone number +19371228774 into the contact field to send the SMS. The keyboard is already active, so I can type directly.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[2] EditText hint=&quot;Add Contact or Number…&quot; (editable) → tap at [540, 355]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>91.97s / 1982+85 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-5 omitted)
+6. click at x=749 y=86 -&gt; executed
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+13. click at x=277 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;I need to enter the phone number +19371228774 into the contact field to send the SMS. The keyboard is already active, so I can type directly.&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 148, &quot;text&quot;: &quot;+19371228774&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_15.jpg" loading="lazy" alt="Screen before step 15"></div><div><h2>Step 15 of 18: click at x=927 y=148</h2><p class="thought">“The phone number has been entered correctly. The next step is to send the message by clicking the checkmark icon, which confirms the entry and allows us to proceed with composing the message.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 927, &quot;y&quot;: 148, &quot;thought&quot;: &quot;The phone number has been entered correctly. The next step is to send the message by clicking the checkmark icon, which confirms the entry and allows us to proceed with composing the message.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[4] LinearLayout id=contacts_letter_fastscroller (clickable) → tap at [1001, 355]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>84.66s / 1998+65 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-6 omitted)
+7. open_app simple sms messenger -&gt; executed
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+13. click at x=277 y=148 -&gt; executed
+14. input_text &quot;+19371228774&quot; at x=500 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The phone number has been entered correctly. The next step is to send the message by clicking the checkmark icon, which confirms the entry and allows us to proceed with composing the message.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 927, &quot;y&quot;: 148}</pre></details></div></section><section class="step"><div><img src="screens/step_16.jpg" loading="lazy" alt="Screen before step 16"></div><div><h2>Step 16 of 18: input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=600</h2><p class="thought">“The goal is to send the note content via SMS. The message field is ready for input, so I should type the note content into it.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 600, &quot;text&quot;: &quot;Gym membership renewal due on the 20th.&quot;, &quot;thought&quot;: &quot;The goal is to send the note content via SMS. The message field is ready for input, so I should type the note content into it.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[7] EditText hint=&quot;Type a message…&quot; (editable) → tap at [540, 1440]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>91.4s / 2006+75 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-7 omitted)
+8. click at x=499 y=199 -&gt; executed
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+13. click at x=277 y=148 -&gt; executed
+14. input_text &quot;+19371228774&quot; at x=500 y=148 -&gt; executed
+15. click at x=927 y=148 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The goal is to send the note content via SMS. The message field is ready for input, so I should type the note content into it.&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 600, &quot;text&quot;: &quot;Gym membership renewal due on the 20th.&quot;}</pre></details></div></section><section class="step"><div><img src="screens/step_17.jpg" loading="lazy" alt="Screen before step 17"></div><div><h2>Step 17 of 18: click at x=927 y=594</h2><p class="thought">“The message has been typed and is ready to be sent. The next step is to send the SMS to complete the goal.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 927, &quot;y&quot;: 594, &quot;thought&quot;: &quot;The message has been typed and is ready to be sent. The next step is to send the SMS to complete the goal.&quot;}</code></p><p class="row"><span class="label">Grounding (coordinate)</span><br>[8] Button &quot;SMS&quot; desc=&quot;OK&quot; (clickable) → tap at [1001, 1426]</p><p class="row pass"><span class="label">Effect</span><br>screen changed · now in <code>com.simplemobiletools.smsmessenger</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>93.84s / 2021+53 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-8 omitted)
+9. click at x=277 y=148 -&gt; executed
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+13. click at x=277 y=148 -&gt; executed
+14. input_text &quot;+19371228774&quot; at x=500 y=148 -&gt; executed
+15. click at x=927 y=148 -&gt; executed
+16. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=600 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The message has been typed and is ready to be sent. The next step is to send the SMS to complete the goal.&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 927, &quot;y&quot;: 594}</pre></details></div></section><section class="step"><div><img src="screens/step_18.jpg" loading="lazy" alt="Screen before step 18"></div><div><h2>Step 18 of 18: status complete</h2><p class="thought">“The goal was to send the message &#x27;Gym membership renewal due on the 20th.&#x27; to the phone number +19371228774 via SMS. The message has been successfully sent as indicated by the checkmark next to the message.”</p><p class="row"><span class="label">Action</span><br><code>{&quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;, &quot;thought&quot;: &quot;The goal was to send the message &#x27;Gym membership renewal due on the 20th.&#x27; to the phone number +19371228774 via SMS. The message has been successfully sent as indicated by the checkmark next to the message.&quot;}</code></p><p class="row"><span class="label">Model (1 call(s))</span><br>120.39s / 2022+75 tok</p><details><summary>Prompt and raw model output</summary><pre>[system]
+You control an Android phone to complete a user&#x27;s goal, one action at a time.
+
+Each turn you get the GOAL, the HISTORY of your previous actions and the CURRENT SCREEN. Reply with exactly one JSON object for the next action and nothing else.
+
+CURRENT SCREEN is the attached screenshot. Point with &quot;x&quot; and &quot;y&quot;, integers
+from 0 to 1000 relative to the screenshot: x=0 is the left edge, x=1000 the
+right edge, y=0 the top edge, y=1000 the bottom edge.
+
+Actions (pick one):
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;click&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; tap at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;long_press&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300}  -&gt; press and hold at this point
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;input_text&quot;, &quot;x&quot;: 500, &quot;y&quot;: 300, &quot;text&quot;: &quot;hello&quot;}  -&gt; tap the text field at this point, type the text, press Enter. Do not click the field first.
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;scroll&quot;, &quot;direction&quot;: &quot;down&quot;}  -&gt; show content further down (&quot;up&quot;, &quot;left&quot;, &quot;right&quot; work the same way)
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;open_app&quot;, &quot;app_name&quot;: &quot;clock&quot;}  -&gt; open an app
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_back&quot;}  -&gt; Android back button
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;navigate_home&quot;}  -&gt; go to the home screen
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;keyboard_enter&quot;}  -&gt; press Enter
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;wait&quot;}  -&gt; wait for the screen to finish loading
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}  -&gt; the goal is fully achieved
+{&quot;thought&quot;: &quot;...&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;infeasible&quot;}  -&gt; the goal cannot be achieved
+
+Rules:
+1. &quot;thought&quot; comes first: one short sentence on what you see and why you choose this action.
+2. To open an app always use open_app with exactly one of these names: markor, simple sms messenger, contacts, clock, settings, camera, files, simple calendar pro, simple gallery pro, audio recorder, pro expense, broccoli, tasks, joplin, osmand, open tracks, vlc, retro music. Never look for an app on the home screen or in a search bar.
+3. Copy names, numbers and texts from the GOAL exactly, character by character.
+4. If HISTORY says an action failed, was blocked or did not change the screen, do not repeat it. Try a different element or action.
+5. Point at the centre of the element you mean.
+6. Before you answer &quot;complete&quot;, check on the CURRENT SCREEN that the result really exists (saved, sent, set). Stay in the app when you finish; do not go back or home afterwards.
+7. Never pay, buy, subscribe or enter payment details.
+
+[user]
+GOAL: Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger
+
+HISTORY:
+(steps 1-9 omitted)
+10. click at x=277 y=148 -&gt; executed
+11. click at x=277 y=148 -&gt; executed
+12. click at x=277 y=148 -&gt; executed
+13. click at x=277 y=148 -&gt; executed
+14. input_text &quot;+19371228774&quot; at x=500 y=148 -&gt; executed
+15. click at x=927 y=148 -&gt; executed
+16. input_text &quot;Gym membership renewal due on the 20th.&quot; at x=500 y=600 -&gt; executed
+17. click at x=927 y=594 -&gt; executed
+
+CURRENT SCREEN: see the attached screenshot.
+
+Reply with one JSON object for the next action.</pre><pre>{&quot;thought&quot;: &quot;The goal was to send the message &#x27;Gym membership renewal due on the 20th.&#x27; to the phone number +19371228774 via SMS. The message has been successfully sent as indicated by the checkmark next to the message.&quot;, &quot;action_type&quot;: &quot;status&quot;, &quot;goal_status&quot;: &quot;complete&quot;}</pre></details></div></section></main></body></html>

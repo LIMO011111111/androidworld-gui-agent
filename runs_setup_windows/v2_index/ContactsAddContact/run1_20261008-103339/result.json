@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 12,
+  "failure_class": "wrong_app",
+  "failure_evidence": "1 action(s) blocked outside the allowed apps or on the home screen; 3 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "1 action(s) blocked outside the allowed apps or on the home screen; 3 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs_setup\\v2_index\\ContactsAddContact\\run1_20261008-103339\\recording.mp4",
+  "duration_s": 263.1,
+  "stats": {
+    "steps": 11,
+    "model_calls": 11,
+    "model_seconds": 217.14102070000263,
+    "prompt_tokens": 10435,
+    "completion_tokens": 607,
+    "invalid_replies": 0,
+    "no_effect_actions": 3,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {
+      "app_scope": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.permissioncontroller",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Hugo",
+      "+13920741751"
+    ]
+  }
+}

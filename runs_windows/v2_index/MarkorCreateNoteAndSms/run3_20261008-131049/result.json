@@ -1,0 +1,47 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.5,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 14,
+  "budget": 18,
+  "failure_class": "wrong_app",
+  "failure_evidence": "1 action(s) blocked outside the allowed apps or on the home screen; 1 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "partial credit from the checker: 0.50; 1 action(s) blocked outside the allowed apps or on the home screen; 1 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs\\v2_index\\MarkorCreateNoteAndSms\\run3_20261008-131049\\recording.mp4",
+  "duration_s": 398.5,
+  "stats": {
+    "steps": 14,
+    "model_calls": 14,
+    "model_seconds": 318.1568505000032,
+    "prompt_tokens": 14597,
+    "completion_tokens": 749,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {
+      "app_scope": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 1,
+    "stale_screens": 0,
+    "typed_texts": [
+      "lively_goat_LEKc.md",
+      "Ignorance is bliss.",
+      "+13992866708",
+      "Ignorance is bliss."
+    ]
+  }
+}

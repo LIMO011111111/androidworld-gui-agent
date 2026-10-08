@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.5,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "5 action(s) did not change the screen; 1 repeated action(s) blocked by the loop guard; 1 action(s) only showed an effect after an extra wait; ended by step_limit",
+  "note": "partial credit from the checker: 0.50; 5 action(s) did not change the screen; 1 repeated action(s) blocked by the loop guard; 1 action(s) only showed an effect after an extra wait; ended by step_limit",
+  "recording": "runs\\v3_full\\MarkorCreateNoteAndSms\\run1_20261008-173138\\recording.mp4",
+  "duration_s": 508.8,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 416.78605049999896,
+    "prompt_tokens": 20010,
+    "completion_tokens": 1070,
+    "invalid_replies": 0,
+    "no_effect_actions": 5,
+    "late_changes": 1,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {
+      "loop_guard": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "fair_ant_XOdi",
+      "Actions speak louder than words.",
+      "fair_ant_XOdi.txt"
+    ]
+  }
+}

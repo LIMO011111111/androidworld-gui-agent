@@ -1,0 +1,43 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 10,
+  "budget": 12,
+  "failure_class": "wrong_app",
+  "failure_evidence": "1 action(s) blocked outside the allowed apps or on the home screen; 1 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "note": "1 action(s) blocked outside the allowed apps or on the home screen; 1 action(s) did not change the screen; agent reported complete, verifier says fail",
+  "recording": "runs\\v2_index\\ContactsAddContact\\run3_20261008-122743\\recording.mp4",
+  "duration_s": 409.0,
+  "stats": {
+    "steps": 10,
+    "model_calls": 10,
+    "model_seconds": 368.56779200000165,
+    "prompt_tokens": 11106,
+    "completion_tokens": 519,
+    "invalid_replies": 0,
+    "no_effect_actions": 1,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 2,
+    "blocked": {
+      "app_scope": 1
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Isla",
+      "+15256606183"
+    ]
+  }
+}

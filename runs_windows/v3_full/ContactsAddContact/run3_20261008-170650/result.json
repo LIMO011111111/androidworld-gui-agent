@@ -1,0 +1,41 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "4 action(s) did not change the screen; 2 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "note": "4 action(s) did not change the screen; 2 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "recording": "runs\\v3_full\\ContactsAddContact\\run3_20261008-170650\\recording.mp4",
+  "duration_s": 269.6,
+  "stats": {
+    "steps": 11,
+    "model_calls": 12,
+    "model_seconds": 223.32812149999518,
+    "prompt_tokens": 11693,
+    "completion_tokens": 588,
+    "invalid_replies": 0,
+    "no_effect_actions": 4,
+    "late_changes": 2,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 4,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Isla",
+      "+15256606183"
+    ]
+  }
+}

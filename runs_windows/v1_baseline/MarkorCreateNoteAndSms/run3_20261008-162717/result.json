@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 18,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "5 action(s) did not change the screen; ended by step_limit",
+  "note": "5 action(s) did not change the screen; ended by step_limit",
+  "recording": "runs\\v1_baseline\\MarkorCreateNoteAndSms\\run3_20261008-162717\\recording.mp4",
+  "duration_s": 1652.0,
+  "stats": {
+    "steps": 18,
+    "model_calls": 18,
+    "model_seconds": 1564.9183455000057,
+    "prompt_tokens": 34875,
+    "completion_tokens": 1212,
+    "invalid_replies": 0,
+    "no_effect_actions": 5,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor",
+      "simple sms messenger"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor",
+      "com.simplemobiletools.smsmessenger"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "lively_goat_LEKc.md",
+      "Ignorance is bliss.",
+      "Ignorance is bliss."
+    ]
+  }
+}
