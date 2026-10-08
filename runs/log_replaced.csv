@@ -1,0 +1,20 @@
+timestamp,agent,task,run,model,observation,grounding,steps,budget,verifier,failure_class,failure_reviewed,recording,note,stop_reason,state_score,seed,duration_s,model_seconds,model_calls,prompt_tokens,completion_tokens,invalid_replies,no_effect_actions,blocked,goal,run_dir
+2026-10-07T15:59:06+02:00,v1_baseline,ContactsAddContact,1 of 3,"qwen3-vl:4b-instruct (Q4_K_M, ollama)",screenshot,coordinate,10,12,FAIL,grounding,,,"1 tap(s) landed on no UI element; 1 action(s) did not change the screen; agent reported complete, verifier says fail; recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037
+* daemon started successfully
+adb: device offline",model_done,0.0,1155463587,367.8,287.2,10,18591,585,0,1,,Create a new contact for Hugo Pereira. Their number is +13920741751.,v1_baseline/ContactsAddContact/run1_20261007-155906
+2026-10-07T17:10:25+02:00,v2_index,MarkorCreateNoteAndSms,2 of 3,"qwen3-vl:4b-instruct (Q4_K_M, ollama)",tree,index,7,18,ERROR,,,,"AdbControllerError: Error executing adb command: [adb -P 5037 -s emulator-5554 shell settings get global airplane_mode_on]
+Caused by: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'settings', 'get', 'global', 'airplane_mode_on']' returned non-zero exit status 1.
+adb stdout: [b""adb: device 'emulator-5554' not found\n""]
+adb stderr: [None]; recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037
+* daemon started successfully
+adb: device offline",error,,3411394365,109.5,30.3,7,6964,382,0,1,,Create a new note in Markor named 2023_06_01_fierce_violin.txt with the following text: Gym membership renewal due on the 20th.. Share the entire content of the note with the phone number +19371228774 via SMS using Simple SMS Messenger,v2_index/MarkorCreateNoteAndSms/run2_20261007-171025
+2026-10-07T17:12:15+02:00,v2_index,MarkorCreateNoteAndSms,3 of 3,"qwen3-vl:4b-instruct (Q4_K_M, ollama)",tree,index,0,20,ERROR,,,,"AdbControllerError: Error executing adb command: [adb -P 5037 -s emulator-5554 shell whoami]
+Caused by: Command '['~/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'whoami']' returned non-zero exit status 1.
+adb stdout: [b""adb: device 'emulator-5554' not found\n""]
+adb stderr: [None]",error,,3564688147,2.7,0.0,0,0,0,0,0,,Create a new note in Markor named lively_goat_LEKc.md with the following text: Ignorance is bliss.. Share the entire content of the note with the phone number +13992866708 via SMS using Simple SMS Messenger,v2_index/MarkorCreateNoteAndSms/run3_20261007-171215
+2026-10-07T16:18:37+02:00,v1_baseline,MarkorCreateNote,1 of 3,"qwen3-vl:4b-instruct (Q4_K_M, ollama)",screenshot,coordinate,13,16,PASS,,,v1_baseline/MarkorCreateNote/run1_20261007-161837/recording.mp4,"recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037
+* daemon started successfully
+adb: device offline",model_done,1.0,1448135622,318.9,246.6,13,24554,874,0,1,,Create a new note in Markor named 2023_01_26_wise_yacht.md with the following text: Ignorance is bliss.,v1_baseline/MarkorCreateNote/run1_20261007-161837
+2026-10-07T16:23:56+02:00,v1_baseline,MarkorCreateNote,2 of 3,"qwen3-vl:4b-instruct (Q4_K_M, ollama)",screenshot,coordinate,16,16,PASS,,,v1_baseline/MarkorCreateNote/run2_20261007-162356/recording.mp4,"recording: screenrecord exited at once: * daemon not running; starting now at tcp:5037
+* daemon started successfully
+adb: device offline",model_done,1.0,2337133809,503.2,333.0,16,30635,1033,0,6,,Create a new note in Markor named brave_nest_2023_07_27.txt with the following text: Actions speak louder than words.,v1_baseline/MarkorCreateNote/run2_20261007-162356
