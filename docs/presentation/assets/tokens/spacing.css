@@ -1,0 +1,55 @@
+/* ============================================================
+   TUM — Spacing, radii, borders, shadows, layout
+
+   The TUM CD is restrained and functional: thin hairlines,
+   generous whitespace, almost no rounding, minimal shadow.
+   "Avoid frames and overlays where possible." Structure comes
+   from alignment and a clear margin, not from boxes.
+   ============================================================ */
+
+:root {
+  /* ---- Spacing scale (4px base) ---- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* ---- Radii (the CD is essentially square; rounding is the exception) ---- */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+
+  /* ---- Border widths ---- */
+  --border-hairline: 1px;
+  --border-thick: 2px;
+  --border-rule: 3px;   /* the signature TUM divider stroke */
+
+  /* ---- Shadows (used very sparingly; flat is the default) ---- */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 51, 89, 0.14);
+
+  /* ---- Slide geometry (16:9) ---- */
+  --slide-w: 1280px;
+  --slide-h: 720px;
+  --slide-margin-x: 64px;   /* outer safe margin, left/right */
+  --slide-margin-y: 48px;   /* outer safe margin, top/bottom */
+  --slide-footer-h: 40px;
+
+  /* ---- Motion (quiet, functional — quick fades, no bounce) ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+}

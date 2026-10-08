@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": false,
+  "stop_reason": "loop_abort",
+  "steps": 17,
+  "budget": 18,
+  "failure_class": "grounding",
+  "failure_evidence": "6 action(s) did not change the screen; 3 repeated action(s) blocked by the loop guard; 1 action(s) only showed an effect after an extra wait; ended by loop_abort",
+  "note": "6 action(s) did not change the screen; 3 repeated action(s) blocked by the loop guard; 1 action(s) only showed an effect after an extra wait; ended by loop_abort",
+  "recording": "runs\\v3_full\\MarkorCreateNoteAndSms\\run2_20261008-174007\\recording.mp4",
+  "duration_s": 776.5,
+  "stats": {
+    "steps": 17,
+    "model_calls": 17,
+    "model_seconds": 629.9139415999925,
+    "prompt_tokens": 21256,
+    "completion_tokens": 1088,
+    "invalid_replies": 0,
+    "no_effect_actions": 6,
+    "late_changes": 1,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {
+      "loop_guard": 3
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_06_01_fierce_violin",
+      "olin.txt",
+      "Gym membership renewal due on the 20th."
+    ]
+  }
+}

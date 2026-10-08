@@ -1,0 +1,42 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 8,
+  "budget": 12,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs\\v1_baseline\\ContactsAddContact\\run2_20261008-133312\\recording.mp4",
+  "duration_s": 658.3,
+  "stats": {
+    "steps": 8,
+    "model_calls": 8,
+    "model_seconds": 617.9835851000043,
+    "prompt_tokens": 14789,
+    "completion_tokens": 446,
+    "invalid_replies": 0,
+    "no_effect_actions": 0,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Mariam",
+      "Chen",
+      "+18332445674"
+    ]
+  }
+}

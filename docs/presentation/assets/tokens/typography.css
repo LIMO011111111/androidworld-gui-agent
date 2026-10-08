@@ -1,0 +1,62 @@
+/* ============================================================
+   TUM — Typography tokens
+
+   Brand typeface: "TUM Neue Helvetica" (a licensed custom cut of
+   Neue Helvetica). It is NOT freely distributable, so this system
+   substitutes the metrically-close system stack Helvetica Neue /
+   Helvetica / Arial — which is also exactly what the official
+   PowerPoint template falls back to (its theme font is "Arial").
+   Swap in the real TUM Neue Helvetica web fonts when licensed.
+
+   Type rules from the template:
+   - Left-aligned, ragged right. Never justified (kein Blocksatz).
+   - Line spacing ~1.15 for slide body copy.
+   - Headlines max 2 lines.
+   - A tight, functional size ladder (the deck uses 25/18/14/11 pt).
+   ============================================================ */
+
+:root {
+  /* ---- Font families ---- */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  --font-display: var(--font-sans);   /* TUM uses one typeface everywhere */
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* ---- Weights (Helvetica family) ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* ---- Web/UI type scale (px) ---- */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-md: 18px;
+  --text-lg: 22px;
+  --text-xl: 28px;
+  --text-2xl: 36px;
+  --text-3xl: 48px;
+  --text-4xl: 64px;
+
+  /* ---- Slide type scale (px @ 1280×720 canvas) ----
+     Derived from the template's pt ladder (25/18/14/11 pt). */
+  --slide-title: 44px;     /* headline, max 2 lines */
+  --slide-subtitle: 28px;
+  --slide-body: 25px;      /* primary body */
+  --slide-small: 20px;     /* secondary */
+  --slide-footnote: 15px;  /* footer / captions */
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.1;
+  --leading-snug: 1.15;    /* the template's body setting */
+  --leading-normal: 1.4;
+  --leading-relaxed: 1.6;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;   /* small caps labels / eyebrows */
+
+  /* ---- Semantic roles ---- */
+  --font-heading: var(--weight-bold) var(--text-2xl) / var(--leading-tight) var(--font-display);
+  --font-body-role: var(--weight-regular) var(--text-base) / var(--leading-normal) var(--font-sans);
+}

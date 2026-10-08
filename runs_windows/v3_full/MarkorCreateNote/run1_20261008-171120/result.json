@@ -1,0 +1,44 @@
+{
+  "verifier": "FAIL",
+  "state_score": 1.0,
+  "declared_done": false,
+  "stop_reason": "step_limit",
+  "steps": 16,
+  "budget": 16,
+  "failure_class": "grounding",
+  "failure_evidence": "4 action(s) did not change the screen; 2 repeated action(s) blocked by the loop guard; ended by step_limit",
+  "note": "device state was correct, but the agent never reported done; 4 action(s) did not change the screen; 2 repeated action(s) blocked by the loop guard; ended by step_limit",
+  "recording": "runs\\v3_full\\MarkorCreateNote\\run1_20261008-171120\\recording.mp4",
+  "duration_s": 553.3,
+  "stats": {
+    "steps": 16,
+    "model_calls": 16,
+    "model_seconds": 485.37311319999935,
+    "prompt_tokens": 18365,
+    "completion_tokens": 1149,
+    "invalid_replies": 0,
+    "no_effect_actions": 4,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {
+      "loop_guard": 2
+    },
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "2023_01_26_wise_yacht",
+      "Ignorance is bliss.",
+      "Ignorance is bliss."
+    ]
+  }
+}

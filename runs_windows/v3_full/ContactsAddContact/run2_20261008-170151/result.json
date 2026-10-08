@@ -1,0 +1,41 @@
+{
+  "verifier": "FAIL",
+  "state_score": 0.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 9,
+  "budget": 12,
+  "failure_class": "grounding",
+  "failure_evidence": "2 action(s) did not change the screen; 1 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "note": "2 action(s) did not change the screen; 1 action(s) only showed an effect after an extra wait; agent reported complete, verifier says fail",
+  "recording": "runs\\v3_full\\ContactsAddContact\\run2_20261008-170151\\recording.mp4",
+  "duration_s": 299.5,
+  "stats": {
+    "steps": 9,
+    "model_calls": 10,
+    "model_seconds": 261.3626206000008,
+    "prompt_tokens": 10505,
+    "completion_tokens": 523,
+    "invalid_replies": 0,
+    "no_effect_actions": 2,
+    "late_changes": 1,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 1,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "contacts"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "com.google.android.contacts"
+    ],
+    "launcher_steps": 2,
+    "stale_screens": 0,
+    "typed_texts": [
+      "Mariam",
+      "+18332445674"
+    ]
+  }
+}

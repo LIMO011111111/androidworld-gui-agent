@@ -37,10 +37,10 @@ def test_passing_run_writes_all_artifacts(tmp_path):
   assert result["steps"] == 6 and result["budget"] == 10  # complexity 1.0 * 10
   assert result["failure_class"] == ""
   assert task.initialized and task.torn_down
-  assert json.loads((tmp_path / "meta.json").read_text())["goal"] == test_agent.GOAL
-  assert json.loads((tmp_path / "result.json").read_text())["verifier"] == "PASS"
-  assert len((tmp_path / "trajectory.jsonl").read_text().strip().splitlines()) == 6
-  page = (tmp_path / "trajectory.html").read_text()
+  assert json.loads((tmp_path / "meta.json").read_text(encoding="utf-8"))["goal"] == test_agent.GOAL
+  assert json.loads((tmp_path / "result.json").read_text(encoding="utf-8"))["verifier"] == "PASS"
+  assert len((tmp_path / "trajectory.jsonl").read_text(encoding="utf-8").strip().splitlines()) == 6
+  page = (tmp_path / "trajectory.html").read_text(encoding="utf-8")
   assert "Step 6 of 10" in page and "screens/step_01.jpg" in page
 
 
@@ -104,7 +104,7 @@ def test_log_csv_and_markdown_table(tmp_path):
   rows = evallog.read_rows(csv_path)
   assert [r["verifier"] for r in rows] == ["PASS", "FAIL"]
   evallog.write_markdown(csv_path, tmp_path / "log.md")
-  table = (tmp_path / "log.md").read_text()
+  table = (tmp_path / "log.md").read_text(encoding="utf-8")
   assert "| steps (budget) |" in table and "| 9 (16) |" in table
   assert "grounding (?)" in table  # unreviewed suggestions are marked
   assert "a \\| b" in table

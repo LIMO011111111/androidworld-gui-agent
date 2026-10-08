@@ -1,0 +1,41 @@
+{
+  "verifier": "PASS",
+  "state_score": 1.0,
+  "declared_done": true,
+  "stop_reason": "model_done",
+  "steps": 11,
+  "budget": 16,
+  "failure_class": "",
+  "failure_evidence": "",
+  "note": "",
+  "recording": "runs\\v1_baseline\\MarkorCreateNote\\run2_20261008-141343\\recording.mp4",
+  "duration_s": 1008.2,
+  "stats": {
+    "steps": 11,
+    "model_calls": 11,
+    "model_seconds": 953.0447529999983,
+    "prompt_tokens": 20875,
+    "completion_tokens": 702,
+    "invalid_replies": 0,
+    "no_effect_actions": 3,
+    "late_changes": 0,
+    "taps_on_nothing": 0,
+    "pixel_fallback_steps": 0,
+    "blocked": {},
+    "done_rejections": 0,
+    "action_errors": 0,
+    "apps_opened": [
+      "markor"
+    ],
+    "packages_seen": [
+      "com.google.android.apps.nexuslauncher",
+      "net.gsantner.markor"
+    ],
+    "launcher_steps": 0,
+    "stale_screens": 0,
+    "typed_texts": [
+      "brave_nest_2023_07_27",
+      "Actions speak louder than words."
+    ]
+  }
+}
