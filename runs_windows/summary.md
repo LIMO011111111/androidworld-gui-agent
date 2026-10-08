@@ -1,13 +1,3 @@
-> **Machine:** Windows 11 laptop (CPU only), 08.10.2026, Ollama 0.40.0, model
-> `qwen3-vl:4b-instruct` Q4_K_M digest `ef33995bb2ac`, emulator Pixel 6 / API 33 x86_64,
-> 4 GB emulator RAM throughout. 27 scored runs, 0 ERROR (one run repeated after the
-> emulator process was killed by the OS; no replaced run is counted twice).
-> **Code:** the 08.10. morning snapshot of this repository, which predates commit
-> `43ed042` by two small refinements (home-screen taps logged under their own rule,
-> focus-only clicks not counted as "no effect"). Configs identical to `configs/`.
-> The Mac evaluation lives in `runs/`; the two are not merged because the model
-> digests differ (different Ollama builds), so they are two models by the project rule.
-
 # Evaluation summary
 
 ## Success rate (PASS / runs)
@@ -25,15 +15,15 @@ Runs with the same seed have identical task parameters.
 
 | task | seed | v2_index | v1_baseline | v3_full |
 |---|---|---|---|---|
-| ContactsAddContact | 1155463587 | FAIL in 10 steps [wrong_app] | PASS in 9 steps | FAIL in 12 steps [wrong_app] |
-| ContactsAddContact | 1324763856 | FAIL in 10 steps [wrong_app] | PASS in 8 steps | FAIL in 9 steps [grounding] |
-| ContactsAddContact | 596600690 | FAIL in 10 steps [wrong_app] | PASS in 9 steps | FAIL in 11 steps [grounding] |
+| ContactsAddContact | 1155463587 | FAIL in 10 steps [lost_value] | PASS in 9 steps | FAIL in 12 steps [grounding] |
+| ContactsAddContact | 1324763856 | FAIL in 10 steps [lost_value] | PASS in 8 steps | FAIL in 9 steps [lost_value] |
+| ContactsAddContact | 596600690 | FAIL in 10 steps [lost_value] | PASS in 9 steps | FAIL in 11 steps [lost_value] |
 | MarkorCreateNote | 1448135622 | PASS in 10 steps | PASS in 10 steps | FAIL in 16 steps [grounding] |
 | MarkorCreateNote | 2337133809 | PASS in 14 steps | PASS in 11 steps | FAIL in 14 steps [grounding] |
 | MarkorCreateNote | 1196614525 | PASS in 11 steps | FAIL in 9 steps [false_done] | FAIL in 10 steps [grounding] |
 | MarkorCreateNoteAndSms | 3221046986 | FAIL in 18 steps [grounding] | FAIL in 17 steps [grounding] | FAIL in 18 steps [grounding] |
-| MarkorCreateNoteAndSms | 3411394365 | FAIL in 16 steps [wrong_app] | FAIL in 18 steps [grounding] | FAIL in 17 steps [grounding] |
-| MarkorCreateNoteAndSms | 3564688147 | FAIL in 14 steps [wrong_app] | FAIL in 18 steps [grounding] | FAIL in 18 steps [grounding] |
+| MarkorCreateNoteAndSms | 3411394365 | FAIL in 16 steps [lost_value] | FAIL in 18 steps [grounding] | FAIL in 17 steps [grounding] |
+| MarkorCreateNoteAndSms | 3564688147 | FAIL in 14 steps [false_done] | FAIL in 18 steps [grounding] | FAIL in 18 steps [grounding] |
 
 ## Cost
 
@@ -49,6 +39,6 @@ A class followed by (?) in log.md is still an unreviewed suggestion.
 
 | agent | FAIL runs | grounding | too_early | lost_value | wrong_app | false_done | reviewed |
 |---|---|---|---|---|---|---|---|
-| v2_index | 6 | 1 | 0 | 0 | 5 | 0 | 0/6 |
+| v2_index | 6 | 1 | 0 | 4 | 0 | 1 | 5/6 |
 | v1_baseline | 4 | 3 | 0 | 0 | 0 | 1 | 0/4 |
-| v3_full | 9 | 8 | 0 | 0 | 1 | 0 | 0/9 |
+| v3_full | 9 | 7 | 0 | 2 | 0 | 0 | 3/9 |

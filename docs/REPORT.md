@@ -1,9 +1,9 @@
 # GUI agent for AndroidWorld: project report
 
-> All 27 scored runs (3 versions × 3 tasks × 3 runs) are complete; numbers
-> are from `runs/summary.md`. Every place marked **[check video]** is a
-> reading of the trajectory log that a team member still has to confirm
-> against the recording before submission.
+> All 54 scored runs (6 versions × 3 tasks × 3 runs) are complete; numbers
+> are from `runs/summary.md`. The six runs discussed in detail below were
+> reviewed against their step screenshots (`screens/step_NN.jpg`) and are
+> marked `failure_reviewed = yes` in `runs/log.csv`, with the corrected class.
 
 ## 1. Use case and tasks
 
@@ -60,8 +60,9 @@ pixels, run the guardrails, execute, record the effect.
   the five replaced runs were PASSes. The originals are kept in
   `runs/log_replaced.csv`. ERROR rows are never counted in a rate.
 * **Known confound:** the first V1/V2 batch ran with 2 GB emulator RAM, the
-  re-runs and V3 with 4 GB. The last five V3 runs were started by
-  `scripts/finish_v3.sh`, which restarts the emulator before every run.
+  re-runs and V3 with 4 GB. The last five V3 runs and all V4, V5 and V6
+  runs were started by `scripts/finish_v3.sh` / `scripts/run_all.sh`, which
+  restart the emulator before every run.
 * ERROR runs in total: 11 (all V3, all emulator crashes), listed in
   `runs/summary.md` and excluded from every rate.
 
@@ -69,38 +70,43 @@ pixels, run the guardrails, execute, record the effect.
 
 ### Success rate (PASS / runs)
 
-| task | V1 screenshot + coordinates | V2 tree + index | V3 V2 + full harness |
-|---|---|---|---|
-| ContactsAddContact | 2/3 | 1/3 | 0/3 |
-| MarkorCreateNote | 2/3 | 1/3 | 0/3 |
-| MarkorCreateNoteAndSms | 1/3 | 0/3 | 0/3 |
-| **all tasks** | **5/9 (56 %)** | **2/9 (22 %)** | **0/9 (0 %)** |
+| task | V1 screenshot + coordinates | V2 tree + index | V3 V2 + full harness | V4 V2 + goal-value tracker | V5 V2 with the 8B model | V6 V5 + two code fixes |
+|---|---|---|---|---|---|---|
+| ContactsAddContact | 2/3 | 1/3 | 0/3 | 0/3 | 2/3 | 0/3 |
+| MarkorCreateNote | 2/3 | 1/3 | 0/3 | 1/3 | 1/3 | 1/3 |
+| MarkorCreateNoteAndSms | 1/3 | 0/3 | 0/3 | 0/3 | 0/3 | 0/3 |
+| **all tasks** | **5/9 (56 %)** | **2/9 (22 %)** | **0/9 (0 %)** | **1/9 (11 %)** | **3/9 (33 %)** | **1/9 (11 %)** |
 
 ### Same task instance, side by side
 
-| task | seed | V1 | V2 | V3 |
-|---|---|---|---|---|
-| Contacts | 1155463587 | PASS (11) | PASS (11) | FAIL (12) |
-| Contacts | 1324763856 | FAIL (12) | FAIL (12) | FAIL (11) |
-| Contacts | 596600690 | PASS (11) | FAIL (9) | FAIL (12) |
-| Markor | 1448135622 | PASS (9) | FAIL (16) | FAIL (16) |
-| Markor | 2337133809 | PASS (11) | FAIL (9) | FAIL (16) |
-| Markor | 1196614525 | FAIL (9) | PASS (9) | FAIL (10) |
-| Note + SMS | 3221046986 | FAIL (18) | FAIL (16) | FAIL (18) |
-| Note + SMS | 3411394365 | PASS (16) | FAIL (18) | FAIL (18) |
-| Note + SMS | 3564688147 | FAIL (18) | FAIL (16) | FAIL (18) |
+| task | seed | V1 | V2 | V3 | V4 | V5 | V6 |
+|---|---|---|---|---|---|---|---|
+| Contacts | 1155463587 | PASS (11) | PASS (11) | FAIL (12) | FAIL (12) | FAIL (12) | FAIL (12) |
+| Contacts | 1324763856 | FAIL (12) | FAIL (12) | FAIL (11) | FAIL (12) | PASS (12) | FAIL (12) |
+| Contacts | 596600690 | PASS (11) | FAIL (9) | FAIL (12) | FAIL (12) | PASS (8) | FAIL (12) |
+| Markor | 1448135622 | PASS (9) | FAIL (16) | FAIL (16) | PASS (11) | PASS (11) | FAIL (13) |
+| Markor | 2337133809 | PASS (11) | FAIL (9) | FAIL (16) | FAIL (16) | FAIL (9) | FAIL (14) |
+| Markor | 1196614525 | FAIL (9) | PASS (9) | FAIL (10) | FAIL (16) | FAIL (16) | PASS (14) |
+| Note + SMS | 3221046986 | FAIL (18) | FAIL (16) | FAIL (18) | FAIL (18) | FAIL (18) | FAIL (18) |
+| Note + SMS | 3411394365 | PASS (16) | FAIL (18) | FAIL (18) | FAIL (18) | FAIL (18) | FAIL (18) |
+| Note + SMS | 3564688147 | FAIL (18) | FAIL (16) | FAIL (18) | FAIL (18) | FAIL (18) | FAIL (17) |
 
 (steps used in brackets)
 
 ### Cost
 
-| | V1 | V2 | V3 |
-|---|---|---|---|
-| model time per step | 23.5 s | 6.3 s | 12.7 s |
-| average run time | 368 s | 137 s | 251 s |
-| prompt tokens per model call | 1906 | 1008 | 1200 |
-| average steps | 12.8 | 12.9 | 14.6 |
-| invalid model replies | 0 | 0 | 0 |
+| | V1 | V2 | V3 | V4 | V5 | V6 |
+|---|---|---|---|---|---|---|
+| model time per step | 23.5 s | 6.3 s | 12.7 s | 9.3 s | 7.3 s | 14.6 s* |
+| average run time | 368 s | 137 s | 251 s | 195 s | 153 s | 301 s* |
+| prompt tokens per model call | 1906 | 1008 | 1200 | 1051 | 1009 | 1043 |
+| average steps | 12.8 | 12.9 | 14.6 | 14.8 | 13.6 | 14.4 |
+| invalid model replies | 0 | 0 | 0 | 0 | 1 | 0 |
+
+\* V6 uses the same model and almost the same prompt size as V5, yet took
+twice as long per step; the first six steps of the first run took 26–76 s
+each, later runs 10–15 s. The machine was under other load, so the V6 time
+figures are not comparable (section 7d).
 
 With 3 runs per task the success-rate differences are within noise. One
 changed run moves a task by 33 points. The cost differences are large, but
@@ -120,7 +126,10 @@ note the emulator-RAM confound (section 3) when comparing them.
 * **Failure class:** `lost_value`. A value from the goal ("Martin") never
   reached the device. The symptom is `false_done`, but the root cause is
   the lost value. Our automatic classifier suggested `false_done` because it
-  only detects *invented* text, not *omitted* text. **[check video]**
+  only detects *invented* text, not *omitted* text. Confirmed on the
+  screenshots: after "Isla" the focus moves to the empty "Last name" field,
+  the agent taps "Phone" instead, and saves with "Last name" empty.
+  Class corrected to `lost_value` in the log.
 * **Evidence:** in the trajectory, the typed texts are `Isla` and
   `+15256606183` only, and no action targets element `[8] "Last name"`.
 * **Not a one-off:** the same omission appears in the V2 setup run before the evaluation (Hugo
@@ -132,7 +141,7 @@ note the emulator-RAM confound (section 3) when comparing them.
   screen contradicts it. In the screenshot, the empty "Last name" field
   directly below is visually obvious.
 
-### Other recurring V2 failure patterns **[check video]**
+### Other recurring V2 failure patterns (reviewed on the screenshots for V2 Markor 1 and SMS 1)
 
 | pattern | runs | suggested class |
 |---|---|---|
@@ -192,8 +201,10 @@ against the Save loop. Result: **0/9**, at twice V2's cost per step
   loop guard blocks the next tap three times and ends the run (`loop_abort`).
 * **V3 Contacts runs 1 and 3:** after a coordinate tap near the top of the
   form (step 6, x=500 y=150) and typing the first name (step 7), the camera
-  app is in front **[check video]**; the agent goes back, but the detour
-  costs steps and the surname is again missing.
+  app is in front (confirmed: the tap opened the "Add photo" dialog, the
+  typing then landed in `com.android.camera`); the agent goes back, but
+  the detour costs steps and the surname is again missing. Class corrected
+  from the runner's `too_early` to `lost_value` in the log.
 * **V3 Note + SMS, all three runs:** each note is written, then "Save" shows
   no effect twice, the loop guard blocks further taps, and the agent starts
   looking for another way: Markor's Share menu (run 1 even ends up in Google
@@ -210,6 +221,122 @@ against the Save loop. Result: **0/9**, at twice V2's cost per step
   the same small model. A useful verifier would read state the UI does not
   show (the file list, the contacts database) or use a stronger model.
 
+## 7b. A second failed attempt: V4 (goal-value tracker)
+
+V4 is V2 plus one change, aimed at the most frequent failure (`lost_value`):
+code extracts the literal values from the goal (name parts, phone number,
+file-name stem, note text), shows every step which of them were not typed
+yet, and vetoes "complete" while one was never typed (no model call). The
+change is in `gui_agent/goal_values.py`, config `configs/v4_tracker.json`.
+Result: **1/9** (V2: 2/9), at 9.3 s per step (V2: 6.3 s).
+
+* **The code veto never fired.** In no V4 run did the agent say "complete"
+  with a value missing. Its only "complete" (Markor run 1) had every value
+  typed, and that run passed, on a seed where V2 failed.
+* **The extra prompt text changed behaviour in ways we did not intend:**
+  * **Contacts, all 3 runs:** the agent goes home and then presses "back"
+    eleven times on the home screen, never opening the app. Its logged
+    thoughts (run 1) never mention the tracker. Every step says "the
+    Contacts app is not visible here, I should navigate back to find it".
+    It looks for the app on screen and forgets the `open_app` action. V2
+    made the same mistake but then *tapped* the search bar. Our home-screen
+    guardrail blocked that tap with the message "open the app with
+    open_app", and V2 obeyed in the next step. In V4 the agent picked "back"
+    instead of a tap, so the guardrail never spoke, and without a "screen
+    did not change" hint nothing told it that "back" did nothing. V2's
+    Contacts success thus depended on a guardrail *message*. Why the
+    4B model picked "back" instead of the tap is not visible in the logs; the
+    tracker block is the only prompt difference to V2.
+  * **Markor runs 2 and 3, SMS runs 1 and 2:** the dialog's extension field
+    shows ".md" because Markor remembers the last type, but the goal wants
+    ".txt". The tracker's hint ("the extension goes into the extension
+    field") made the agent go for that field, which is correct. But it
+    *taps* the field 10–15 times instead of typing into it. Without V3's
+    "no effect" feedback it never notices, and the budget runs out. In V2 the
+    agent had simply typed "name.txt" into the name field.
+  * **SMS run 3:** the device state was correct (note created, SMS sent),
+    but the agent never said "complete". This is the same miss as in V2.
+* **Lesson:** for a 4B model the prompt is not a neutral place to put
+  information. One extra block of correct, helpful text came with two of
+  three tasks falling into degenerate loops. The loops themselves come from
+  missing feedback: the agent never learns that "back" or a tap changed
+  nothing. A clean next experiment would keep the code
+  veto and drop the prompt block (veto only), to separate the two effects.
+
+## 7c. A bigger model: V5 (V2 with qwen3-vl 8B)
+
+V5 is V2 with exactly one change: `qwen3-vl:8b-instruct` (Q4_K_M, 6.1 GB)
+instead of the 4B model. Config `configs/v5_8b.json`. Result: **3/9**
+(V2 with 4B: 2/9), at 7.3 s per step (4B: 6.3 s) and the same token count,
+so the bigger model costs only 16 % more time on this machine.
+
+* **The surname problem is gone.** The 8B model typed first name, last
+  name and number in all three Contacts runs (the 4B model dropped the
+  surname in 5 of 6 V2/V3 runs). Two Contacts runs pass; the third fails
+  only because the agent tapped the photo area, wandered into "Add photo"
+  and ran out of budget one step before the number.
+* **The Markor extension field now blocks the 8B model too.** In Note+SMS
+  runs 1 and 2 the agent taps the ".md" extension field 6 and 14 times
+  without typing into it. The 4B model did the same in V4. This is a UI
+  interaction the model family does not know how to do (replace the
+  prefilled text of a field).
+* **"Done" is still not said.** Markor run 3 and Note+SMS run 3 end with
+  the correct device state and no "complete"; in run 3 the agent even opens
+  a Reload menu twice. Note+SMS run 1 reaches the SMS app with the right
+  number and text and gets partial credit 0.5, then the budget ends.
+* **Reading:** model size fixed one failure class (`lost_value` on names)
+  and left the two others (extension field, never saying "done") untouched.
+  Those are interaction and termination problems, not knowledge problems.
+
+## 7d. Two targeted code fixes: V6 (V5 + replace prefilled text + done hint)
+
+V6 is V5 (8B model, V2 settings) plus two code changes aimed at the two
+patterns that survived every version: (1) `input_text` into a field that
+already holds text other than its hint clears the field first (the
+extension-field problem); (2) once every goal value has been typed and a
+save/send button was pressed, the history line of that step asks the model
+to reply "complete" if the goal is done (the never-said-done problem). No
+tracker block, no veto (both hurt in V4). Config `configs/v6_fixes.json`.
+Result: **1/9** (V5: 3/9).
+
+* **Neither fix reached the failing runs.** The extension field is a
+  *tap* loop, not a typing problem: in Note+SMS runs 1 and 2 the agent taps
+  the ".md" field 8 and 14 times and never calls `input_text` on it, so the
+  clearing rule has nothing to clear. The done hint fired exactly once
+  (Note+SMS run 3, after the "SMS" button); the agent pressed the button
+  again, went home and then said "complete", with the checker at 0.5. On
+  the screenshots the SMS shows as sent after the first tap and the second
+  tap hits an empty field; which half the checker rejected is not visible
+  on screen. Class set to `false_done` in the log. On Markor "Save" the hint never fired, because we gated
+  it on a visible screen change, and Markor's Save changes nothing: the
+  same assumption that broke V3, repeated by us in V6.
+* **Markor run 3 passed** on the seed where V5 reached the correct state
+  and never said "done": this time the agent said "complete" one step
+  after Save. Whether the hint played a role is not visible in the log (it
+  did not fire); one run is not evidence either way.
+* **New loops appeared.** Markor runs 1 and 2 tap "Create a new file or
+  folder" 6 and 7 times without effect and then type the full file name
+  including the extension into the name field (`…yacht.md`, `….txt` with
+  the ".md" field still set) and report "complete": FAIL. Contacts run 2
+  presses "back" three times and "Create contact" twice without effect.
+  Contacts run 3 reaches the correct state at step 12 of 12, so the hint
+  would have come one step too late.
+* **Run-to-run variance.** V5 and V6 use the same model, the same seeds
+  and temperature 0, and the V6 code changes do not touch the Contacts flow
+  until a value is typed; still Contacts went from 2/3 to 0/3. The
+  emulator's timing changes the tree the model sees, and the small model
+  reacts to every such difference. Three runs per task cannot separate a
+  code effect from this noise.
+* **Cost caveat:** the 14.6 s per step is not a property of V6. The first
+  run's early steps took up to 76 s with an idle emulator, which points to
+  other load on the laptop; later runs were at 10–15 s. A clean cost
+  comparison would need a re-run.
+* **Lesson:** a code fix only helps if the failing trajectories actually
+  pass through it. Both V6 fixes were written from the logs of V4/V5 and
+  both were gated on a condition (an `input_text` call; a visible change)
+  that the failing runs do not meet. Reading the trajectories more closely
+  before coding would have shown that.
+
 ## 8. Lessons
 
 1. On a 4B local model, *where* grounding happens matters more than prompt
@@ -218,12 +345,23 @@ against the Save loop. Result: **0/9**, at twice V2's cost per step
 2. Every safety mechanism encodes an assumption about the UI. The V3 check
    step and loop guard failed precisely where that assumption (visible effect)
    did not hold, and V3 went from 2/9 to 0/9 at twice the cost per step.
-3. Three runs per task are enough to find failure patterns, not to rank
+3. For a 4B model, extra prompt text is an intervention of its own: V4's
+   correct, code-generated hint came with new loops, while its code veto
+   never needed to fire.
+4. Doubling the model (V5) fixed the lost surnames at +16 % time per step,
+   but not the extension-field loop or the missing "done": those need
+   code, not parameters.
+5. Three runs per task are enough to find failure patterns, not to rank
    versions: the trajectories, not the success rates, carry the findings.
+   V5 → V6 shows the scale of the noise: same model, same seeds, no code on
+   the Contacts path, and Contacts moved from 2/3 to 0/3.
+6. A targeted code fix is only as good as the condition it fires on. Both
+   V6 fixes were built from the logs and both missed the failing runs,
+   one of them because we repeated V3's "visible change" assumption.
 
 ## 9. How to reproduce
 
 `README.md`, section "Quick start" (`scripts/setup_mac.sh`, then
 `python run_eval.py --config configs/<version>.json`, then
 `python summarize.py`). Repository: private GitHub repo
-`androidworld-gui-agent`, commit `5e1f1a0`.
+`androidworld-gui-agent`, commit `dd068e2` (final content), see `git log` for later edits.

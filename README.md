@@ -217,6 +217,11 @@ under "Known limits".
   temperature 0; the model digests differ (different Ollama builds), so the two
   tables are kept apart and compared, not merged. Same ranking (V1 > V2 > V3) and
   the same failure patterns on both. V4 to V6 were run on the MacBook only.
+  81 runs in total (27 Windows + 54 Mac). In both logs the runs discussed in the
+  report and the deck carry `failure_reviewed = yes` with the class confirmed
+  against the recording or the step screenshots; the runner's own suggestion
+  had labelled several of them `wrong_app` because of one blocked home-screen
+  tap, which was a detour, not a wrong app.
 
 ## Presentation
 
