@@ -1,0 +1,90 @@
+/* ============================================================
+   TUM — Color tokens
+   Source of truth: the official TUM presentation theme
+   (clrScheme name="TUM") embedded in the corporate template,
+   cross-checked with the TUM Corporate Design style guide.
+
+   Principle (from the template, slide "Farben"):
+   work in black & white first; introduce color deliberately and
+   sparingly. Primary blues carry the brand; secondary blues are
+   for charts/diagrams; green & orange are rare accents only.
+   ============================================================ */
+
+:root {
+  /* ---- Brand: TUM Blue family (primary) ---- */
+  --tum-blue: #0065bd;          /* Pantone 300 — the TUM Blue, the star of the brand */
+  --tum-blue-dark: #005293;     /* Pantone 301 — darker blue, headings on light, depth */
+  --tum-blue-darker: #003359;   /* deepest blue — title/section backgrounds */
+  --tum-web-blue: #3070b3;      /* newer web/logo blue (used in the official SVG logo) */
+
+  /* ---- Secondary blues (diagrams, fills, supporting areas) ---- */
+  --tum-blue-medium: #64a0c8;   /* Pantone 542 */
+  --tum-blue-light: #98c6ea;    /* Pantone 283 */
+
+  /* ---- Accent / emphasis (use rarely, for a single highlight) ---- */
+  --tum-green: #a2ad00;         /* Pantone 383 — "Dante" green */
+  --tum-orange: #e37222;        /* Pantone 158 — pop / call-out */
+
+  /* ---- Neutrals ---- */
+  --tum-black: #000000;
+  --tum-white: #ffffff;
+  --tum-sand: #dad7cb;          /* warm gray — quiet surfaces, table zebra */
+  --tum-cream: #eeece1;         /* lightest warm neutral — section backgrounds */
+
+  /* Gray scale, derived from black (the CD favours tints of black) */
+  --gray-900: #1a1a1a;
+  --gray-800: #333333;
+  --gray-700: #4d4d4d;
+  --gray-600: #666666;
+  --gray-500: #808080;
+  --gray-400: #a6a6a6;
+  --gray-300: #cccccc;
+  --gray-200: #e6e6e6;
+  --gray-100: #f2f2f2;
+  --gray-050: #f7f7f5;          /* ~5% warm — the "5% schwarz" image backdrop */
+
+  /* ============================================================
+     Semantic aliases — reference THESE in components & layouts
+     ============================================================ */
+
+  /* Brand */
+  --color-primary: var(--tum-blue);
+  --color-primary-hover: var(--tum-blue-dark);
+  --color-primary-active: var(--tum-blue-darker);
+  --color-on-primary: var(--tum-white);
+
+  /* Text */
+  --text-strong: var(--tum-black);
+  --text-body: var(--gray-900);
+  --text-muted: var(--gray-600);
+  --text-subtle: var(--gray-500);
+  --text-on-dark: var(--tum-white);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.72);
+  --text-link: var(--tum-blue);
+  --text-accent: var(--tum-blue-dark);
+
+  /* Surfaces */
+  --surface-page: var(--tum-white);
+  --surface-card: var(--tum-white);
+  --surface-muted: var(--gray-050);
+  --surface-sand: var(--tum-cream);
+  --surface-inverse: var(--tum-blue-darker);
+  --surface-brand: var(--tum-blue);
+
+  /* Borders / lines (the CD uses thin hairlines, often black) */
+  --border-strong: var(--tum-black);
+  --border-default: var(--gray-300);
+  --border-subtle: var(--gray-200);
+  --border-on-dark: rgba(255, 255, 255, 0.28);
+
+  /* Accent roles for data viz (ordered for charts) */
+  --data-1: var(--tum-blue);
+  --data-2: var(--tum-blue-medium);
+  --data-3: var(--tum-blue-light);
+  --data-4: var(--tum-sand);
+  --data-5: var(--tum-green);
+  --data-6: var(--tum-orange);
+
+  /* Focus ring */
+  --focus-ring: var(--tum-blue);
+}

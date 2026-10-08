@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic AI in Modern Business · Group Project</title>
+
+    <!-- reveal.js core (CDN). The TUM theme below replaces reveal's own themes. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css" />
+    <!-- TUM Design System theme (ported from the claude.ai/design project) -->
+    <link rel="stylesheet" href="assets/tum-theme.css" />
+    <style media="print">@page { size: 1280px 720px; margin: 0; }</style>
+    <style>
+      /* Deck-local helpers, all built from the TUM tokens. */
+      .reveal .pipe { display: flex; gap: 10px; align-items: stretch; margin-top: 8px; }
+      .reveal .pipe .stage {
+        flex: 1; border: 1px solid var(--border-default); padding: 14px 12px;
+        font-size: 17px; line-height: 1.3; color: var(--text-body);
+      }
+      .reveal .pipe .stage b { display: block; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; color: var(--tum-blue-dark); margin-bottom: 6px; }
+      .reveal .pipe .stage.model { background: var(--tum-blue); border-color: var(--tum-blue); color: #fff; }
+      .reveal .pipe .stage.model b { color: rgba(255,255,255,.8); }
+      .reveal .pipe .stage { position: relative; padding-bottom: 26px; }
+      .reveal .pipe .stage::after { content: attr(data-kind); position: absolute; right: 8px; bottom: 6px; font-size: 13px; font-weight: var(--weight-bold); color: var(--text-muted); }
+      .reveal .pipe .stage.model::after { color: rgba(255,255,255,.85); }
+      .reveal .mono { font-family: var(--font-mono); font-size: 17px; line-height: 1.5; color: var(--text-body); white-space: pre; margin: 0; }
+      .reveal .box { border: 1px solid var(--border-default); padding: 18px 22px; }
+      .reveal .pass { color: var(--tum-green); font-weight: var(--weight-bold); }
+      .reveal .fail { color: var(--tum-orange); font-weight: var(--weight-bold); }
+      .reveal .err { color: var(--text-muted); }
+      .reveal table.compact { font-size: 16px; }
+      .reveal table.compact th, .reveal table.compact td { padding: 5px 10px; }
+      .reveal table.compact.roomy td { padding: 11px 10px; }
+      .reveal table.compact.mid td { padding: 8px 10px; }
+      .reveal table.compact.airy td { padding: 18px 12px; line-height: 1.35; vertical-align: top; }
+      .reveal .phone { max-height: 350px; border: 1px solid var(--border-default); }
+      .reveal .steps { font-size: 18px; line-height: 1.4; color: var(--text-body); margin: 0; padding: 0; list-style: none; }
+      .reveal .steps li { padding: 6px 0; border-bottom: 1px solid var(--border-subtle); }
+      .reveal .steps li code { font-size: 0.95em; }
+      .reveal .tag { display: inline-block; font-size: 14px; font-weight: var(--weight-bold); letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border: 1px solid currentColor; margin-left: 8px; vertical-align: middle; }
+      .reveal .muted { color: var(--text-muted); }
+      /* Key findings: the one place the deck uses TUM orange as an accent */
+      .reveal ul.bullets.findings li::before { background: var(--tum-orange); }
+      .reveal ul.bullets.findings li { font-weight: var(--weight-bold); }
+      .reveal ul.bullets.findings li small { font-weight: var(--weight-regular); }
+      /* Agenda rows */
+      .reveal .agenda { display: flex; flex-direction: column; gap: 22px; margin-top: 6px; }
+      .reveal .agenda-row { display: flex; gap: 22px; align-items: flex-start; }
+      .reveal .agenda-row .num { font-size: 40px; font-weight: var(--weight-bold); color: var(--tum-blue); line-height: 1; min-width: 44px; }
+      .reveal .agenda-row b { display: block; font-size: 25px; line-height: 1.2; }
+      .reveal .agenda-row span:not(.num) { display: block; font-size: 18px; color: var(--text-muted); margin-top: 4px; }
+      /* Version badges: one look per agent version, used on every slide that names a version. */
+      .reveal .ver { display: inline-block; font-size: 14px; font-weight: var(--weight-bold); letter-spacing: .04em; padding: 2px 9px; margin-left: 8px; vertical-align: middle; line-height: 1.4; }
+      .reveal .ver.v1 { background: var(--gray-200); color: var(--text-strong); }
+      .reveal .ver.v2 { background: var(--tum-blue-light); color: var(--tum-blue-darker); }
+      .reveal .ver.v3 { background: var(--tum-blue); color: #fff; }
+      /* Day stamp in the eyebrow: which lecture a decision comes from. */
+      .reveal .eyebrow .day { color: var(--text-muted); font-weight: var(--weight-regular); }
+      .reveal section.tum-dark .eyebrow .day, .reveal section.tum-deep .eyebrow .day { color: rgba(255,255,255,.6); }
+      .reveal .prompt { font-family: var(--font-mono); font-size: 15px; line-height: 1.45; white-space: pre; margin: 0; border-left: 3px solid var(--tum-blue); padding: 8px 14px; color: var(--text-body); }
+      .reveal .prompt .fixed { color: var(--text-muted); }
+      .reveal .prompt .hot { color: var(--tum-blue-dark); font-weight: var(--weight-bold); }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ================================================================
+             REVIEW DRAFT, 2026-10-08. Five chapters (assignment, build,
+             measure, what happened, change and learn), each opened by a
+             divider slide; every eyebrow names its chapter. Every slide maps
+             to a row in ../content.md. Numbers from runs/summary.md (Mac,
+             07.10.) are preliminary: 2 V2 runs are ERROR and must be redone.
+             ================================================================ -->
+
+        <!-- 1 · Title & team — content.md #1 -->
+        <section class="center" data-background-color="#ffffff">
+          <div class="cols" style="align-items:center">
+            <div class="col" style="flex:1 1 56%">
+              <h1 class="title title--xl">Agentic AI in Modern Business</h1>
+              <p class="lead" style="margin-top:14px">A GUI agent for AndroidWorld, and where it breaks</p>
+              <hr class="rule rule--wide" />
+              <p class="sub">Group project</p>
+              <p class="sub" style="margin-top:26px">Jonas Schmidt · Vincent Fischer · Liam Meinhart<br />Bela Gehlen · Gloria Dell'Etere</p>
+              <p style="margin:26px 0 0;font-size:14px;line-height:1.55;color:var(--text-muted)">Technische Universität München · Campus Heilbronn<br />Agentic AI in Modern Business · Group Project · 09.10.2026</p>
+            </div>
+            <div class="col" style="flex:1 1 44%;display:flex;justify-content:center">
+              <img src="assets/tum-uhrenturm.jpg" alt="Sketch of the TUM clock tower" style="max-width:100%;max-height:400px" />
+            </div>
+          </div>
+          <aside class="notes">Ein Satz, wer wir sind. Dann direkt in die Tasks. Modellname wird auf der V1→V2-Folie genannt (Pflicht).</aside>
+        </section>
+
+        <!-- 2 · Agenda — content.md #2 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Agenda</p>
+          <h2 class="title">Five chapters, one story</h2>
+          <hr class="rule" />
+          <div class="agenda">
+            <div class="agenda-row"><span class="num">1</span><div><b>The assignment</b><span>What we were asked to build, and the three tasks we chose to run it on.</span></div></div>
+            <div class="agenda-row"><span class="num">2</span><div><b>How we built it</b><span>One agent, three versions. The decisions behind it, from the model to the guardrails.</span></div></div>
+            <div class="agenda-row"><span class="num">3</span><div><b>How we measured</b><span>When a run stops, what counts as a pass, and the one row we wrote per run.</span></div></div>
+            <div class="agenda-row"><span class="num">4</span><div><b>What happened</b><span>The V1 numbers, one failure step by step, and the diagnosis.</span></div></div>
+            <div class="agenda-row"><span class="num">5</span><div><b>What we changed and learned</b><span>One change, the before-and-after numbers, and where a fix belongs.</span></div></div>
+          </div>
+          <aside class="notes">Die fünf Kapitel sind der rote Faden: Aufgabe, Bau, Messung, Ergebnis, Änderung und Erkenntnis. Jede Folie trägt oben ihr Kapitel.</aside>
+        </section>
+
+        <!-- 3 · Chapter: The assignment — content.md #3 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="section-num">1</p>
+          <h2 class="title title--xl">The assignment</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">What we were asked to build, and the three tasks we chose to run it on.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: What we were asked to build, and the three tasks we chose to run it on.</aside>
+        </section>
+
+        <!-- 4 · The assignment — content.md #4 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">The assignment ·</span> The assignment</p>
+          <h2 class="title" style="max-width:36ch">Build an agent that operates a phone, measure it, improve it</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:40px;margin-top:16px">
+            <div class="col">
+              <p class="eyebrow" style="margin-bottom:14px">The task</p>
+              <ul class="bullets" style="gap:20px">
+                <li style="font-size:21px">A GUI agent for AndroidWorld</li>
+                <li style="font-size:21px">One class, one <code>step()</code></li>
+                <li style="font-size:21px">The agent only sees pixels and buttons</li>
+              </ul>
+            </div>
+            <div class="col">
+              <p class="eyebrow" style="margin-bottom:14px">The goal</p>
+              <ul class="bullets" style="gap:20px">
+                <li style="font-size:21px">Not a demo: a measured result</li>
+                <li style="font-size:21px">3 tasks × 3 runs × 3 versions</li>
+                <li style="font-size:21px">Failures explained, every version measured before and after</li>
+              </ul>
+            </div>
+            <div class="col">
+              <p class="eyebrow" style="margin-bottom:14px">The guidelines</p>
+              <ul class="bullets" style="gap:20px">
+                <li style="font-size:21px">Any model, but name it</li>
+                <li style="font-size:21px">Guardrails in code, not in the prompt</li>
+                <li style="font-size:21px">One task per difficulty row</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Einstieg: Was war die Aufgabe? Ein Agent, der ein Android-Handy bedient wie ein Mensch (nur Bildschirm, keine Schnittstelle), in Googles Benchmark AndroidWorld. Ziel: keine Demo, sondern Messung ("my first question is: how many times did you run it?"): 3 Tasks, 3 Läufe, 3 Versionen (V1 Basis, V2 genau eine Änderung, V3 die restlichen Fixes), Fehler erklären, jede Verbesserung mit Zahlen belegen. Vorgaben des Dozenten: Modell frei, aber nennen; Guardrails im Code; ein Task pro Schwierigkeit; alles aufzeichnen. Ausführlicher Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 5 · Use case — content.md #5 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">The assignment ·</span> Use case</p>
+          <h2 class="title" style="max-width:30ch">The three tasks: a contact, a note, a note sent by SMS</h2>
+          <hr class="rule" />
+          <table>
+            <thead><tr><th>Difficulty</th><th>Task</th><th>What the agent is told</th><th>Budget</th></tr></thead>
+            <tbody>
+              <tr><td>Warm-up</td><td><code>ContactsAddContact</code></td><td>Create a new contact for {name}. Their number is {number}.</td><td>12</td></tr>
+              <tr><td>Real work</td><td><code>MarkorCreateNote</code></td><td>Create a new note in Markor named {file_name} with the following text: {text}</td><td>16</td></tr>
+              <tr><td>Multi-app &amp; memory</td><td><code>MarkorCreateNoteAndSms</code></td><td>Create a note named {file_name} with {text}. Share its entire content with {number} via SMS.</td><td>18</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">Warum diese drei: Folie Tag 1, "if everything comes from the top box, you will never find out where your agent breaks". Der dritte Task zwingt den Agenten, einen Wert in eine zweite App zu tragen (lost_value). Mündlich: Klammern füllt AndroidWorld pro Lauf neu; Budget = Komplexität × 10, gedeckelt bei 20. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 6 · Chapter: How we built it — content.md #6 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="section-num">2</p>
+          <h2 class="title title--xl">How we built it</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">One agent, three versions. The decisions behind it, from the model to the guardrails.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: One agent, three versions. The decisions behind it, from the model to the guardrails.</aside>
+        </section>
+
+        <!-- 7 · The model — content.md #7 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> The model</p>
+          <h2 class="title" style="max-width:34ch">Which model we use and how it is configured</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 46%">
+              <table class="compact roomy" style="font-size:18px">
+                <tbody>
+                  <tr><td>Model</td><td><strong>qwen3-vl:4b-instruct</strong>, 4.4B parameters</td></tr>
+                  <tr><td>Where it runs</td><td>laptop, Ollama server at <code>localhost:11434</code></td></tr>
+                  <tr><td>Quantisation</td><td>Q4_K_M, 4 bits per weight</td></tr>
+                  <tr><td>Memory for weights</td><td>4.4B × 0.5 byte + projector ≈ <strong>3.3 GB</strong></td></tr>
+                  <tr><td>Context window</td><td><code>num_ctx</code> 8,192 tokens (Ollama default 4,096 is too small for tree + image)</td></tr>
+                  <tr><td>Sampling</td><td>temperature <strong>0</strong>, seed <strong>42</strong>, top-p left at default</td></tr>
+                  <tr><td>Output</td><td>max 400 tokens, JSON-schema constrained</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <ul class="bullets" style="gap:22px">
+                <li>Free after download, slow, small only</li>
+                <li>Temperature 0 + fixed seed, so a result can be repeated</li>
+                <li>The variant that answers at once, not the one that thinks first</li>
+                <li>Every run records name, size, quantisation and digest</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Tag 1, Lecture B Part 5: drei Orte, wo ein Modell laufen kann; Speicher = Parameter × Bytes pro Parameter; Quantisierung; "if you change quantisation, re-run". Top-p haben wir nicht angefasst (Ollama-Standard 0.9), bei Temperatur 0 spielt es keine Rolle, weil immer das wahrscheinlichste Token gewählt wird. Zitat Tag 1: "A demo that worked once tells you almost nothing." Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 8 · Agent design — content.md #8 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> Agent design</p>
+          <h2 class="title" style="max-width:42ch">Agent design: the eight stages of one step()</h2>
+          <hr class="rule" />
+          <div class="pipe">
+            <div class="stage" data-kind="C"><b>0 budget</b>step limit checked first</div>
+            <div class="stage" data-kind="C"><b>1 observe</b>screen → elements or screenshot</div>
+            <div class="stage model" data-kind="M"><b>2 decide</b>prompt → one JSON action</div>
+            <div class="stage" data-kind="C"><b>3 validate</b>parse, check, retry with the error</div>
+            <div class="stage" data-kind="C"><b>4 ground</b>index → pixel, in code</div>
+            <div class="stage" data-kind="C"><b>5 check</b>payment ban, app scope, loop guard</div>
+            <div class="stage" data-kind="C"><b>6 act</b>execute on the device</div>
+            <div class="stage" data-kind="C"><b>7 feedback</b>did the screen change? one history line</div>
+          </div>
+          <p class="sub" style="margin-top:10px;font-size:15px"><strong>C</strong> = code we wrote &nbsp;·&nbsp; <strong>M</strong> = the model</p>
+          <table class="compact" style="font-size:17px;margin-top:14px">
+            <thead><tr><th>Harness part</th><th>What it decides</th><th>Where in step()</th></tr></thead>
+            <tbody>
+              <tr><td>Loop control</td><td>when to call the model again, when to stop</td><td>stage 0, stop rules</td></tr>
+              <tr><td>Context assembly</td><td>what goes into the window, inside the budget</td><td>stage 1, <code>prompts.py</code>, <code>memory.py</code></td></tr>
+              <tr><td>Tool dispatch</td><td>turn the JSON into a real tap on the device</td><td>stages 4 and 6</td></tr>
+              <tr><td>Error recovery</td><td>parse failed, no effect: retry, repair or give up</td><td>stages 3 and 7</td></tr>
+              <tr><td>Guardrails</td><td>what is forbidden, what gets logged</td><td>stage 5, <code>guardrails.py</code></td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">Folie 40 Tag 1: "Together these five are called the harness: everything around the model that you write. None of it is the model." Course reader: nur der Harness geändert, Genauigkeit von 53 % auf 66 %. Kurzform: Das Modell trifft nur die Entscheidung, was als Nächstes getan wird. Alles davor und danach ist unser Code. Zusammen ist das der Agent. Ob die Aufgabe erledigt ist, sagt der Prüfer von AndroidWorld, nicht das Modell. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 9 · ReAct — content.md #9 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> One step, traced</p>
+          <h2 class="title" style="max-width:40ch">One step of the ReAct loop: reason → act → observe</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 50%">
+              <pre class="prompt" style="font-size:15px"><span class="fixed">REASON</span>  "thought": "I need to create a new contact for
+         Hugo Pereira. The 'Create contact' button is
+         visible and accessible."
+<span class="fixed">ACT</span>     "action_type": "click", "index": 1
+<span class="fixed">OBSERVE</span> screen changed → new tree, 12 elements
+        history: 5. click [1] "Create contact" -> executed</pre>
+              <p class="sub" style="margin-top:14px">Step 5 of our ContactsAddContact run. One model call, one action, one observation, then the next call with a longer history.</p>
+            </div>
+            <div class="col">
+              <table class="compact mid" style="font-size:16px">
+                <thead><tr><th style="width:21%">Phase</th><th style="width:33%">Term</th><th>In our agent</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Reason</strong></td><td>no tool</td><td>the model's thought, logged</td></tr>
+                  <tr><td><strong>Act</strong></td><td>Execution tools</td><td>click, long_press, input_text, scroll, open_app, back, home, enter</td></tr>
+                  <tr><td><strong>Act</strong></td><td>Collaboration, user communication</td><td>none; <code>infeasible</code> is the only way to give up</td></tr>
+                  <tr><td><strong>Observe</strong></td><td>Perception tools</td><td>read the screen: tree or screenshot</td></tr>
+                  <tr><td>Act + Observe</td><td>Plugin ("Computer Use")</td><td>AndroidWorld supplies both spaces</td></tr>
+                  <tr><td>before the loop</td><td>Tool discovery, MCP</td><td>not needed: ten fixed actions</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <aside class="notes">Tag 3: ReAct (Yao 2022), Reasoning und Acting als Schleife; Tool-Kategorien Perception / Execution / Collaboration / Event / User communication; Plugin-Beispiel "Computer Use" mit screenshot + click + type ist genau unser Fall. Tool Discovery und MCP lohnen erst bei vielen Tools. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 10 · Observation space — content.md #10 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> What the agent sees</p>
+          <h2 class="title" style="max-width:38ch">Pixels see everything but point badly. The tree is precise but incomplete.</h2>
+          <hr class="rule" />
+          <div class="cols">
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">Screenshot <span class="ver v1">V1</span></p>
+              <ul class="bullets" style="margin-top:12px">
+                <li>Sees every pixel, also WebViews and drawings</li>
+                <li>~1,900 prompt tokens per step</li>
+                <li>The model has to find the row itself</li>
+              </ul>
+            </div>
+            <div class="col">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">Accessibility tree <span class="ver v2">V2</span><span class="ver v3">V3</span></p>
+              <pre class="mono" style="margin-top:12px">[1] ImageButton "Create contact"
+[2] Button "Don't allow"
+[7] EditText "First name"
+[10] EditText "Phone"</pre>
+              <ul class="bullets" style="margin-top:16px">
+                <li>~980 prompt tokens per step, exact bounds</li>
+                <li>Whatever has no description is simply not there</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Dozent: "the first real design decision of your project". Wir testen beide, das ist unser Vorher/Nachher. Zitat zum Screenshot: "the most expensive thing in the window". Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 11 · Grounding — content.md #11 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> How it points</p>
+          <h2 class="title" style="max-width:40ch">How the agent points: coordinates vs. index</h2>
+          <hr class="rule" />
+          <div class="cols" style="margin-top:8px">
+            <div class="col box">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">By coordinate <span class="ver v1">V1</span></p>
+              <pre class="mono" style="margin:14px 0">{"action_type": "click", "x": 540, "y": 735}</pre>
+              <p class="sub">The model produces the numbers. A 20-pixel error is a tap on the gap between two rows, and nothing reports an error.</p>
+            </div>
+            <div class="col box">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">By index <span class="ver v2">V2</span><span class="ver v3">V3</span></p>
+              <pre class="mono" style="margin:14px 0">{"action_type": "click", "index": 3}</pre>
+              <p class="sub">Our code looks element 3 up in the tree. It either finds it or it doesn't: a failure we can see and log.</p>
+            </div>
+          </div>
+          <aside class="notes">Zitate Tag 1: "Most GUI-agent failures are pointing failures, not reasoning failures", "Where grounding happens decides who you can blame". Das ist genau die eine Änderung zwischen V1 und V2. Mündlich: V1 prüft die Zahlen des Modells nie, ein falscher Tipp bleibt stumm. V2/V3: der Index muss im Tree existieren, ein falscher Tipp wird vom Code abgefangen, bevor er passiert. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 12 · Context engineering — content.md #12 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> What the model sees each step</p>
+          <h2 class="title" style="max-width:48ch">Old screens are never resent: one line per step, status last</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 52%">
+              <pre class="prompt"><span class="fixed">system   role · action space · rules      (stable prefix, cached)</span>
+user     GOAL: Create a new contact for Hugo Pereira …
+         HISTORY:
+         <span class="hot">1. navigate_home -> executed
+         2. click [6] "Search" -> BLOCKED: home screen
+         3. open_app contacts -> executed</span>
+         CURRENT SCREEN: [0] … [13]        (this step only)
+         <span class="hot">STATUS: step 4 of 12 · app: contacts
+         note: number +13920741751</span>      (most volatile, last)</pre>
+            </div>
+            <div class="col">
+              <ul class="bullets" style="gap:14px;font-size:22px">
+                <li style="font-size:22px">A tool-call loop, but compressed<small>each step gets a fresh prompt: the old screen is dropped, one text line per step stays. 20 kept screenshots would cost 20,000+ tokens</small></li>
+                <li style="font-size:22px">Stable prefix first, volatile last, so the KV cache hits<small>the model reuses what it computed for an unchanged beginning: fixed rules first, the ever-changing status line last</small></li>
+                <li style="font-size:22px">History and status are written by code, not by the model<small>"BLOCKED" or "changed nothing" is recorded by our code, so it is a fact. In V3 the note line carries a value into the next app</small></li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Tag 2 Folie 11 (Multi-Turn mit Tool Calls): Modell entscheidet, Framework führt aus, Ergebnis kommt als Nachricht zurück. Bei uns dasselbe, nur komprimiert: statt den Verlauf anzuhängen, bauen wir den Prompt jeden Schritt neu. Tag 2 Teil 2 (KV-Cache): nur ein unveränderter Prefix kann wiederverwendet werden, deshalb System-Prompt und Action Space vorn und fest, Status Bar ganz hinten. Ehrlich dazu: weil die User-Nachricht jeden Schritt neu ist, trifft der Cache nur den System-Prefix. Anhängen würde mehr cachen, aber das Fenster wächst mit jedem Screenshot. Wir haben uns für flache Kosten entschieden.</aside>
+        </section>
+
+        <!-- 13 · Action space — content.md #13 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> What the agent may do</p>
+          <h2 class="title" style="max-width:40ch">The action space: ten actions, one schema</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col">
+              <pre class="mono" style="font-size:16px">click · long_press · input_text · scroll
+open_app · navigate_back · navigate_home
+keyboard_enter · wait · status</pre>
+              <pre class="mono" style="font-size:16px;margin-top:18px">"action_type": {"enum": [the ten above]}
+"index":       {"type": "integer"}
+"app_name":    {"enum": ["contacts", "markor",
+                         "simple sms messenger", …]}
+"goal_status": {"enum": ["complete", "infeasible"]}</pre>
+            </div>
+            <div class="col">
+              <ul class="bullets" style="gap:22px">
+                <li>Schema handed to Ollama for constrained decoding</li>
+                <li><code>open_app</code> only by exact name from the allow-list</li>
+                <li>Tolerant parsing, strict validation, one retry with the error</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">Tag 3: Schema beschränkt die Argumente, die Runtime prüft und führt aus. Der Dozent hat auf Tag 1 die Reihenfolge genannt: 1. Decoding einschränken, 2. validieren und wiederholen, 3. erst dann den Prompt ändern. Wir machen alle drei. Mündlich: Schema = constrained decoding, ungültige Tokens können nicht entstehen; open_app nie über die Launcher-Suche (Fix für wrong_app); tolerantes Parsen, strenge Validierung, ein Retry mit der Fehlermeldung; 0 ungültige Antworten in 16 Läufen (Mac-Stand, nach Windows-Läufen prüfen). Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 14 · Guardrails — content.md #14 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we built it ·</span> Guardrails</p>
+          <h2 class="title" style="max-width:40ch">Guardrails: in the code, before the action, no off switch</h2>
+          <hr class="rule" />
+          <div class="cols" style="margin-top:8px;gap:40px">
+            <div class="col">
+              <ul class="bullets" style="gap:22px">
+                <li>Step limit</li>
+                <li>Payment ban, layer 1: app scope</li>
+                <li>Payment ban, layer 2: deny rules</li>
+                <li>Loop guard <span class="ver v3">V3</span></li>
+              </ul>
+            </div>
+            <div class="col" style="flex:0 0 54%">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">A guardrail firing in our run <span class="ver v2">V2</span></p>
+              <pre class="prompt" style="margin-top:12px"><span class="fixed">2.</span> click [6] "Search"
+   <span class="hot">-> BLOCKED: do not tap or type on the home screen.
+      Open the app you need with open_app and its exact name.</span>
+<span class="fixed">3.</span> open_app contacts -> executed</pre>
+              <p class="sub" style="margin-top:12px">Step 2: the model wanted to tap the home-screen search. The code refused, and told the model why. Step 3 did it right.</p>
+            </div>
+          </div>
+          <aside class="notes">Pflicht-Minimum des Dozenten (Tag 1): Schrittlimit + Zahlungsverbot, im Code, vor der Aktion. Tag 4: "Layered constraint design": Prompt-Regel kann ignoriert werden, Enforcement Layer nicht. Mündlich: Schrittlimit = harte Obergrenze, Task-Budget darf nur senken; Zahlungsverbot Schicht 1 = App-Scope (nur in der erlaubten Liste offline-Apps handeln, sonst nur back/home/wait/open_app); Schicht 2 = Deny-Regeln (nichts auf Pay/Buy/Subscribe, keine Karten- oder IBAN-Felder, keine gültige Kartennummer tippen); Loop Guard V3 = gleiche Aktion auf unverändertem Bildschirm zweimal erlaubt, beim dritten Mal blockiert. Vorher stand rechts der Test: ein Skript-Modell füllt ein Bezahlformular aus und tippt "Pay", 0 Aktionen erreichen das Gerät (tests/test_guardrails.py, 209 Tests grün); jetzt nur mündlich als Beleg, wenn gefragt. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 15 · Chapter: How we measured — content.md #15 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="section-num">3</p>
+          <h2 class="title title--xl">How we measured</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">When a run stops, what counts as a pass, and the one row we wrote per run.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: When a run stops, what counts as a pass, and the one row we wrote per run.</aside>
+        </section>
+
+        <!-- 16 · When a run stops, what counts as success — content.md #16 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we measured ·</span> When a run stops, and what counts</p>
+          <h2 class="title" style="max-width:34ch">A run ends for one of five reasons. Only one of them can be a PASS.</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col">
+              <table class="compact" style="font-size:18px">
+                <thead><tr><th>Stop reason</th><th>Who decided</th><th>Can be PASS?</th></tr></thead>
+                <tbody>
+                  <tr><td><code>model_done</code></td><td>model says <code>status: complete</code></td><td class="pass">yes, if the verifier agrees</td></tr>
+                  <tr><td><code>model_infeasible</code></td><td>model gives up</td><td class="fail">no</td></tr>
+                  <tr><td><code>step_limit</code></td><td>code: budget reached</td><td class="fail">no, even if the screen is right</td></tr>
+                  <tr><td><code>loop_abort</code></td><td>code: same action, same screen, 3× blocked (V3)</td><td class="fail">no</td></tr>
+                  <tr><td><code>error</code></td><td>emulator or model server broke</td><td class="err">ERROR, excluded from rates</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col" style="flex:0 0 38%">
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">PASS means both:</p>
+              <ul class="bullets" style="margin-top:12px;gap:12px">
+                <li>the agent itself reported <em>complete</em></li>
+                <li>AndroidWorld's checker returns 1.0 on the device state</li>
+              </ul>
+              <p class="sub" style="margin-top:22px">Running out of steps is never counted as done, and a correct screen without the report is still a FAIL: the agent has to know it is done.</p>
+            </div>
+          </div>
+          <aside class="notes">Tag 1 "Three ways the loop breaks": endet nicht (→ Schrittlimit), falscher Tool-Aufruf (→ Validierung), sagt fertig und ist es nicht (→ Verifier). Der Verifier ist AndroidWorlds eigener Check (task.is_successful), nicht unser Code. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 17 · Log your run — content.md #17 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">How we measured ·</span> One row per run</p>
+          <h2 class="title" style="max-width:34ch">Written while the run happens, in the lecture's format</h2>
+          <hr class="rule" />
+          <pre class="prompt" style="font-size:16px"><span class="fixed">task</span>            ContactsAddContact
+<span class="fixed">run</span>             1 of 3
+<span class="fixed">model</span>           qwen3-vl:4b-instruct  (Q4_K_M, local, Ollama)
+<span class="fixed">observation</span>     accessibility tree
+<span class="fixed">grounding</span>       by index
+<span class="fixed">steps</span>           11  (budget 12)
+<span class="fixed">verifier</span>        <span class="fail">FAIL</span>
+<span class="fixed">failure_class</span>   lost_value
+<span class="fixed">recording</span>       runs/v2_index/ContactsAddContact/run1/recording.mp4
+<span class="fixed">note</span>            typed "Hugo", never "Pereira"; reported complete anyway</pre>
+          <div class="cols" style="margin-top:14px;gap:48px">
+            <div class="col">
+              <p class="sub" style="font-size:18px">Written into <code>runs/log.csv</code> the moment a run ends, with a suggested failure class. A human confirms it from the recording (<code>failure_reviewed = yes</code>).</p>
+            </div>
+            <div class="col">
+              <p class="sub" style="font-size:18px">Failure class: one of five words, fixed list, one per run<br /><strong>grounding · too_early · lost_value · wrong_app · false_done</strong></p>
+            </div>
+          </div>
+          <aside class="notes">Folie 52 Tag 1: "Write this while the run is happening, not on Thursday night from memory. Friday's presentation is this table, sorted." Das hier ist eine echte Zeile aus unserem Lauf. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 18 · Chapter: What happened — content.md #18 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="section-num">4</p>
+          <h2 class="title title--xl">What happened</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">The V1 numbers, one failure step by step, and the diagnosis.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: The V1 numbers, one failure step by step, and the diagnosis.</aside>
+        </section>
+
+        <!-- 19 · Results V1 — content.md #19 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What happened ·</span> Results, V1 baseline</p>
+          <h2 class="title" style="max-width:40ch">V1 results: 5 of 9 pass, every failure is in the two harder tasks <span class="ver v1">V1</span></h2>
+          <hr class="rule" />
+          <table class="compact">
+            <thead><tr><th>Task</th><th>Run</th><th>Steps (budget)</th><th>Verifier</th><th>Failure class</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>ContactsAddContact</td><td>1/3</td><td>9 (12)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>ContactsAddContact</td><td>2/3</td><td>8 (12)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>ContactsAddContact</td><td>3/3</td><td>9 (12)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>MarkorCreateNote</td><td>1/3</td><td>10 (16)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>MarkorCreateNote</td><td>2/3</td><td>11 (16)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>MarkorCreateNote</td><td>3/3</td><td>9 (16)</td><td class="fail">FAIL</td><td>false_done (?)</td><td>reported complete without ever tapping Save</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>1/3</td><td>17 (18)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>note saved (credit 0.5); 1 tap on no element in the SMS app</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>2/3</td><td>18 (18)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>note saved (credit 0.5); 5 taps on the same spot in the SMS app, no effect</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>3/3</td><td>18 (18)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>number never typed; 4 taps on the same spot; out of steps</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:10px;font-size:17px">Windows laptop, 08.10.2026, 0 ERROR runs. (?) = suggested by the runner, to be confirmed against the recording.</p>
+          <aside class="notes">Log-Tabelle im Format der Vorlesung ("Friday's presentation is this table, sorted"). Zahlen: Windows-Läufe 08.10. (runs/log.csv), 0 ERROR. V1 auf diesem Laptop: 90 s Modellzeit pro Schritt, 19 min pro Lauf (Screenshot auf CPU). Fehlerklassen mit (?) an den Aufnahmen prüfen. Mac-Läufe des Kollegen: 5/9 ebenfalls, aber Contacts 2/3 und SMS 1/3. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 20 · One failure, step by step — content.md #20 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What happened ·</span> One failure, step by step</p>
+          <h2 class="title" style="max-width:40ch">It typed "Hugo", never "Pereira", and said it was done <span class="ver v2">V2</span></h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 160px">
+              <video class="phone" src="assets/failure-contacts-steps.mp4" poster="assets/failure-contacts-step10.jpg" data-autoplay loop muted playsinline style="height:300px;width:auto"></video>
+              <p class="sub" style="font-size:13px;margin-top:4px">the 11 steps, one frame each</p>
+            </div>
+            <div class="col">
+              <ul class="steps" style="font-size:17px">
+                <li>2 &nbsp;<code>click [6] "Search"</code> on the home screen → <span class="fail">blocked</span> by the harness</li>
+                <li>3 &nbsp;<code>open_app contacts</code> → executed</li>
+                <li>7 &nbsp;<code>input_text "Hugo"</code> into First name</li>
+                <li>9 &nbsp;<code>input_text "+13920741751"</code> into Phone</li>
+                <li>10 <code>click [2] "Save"</code></li>
+                <li>11 <code>status complete</code> → verifier: <span class="fail">FAIL</span></li>
+              </ul>
+              <p class="sub" style="margin-top:12px;font-size:18px;color:var(--text-strong)">Model's own thought at step 11: "The contact has been successfully created."</p>
+              <p class="sub" style="margin-top:10px;font-size:18px">Class: <strong>lost_value</strong>: a value from the goal never reached the device; the silent "done" is the symptom. Not a one-off: the surname is missing in 5 of 6 tree-based Contacts runs (V2, V3). V1 typed both names every time.</p>
+            </div>
+          </div>
+          <aside class="notes">Echter Lauf (ContactsAddContact, V2, Windows, 08.10.). Zeigt zwei Dinge: der Guardrail greift (Schritt 2), und der Agent meldet Erfolg ohne zu prüfen. Tag 1: "the most dangerous of the three, because it is silent". Klassifikation nach Abgleich mit dem Mac-Bericht: Wurzel lost_value (Nachname kam nie an), Symptom false_done; unser Klassifizierer erkennt nur erfundenen Text, nicht ausgelassenen. Hypothese: In der Textliste wirkt "der Name" nach dem ersten Feld erledigt; im Screenshot ist das leere Feld "Last name" direkt darunter sichtbar, deshalb V1 3/3. V3-Prüfschritt vor done hat den fehlenden Nachnamen in allen drei V3-Läufen durchgewinkt (gleiches schwaches Modell als Prüfer). Dieser Lauf ist der Setup-Lauf vor der Evaluation; die drei gewerteten V2-Läufe zeigen dasselbe Muster. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 21 · Was it reliable? — content.md #21 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What happened ·</span> Was it reliable?</p>
+          <h2 class="title" style="max-width:40ch">Reliability check: strong on constraints, weak on verification. V3 added it, and it misfired.</h2>
+          <hr class="rule" />
+          <table class="compact" style="font-size:16px">
+            <thead><tr><th style="width:15%">Reliability lever</th><th style="width:22%">What it asks</th><th style="width:30%">V1 / V2</th><th>V3</th></tr></thead>
+            <tbody>
+              <tr><td>Goal clarity</td><td>What counts as success?</td><td><span class="pass">✓</span> the task text, plus AndroidWorld's checker on the device state</td><td><span class="pass">✓</span> same</td></tr>
+              <tr><td>Observable state</td><td>What can the agent see?</td><td><span class="pass">✓</span> the current screen every step; history lines show what changed</td><td><span class="pass">✓</span> same</td></tr>
+              <tr><td>Feedback</td><td>Does it know what happened?</td><td><span class="fail">weak</span>: "executed"</td><td>"your action changed nothing": <span class="fail">wrong on Save</span>, Markor autosaves without a visible change</td></tr>
+              <tr><td>Verification</td><td>Did the result work?</td><td><span class="fail">none before done</span>: the missing surname goes through</td><td>check step with the same 4B model: <span class="fail">accepted the missing surname 3 of 3 times</span></td></tr>
+              <tr><td>Recovery</td><td>Retry, revise, roll back or stop?</td><td>invalid JSON: retry with the error, 2×. Timeout 300 s: ERROR</td><td>+ loop guard: same action, same screen, 3× blocked. <span class="fail">Fired on Save</span>, ended 3 runs</td></tr>
+              <tr><td>Constraints</td><td>Which rules must the system enforce?</td><td><span class="pass">✓</span> in code, not in the prompt: step limit, payment ban, app scope</td><td><span class="pass">✓</span> same, held in all 27 runs</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:18px">Every V3 mechanism assumes that a successful action changes the screen. Where that assumption fails, the safety net turns a pass into a fail.</p>
+          <aside class="notes">Stand 08.10. nach allen 27 Läufen: V3 0/9. Tag 4 Folie "Core Concepts" (goal clarity, observable state, actionability, feedback, verification, recovery) und "Four Reliability Levers" (feedback, recovery, verification, constraints). Ehrliche Einordnung: V1/V2 haben Constraints und Beobachtbarkeit, aber keine Verifikation vor done. Das erklärt false_done bzw. lost_value. V3 hat Feedback, Verifikation und Loop-Guard ergänzt; alle drei beruhen auf der Annahme "erfolgreiche Aktion = sichtbare Änderung". Markor speichert automatisch ohne sichtbare Änderung, also feuern alle drei auf Save falsch (Save-Schleife, loop_abort, Prüfschritt lehnt korrekte Notiz ab). Der Prüfschritt vor done nutzt dasselbe 4B-Modell und hat den fehlenden Nachnamen 3 von 3 Mal durchgewinkt. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 22 · Chapter: What we changed and learned — content.md #22 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="section-num">5</p>
+          <h2 class="title title--xl">What we changed and learned</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">One change, the before-and-after numbers, and where a fix belongs.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: One change, the before-and-after numbers, and where a fix belongs.</aside>
+        </section>
+
+        <!-- 23 · The improvement — content.md #23 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> V1 → V2 → V3</p>
+          <h2 class="title" style="max-width:52ch">What changed between the versions: one change for V2, five more for V3</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:17px">
+            <thead><tr><th style="width:20%"></th><th style="width:26%">V1 baseline <span class="ver v1">V1</span></th><th style="width:26%">V2 index <span class="ver v2">V2</span></th><th>V3 full harness <span class="ver v3">V3</span></th></tr></thead>
+            <tbody>
+              <tr><td>Observation</td><td>screenshot</td><td><strong>accessibility tree</strong></td><td>tree</td></tr>
+              <tr><td>Grounding</td><td>coordinates from the model</td><td><strong>index, resolved in code</strong></td><td>index</td></tr>
+              <tr><td>Harness additions</td><td>none</td><td>none</td><td><strong>stable-screen wait · "no effect" hint · loop guard · status bar with notes · check before done</strong></td></tr>
+              <tr><td>Model, temperature, seed</td><td><strong>qwen3-vl:4b-instruct</strong>, Q4_K_M, local, T = 0, fixed seed</td><td>identical</td><td>identical</td></tr>
+              <tr><td>Tasks, task seeds, prompt structure</td><td>3 tasks, same 9 task instances</td><td>identical</td><td>identical</td></tr>
+              <tr><td>Guardrails</td><td>step limit, payment ban, app scope</td><td>identical</td><td>identical</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:17px">V1 → V2 is one change, so its effect can be attributed. V2 → V3 stacks five, so it cannot: V3 is a package test.</p>
+          <aside class="notes">Warum genau eine Änderung V1 → V2: sonst weiß man nicht, was den Unterschied gemacht hat. V2 → V3 bündelt fünf Mechanismen (stabiler Bildschirm abwarten, Hinweis "keine Wirkung", Loop-Guard, Statuszeile mit Notizen, Prüfschritt vor done); das ist ein Pakettest, nicht zuordenbar. Warum die V2-Änderung: V1 scheiterte an Tipps ins Leere (SMS-Läufe 4 bis 6 Tipps auf dieselbe Koordinate); ein Index kann nur Elemente benennen, die es gibt. Modellname hier nennen (Pflicht). Beide Versionen sind derselbe Code; die Version ist eine Config-Datei, die in jedes meta.json kopiert wird. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 24 · Before / after — content.md #24 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Before / after</p>
+          <h2 class="title" style="max-width:40ch">V2 is 3× faster and cheaper, and less successful. V3 is worse again.</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:56px">
+            <div class="col">
+              <div class="chart" style="height:250px">
+                <div class="bar-col"><div class="bar-val">56 %</div><div class="bar" style="height:56%;background:var(--gray-300)"></div><div class="bar-label">V1 · 5 of 9</div></div>
+                <div class="bar-col"><div class="bar-val">33 %</div><div class="bar" style="height:33%;background:var(--tum-blue-light)"></div><div class="bar-label">V2 · 3 of 9</div></div>
+                <div class="bar-col"><div class="bar-val">0 %</div><div class="bar" style="height:1%;background:var(--tum-blue)"></div><div class="bar-label">V3 · 0 of 9</div></div>
+              </div>
+              <p class="sub" style="margin-top:12px;font-size:17px">Success rate (verifier PASS), same 9 task instances per version, 0 ERROR runs.</p>
+            </div>
+            <div class="col" style="flex:0 0 40%">
+              <table class="compact roomy" style="font-size:18px">
+                <thead><tr><th></th><th>V1</th><th>V2</th><th>V3</th></tr></thead>
+                <tbody>
+                  <tr><td>model time per step</td><td>90 s</td><td><strong>28 s</strong></td><td>27 s</td></tr>
+                  <tr><td>prompt tokens per call</td><td>1,905</td><td><strong>1,069</strong></td><td>1,120</td></tr>
+                  <tr><td>time per run</td><td>19 min</td><td><strong>7 min</strong></td><td>8 min</td></tr>
+                  <tr><td>invalid model replies</td><td>0</td><td>0</td><td>0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <aside class="notes">Windows-Läufe 08.10., alle 27, 0 ERROR (runs/log.csv). V1 5/9 (Contacts 3/3, Markor 2/3, SMS 0/3), V2 3/9 (0/3, 3/3, 0/3), V3 0/9. Kosten: V1 89,8 s Modellzeit pro Schritt, 1905 Tokens, 1150 s pro Lauf; V2 27,9 s, 1069, 413 s; V3 27,3 s, 1120, 468 s. Die Änderung hat getroffen, was sie treffen sollte (keine wirkungslosen Koordinaten-Tipps mehr, 3× schneller), aber eine andere Schwäche freigelegt (lost_value). Mit 3 Läufen pro Task bewegt ein Lauf eine Aufgabe um 33 Punkte: Muster finden ja, Versionen ranken nein. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 25 · Where the fix belongs — content.md #25 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Where the fix belongs</p>
+          <h2 class="title" style="max-width:44ch">Where the fix belongs: code fixed pointing and app choice, not judgement</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:16px">
+            <thead><tr><th style="width:13%">Failure</th><th style="width:24%">What we tried</th><th style="width:11%">Placed in</th><th style="width:22%">Did it work?</th><th>Where it really belongs</th></tr></thead>
+            <tbody>
+              <tr><td>grounding</td><td>index instead of coordinates <span class="ver v2">V2</span></td><td>Programs</td><td><span class="pass">yes</span>: no more taps into nothing</td><td>Programs, as done</td></tr>
+              <tr><td>wrong_app</td><td>open_app by exact name only</td><td>Programs</td><td><span class="pass">yes</span>: held in all 27 runs</td><td>Programs, as done</td></tr>
+              <tr><td>lost_value</td><td>status bar with notes <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">no</span>: the surname was never read, not forgotten</td><td>Programs, but earlier: give the model tree + screenshot, or check the device state before done</td></tr>
+              <tr><td>false_done</td><td>check step before done <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">no</span>: the checker was the same 4B model</td><td>Parameters: a stronger model for the check. Or Programs that read state the UI does not show</td></tr>
+              <tr><td>Save loop</td><td>"no effect" hint + loop guard <span class="ver v3">V3</span></td><td>Programs</td><td><span class="fail">backfired</span>: Markor autosaves, no visible change</td><td>Instructions: one sentence in a Markor skill file, "Save shows no confirmation"</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:18px">The lecture's four places for a fix: Knowledge · Instructions · Programs · Parameters. "A rule that must never be bypassed → Programs." A judgement you can state in one sentence → Instructions.</p>
+          <aside class="notes">Tabelle "How to choose" / "Put the fix in" aus Tag 5 (Knowledge, Instructions, Programs, Parameters). Stand nach allen Läufen: Programs hat funktioniert, wo es um Mechanik ging (Zeigen, App-Wahl), nicht, wo es um Urteil ging (ist der Kontakt vollständig? ist gespeichert?). Für Urteil braucht es entweder ein stärkeres Modell (Parameters) oder Code, der den echten Zustand liest statt den Bildschirm (Kontaktdatenbank, Dateiliste). Markor-Autosave ist App-Wissen in einem Satz, gehört in eine Skill-Datei (Instructions), nicht in einen generischen Loop-Guard. Q&A: warum nicht einfach den Prompt ändern? Instructions sind billig, aber "quietly ignored"; eine Regel, die nie umgangen werden darf, gehört in Programs. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 26 · Second machine — content.md #26 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Same code, second machine</p>
+          <h2 class="title" style="max-width:40ch">Run again on a MacBook: same ranking, same failure patterns, different single runs</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:56px">
+            <div class="col">
+              <table class="compact roomy" style="font-size:18px">
+                <thead><tr><th></th><th>Windows laptop</th><th>MacBook Air M4</th></tr></thead>
+                <tbody>
+                  <tr><td>V1 <span class="ver v1">V1</span></td><td><strong>5 / 9</strong></td><td><strong>5 / 9</strong></td></tr>
+                  <tr><td>V2 <span class="ver v2">V2</span></td><td><strong>3 / 9</strong></td><td><strong>2 / 9</strong></td></tr>
+                  <tr><td>V3 <span class="ver v3">V3</span></td><td><strong>0 / 9</strong></td><td><strong>0 / 9</strong></td></tr>
+                  <tr><td>ERROR runs</td><td>0</td><td>11, re-run</td></tr>
+                  <tr><td>V1 model time per step</td><td>90 s</td><td>23 s</td></tr>
+                  <tr><td>Ollama / model digest</td><td>0.40.0 / ef33995b</td><td>0.35.1 / ee4b975b</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col" style="flex:0 0 40%">
+              <ul class="bullets" style="gap:18px;font-size:21px">
+                <li style="font-size:21px">Same script, same seeds, temperature 0</li>
+                <li style="font-size:21px">Same patterns: the surname goes missing with the tree, V3 loops on Save</li>
+                <li style="font-size:21px">Single runs differ: the model file is not the same build</li>
+              </ul>
+            </div>
+          </div>
+          <p class="sub" style="margin-top:16px;font-size:18px">"If you change quantisation, or switch model, re-run your evaluation. It is a different model." A different digest is a different model.</p>
+          <aside class="notes">Mac-Läufe des Kollegen (07./08.10., sein Bericht): V1 5/9 (Contacts 2/3, Markor 2/3, SMS 1/3), V2 2/9, V3 0/9, 11 ERROR (Emulator-Abstürze, ersetzt), Emulator-RAM-Wechsel 2 auf 4 GB mitten in der Messung. Windows: 0 ERROR, durchgehend gleiche Einstellung. Gleiches Modell dem Namen nach, aber anderer Ollama-Build und anderer Digest, also formal ein anderes Modell; deshalb gehen Einzelläufe mit gleichem Seed anders aus (Mac Contacts V1 2/3 vs. 3/3, Markor V2 1/3 vs. 3/3). Die Rangfolge und die Fehlermuster sind auf beiden Rechnern gleich. Antwort auf "how many times did you run it?": 54 Läufe auf zwei Rechnern. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 27 · Reproduce it — content.md #27 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Run it yourself</p>
+          <h2 class="title">One command per version. The config is the whole agent.</h2>
+          <hr class="rule" />
+          <pre class="mono" style="font-size:20px;margin:8px 0 28px">python run_eval.py --config configs/v2_index.json</pre>
+          <ul class="bullets">
+            <li>Same task seeds for every version (AndroidWorld's own seed formula)</li>
+            <li>Temperature 0, fixed model seed; model name, size, quantisation and digest recorded per run<small>"if you change quantisation, or switch model, re-run your evaluation. It is a different model."</small></li>
+            <li>AndroidWorld pinned to one commit; setup scripts for macOS and Windows; 209 unit tests without an emulator</li>
+            <li>Every run leaves <code>trajectory.jsonl</code>, screenshots with the tap marked, <code>recording.mp4</code>, one log row</li>
+          </ul>
+          <aside class="notes">Bewertungskriterium "reproducibility". Wer das Repo klont, kann die Tabelle nachbauen.</aside>
+        </section>
+
+        <!-- 28 · What we learned — content.md #28 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> Key findings</p>
+          <h2 class="title" style="max-width:40ch">Four things the runs told us that a demo would not have</h2>
+          <hr class="rule" style="border-top-color:var(--tum-orange)" />
+          <ul class="bullets findings" style="margin-top:8px;gap:22px">
+            <li>Where grounding happens matters more than prompt wording<small>moving it into code made every step 3× faster and removed the taps into nothing. It also exposed the next weakness: lost values</small></li>
+            <li>Every safety mechanism encodes an assumption about the app<small>V3's hint, loop guard and check step all assume a visible change. Markor autosaves. 2 of 9 became 0 of 9</small></li>
+            <li>A verifier as weak as the actor adds cost, not safety<small>the check step was the same 4B model; it accepted the missing surname every time</small></li>
+            <li>Three runs per task find patterns, not rankings<small>one run moves a task by 33 points; the trajectories carry the findings, not the rates</small></li>
+          </ul>
+          <aside class="notes">Stand nach allen 27 Windows-Läufen und dem Mac-Bericht (08.10.). Jede Zeile ein Finding mit Beleg: (1) Folie 24, Kosten und keine Tipps ins Leere in V2; (2) Folie 21, Save-Schleife, V3 0/9; (3) Folie 20/21, Prüfschritt winkt Nachname 3/3 durch; (4) Folie 24/25, Einzelläufe schwanken. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- 29 · Close — content.md #29 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <p class="eyebrow">Takeaway</p>
+          <h1 class="title title--xl">The model decides. The harness makes it safe, measurable and honest.</h1>
+          <hr class="rule rule--wide" />
+          <aside class="notes">Ein Satz als Schluss, dann die Danke-Folie.</aside>
+        </section>
+
+        <!-- 30 · Thank you — content.md #30 -->
+        <section class="center" data-background-color="#ffffff">
+          <div class="cols" style="align-items:center">
+            <div class="col" style="flex:1 1 56%">
+              <h1 class="title title--xl">Thank you</h1>
+              <p class="lead" style="margin-top:14px">Questions?</p>
+              <hr class="rule rule--wide" />
+              <p class="sub" style="margin-top:26px">Jonas Schmidt · Vincent Fischer · Liam Meinhart<br />Bela Gehlen · Gloria Dell'Etere</p>
+              <p style="margin:26px 0 0;font-size:14px;line-height:1.55;color:var(--text-muted)">Technische Universität München · Campus Heilbronn<br />Agentic AI in Modern Business · Group Project · 09.10.2026</p>
+            </div>
+            <div class="col" style="flex:1 1 44%;display:flex;justify-content:center">
+              <img src="assets/tum-uhrenturm.jpg" alt="Sketch of the TUM clock tower" style="max-width:100%;max-height:400px" />
+            </div>
+          </div>
+          <aside class="notes">Danke, Fragen. Spiegelt die Titelfolie. Danach kommt der Backup-Trenner; dort nur hin, wenn eine Frage es braucht.</aside>
+        </section>
+
+        <!-- 31 · Backup divider — content.md #31 -->
+        <section class="center tum-deep" data-background-color="#003359">
+          <h2 class="title title--xl">Backup</h2>
+          <hr class="rule rule--wide" />
+          <p class="lead" style="max-width:44ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train</p>
+          <aside class="notes">Nur für die Fragerunde.</aside>
+        </section>
+
+        <!-- B1 · Backup: V2 log rows — content.md #B1 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · V2 index (tree + index), 07.10.</p>
+          <h2 class="title">V2 log rows</h2>
+          <hr class="rule" />
+          <table class="compact">
+            <thead><tr><th>Task</th><th>Run</th><th>Steps (budget)</th><th>Verifier</th><th>Failure class</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>ContactsAddContact</td><td>1/3</td><td>11 (12)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>ContactsAddContact</td><td>2/3</td><td>12 (12)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>home-screen tap blocked; step limit</td></tr>
+              <tr><td>ContactsAddContact</td><td>3/3</td><td>9 (12)</td><td class="fail">FAIL</td><td>false_done (?)</td><td>reported complete, verifier says fail</td></tr>
+              <tr><td>MarkorCreateNote</td><td>1/3</td><td>16 (16)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>state correct, never reported done</td></tr>
+              <tr><td>MarkorCreateNote</td><td>2/3</td><td>9 (16)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>3 actions without effect; reported complete</td></tr>
+              <tr><td>MarkorCreateNote</td><td>3/3</td><td>9 (16)</td><td class="pass">PASS</td><td></td><td></td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>1/3</td><td>16 (18)</td><td class="fail">FAIL</td><td>grounding (?)</td><td>partial credit 0.5; reported complete</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>2/3</td><td>7 (18)</td><td class="err">ERROR</td><td></td><td>emulator lost (adb: device not found), re-run</td></tr>
+              <tr><td>MarkorCreateNoteAndSms</td><td>3/3</td><td>0 (20)</td><td class="err">ERROR</td><td></td><td>emulator lost, re-run</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- B2 · Backup: V3 — content.md #B2 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · V3 full harness</p>
+          <h2 class="title">V3 stacks the remaining fixes. Several changes at once, so not attributable.</h2>
+          <hr class="rule" />
+          <ul class="bullets">
+            <li>Wait until the screen is stable before observing (too_early)</li>
+            <li>"Your action changed nothing" feedback and a loop guard: same action on an unchanged screen is blocked the third time</li>
+            <li>Status bar with scratch notes written by code (lost_value)</li>
+            <li>Check step before done: the model is asked a second question, with a veto budget (false_done)</li>
+          </ul>
+          <p class="sub" style="margin-top:24px">Results: [to be run]</p>
+        </section>
+        <!-- B3 · Backup: Skills, memory, RAG — content.md #B3 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Skills, user memory, RAG</p>
+          <h2 class="title" style="max-width:40ch">Skills, user memory, RAG: what we built and what we left out</h2>
+          <hr class="rule" />
+          <table class="compact airy" style="font-size:19px;margin-top:6px">
+            <thead><tr><th style="width:18%">Concept</th><th style="width:40%">In our agent</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Skills</strong></td><td>Built, switched off in all three versions. One tip file per app, added to the prompt only while that app is open</td><td>Tips cost tokens only when relevant. A tip changes the agent, so it would break the V1 → V2 comparison</td></tr>
+              <tr><td><strong>User memory</strong></td><td>Not built. The only memory is the note line inside one run <span class="ver v3">V3</span></td><td>Every run starts fresh with new task values. Nothing is worth keeping between runs</td></tr>
+              <tr><td><strong>RAG</strong></td><td>Not built</td><td>Nothing to retrieve: the agent needs the current screen, and the tree delivers it every step</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">Tag 2 Teil 3 und 4. Skills-Mechanismus ist in prompts.py (APP TIPS), Ordner skills/ ist leer, use_skills false. Memory: Tag 2 "Where does it live": Trajectory vs. Long-term. RAG: nichts abzurufen. Gute Antwort auf "warum kein RAG?": weil das Problem Wahrnehmung ist, nicht Wissen. Mündlich: Zeigt die Fehleranalyse eine App-Falle (z. B. Markors Dateiendungs-Dialog), ist ein Einzeiler in skills/markor.md der richtige Ort: ein Urteil in einem Satz gehört in Instructions. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+        <!-- B4 · Backup: reward design — content.md #B4 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Our verifier is a reward function</p>
+          <h2 class="title" style="max-width:34ch">The reward comes from the environment, never from the agent's own report</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 56%">
+              <table class="compact" style="font-size:17px">
+                <thead><tr><th style="width:26%">Reward question</th><th>Our answer</th></tr></thead>
+                <tbody>
+                  <tr><td>Source: who decides?</td><td><strong>Verifiable rules</strong>: AndroidWorld's checker reads the device state. "The most reliable and the cheapest to run"</td></tr>
+                  <tr><td>Information: how much?</td><td>One number, 1 or 0; the checker also gives partial credit (0.5 when the note exists but the SMS was not sent)</td></tr>
+                  <tr><td>Timing: when?</td><td>Once, at the end of the run</td></tr>
+                  <tr><td>Path: is every route acceptable?</td><td>An outcome reward is blind to the path, so we log what it cannot see: steps used, failure class, recording</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <div class="keyfig"><div class="keyfig__value">46<span class="keyfig__unit">%</span></div><div class="keyfig__label">of a V2 run is waiting for the emulator, not the model (102 s per run, 55 s of it model time)</div></div>
+              <p class="sub" style="margin-top:22px"><strong>Reward hacking, our version:</strong> <code>status: complete</code> without checking is the boat going in circles. The agent tries it (false_done); the verifier does not pay for it.</p>
+            </div>
+          </div>
+          <aside class="notes">Tag 5 "The Recipe": Reward aus der Umgebung, nie aus dem Bericht des Agenten. Genau unsere PASS-Regel. Vier Fragen (Source / Information / Timing / Path). Reward Hacking: Bootsrennen-Beispiel, bei uns false_done. "77 % waiting for the environment" auf der Folie, bei uns 46 % bei V2 (V1: 22 %, weil das Modell dort langsamer ist). Zahlen aus summary.md Cost-Tabelle, vorläufig.</aside>
+        </section>
+
+        <!-- B5 · Backup: why we did not train — content.md #B5 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Why we did not train</p>
+          <h2 class="title" style="max-width:34ch">Same loop as one RL training step. Our update went into the harness, not the weights.</h2>
+          <hr class="rule" />
+          <div class="cols" style="gap:48px">
+            <div class="col" style="flex:0 0 44%">
+              <table class="compact" style="font-size:16px">
+                <thead><tr><th>One RL training step</th><th>Our evaluation</th></tr></thead>
+                <tbody>
+                  <tr><td>1 Attempts: 16 sandboxes</td><td>3 runs per task, fresh seeds</td></tr>
+                  <tr><td>2 Reward: a script checks the final state</td><td>AndroidWorld's verifier, 1 or 0</td></tr>
+                  <tr><td>3 Compare within the group</td><td>V1 vs. V2 on the same task instances</td></tr>
+                  <tr><td>4 Update the weights</td><td><strong>update the harness</strong>: one config change, re-run</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <table class="compact" style="font-size:16px">
+                <thead><tr><th>What we observe</th><th>Rule of thumb</th><th>Us</th></tr></thead>
+                <tbody>
+                  <tr><td>Format or schema unstable?</td><td>SFT</td><td>no: 0 invalid replies, the schema does it</td></tr>
+                  <tr><td>Domain knowledge missing?</td><td>Mid-training / retrieval</td><td>no: the screen is the knowledge</td></tr>
+                  <tr><td>Non-zero success, reliable reward, good strategy rare</td><td>RL</td><td><strong>yes, this is our case</strong>. But one attempt costs 2 to 7 minutes on a real emulator</td></tr>
+                </tbody>
+              </table>
+              <p class="sub" style="margin-top:14px;font-size:18px">"A cheap simulator favours classic RL; costly or irreversible interaction favours an LLM agent." And: "if your knowledge and your instructions are good enough, you do not need to do RL at all."</p>
+            </div>
+          </div>
+          <aside class="notes">Tag 5 "One training step" (Attempts, Reward, Advantage, Update) und Tabelle "Which stage does the failure belong to?". Unser Fall erfüllt die RL-Bedingungen (Erfolg > 0, verlässlicher Reward, gute Strategie selten), aber die Kostenregel spricht dagegen: Minuten pro Versuch statt 10.000 Versuche in 10 Sekunden. Darum Fix in Programs (Folie 22). Letzter Satz von D5 als Schluss.</aside>
+        </section>
+
+
+      </div>
+    </div>
+
+    <!-- reveal.js core + plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+      // Inject the TUM chrome (logo top-right + hairline footer) into every
+      // non-bleed slide, so it scales with the 1280×720 canvas.
+      (function () {
+        var sections = document.querySelectorAll('.reveal .slides > section');
+        sections.forEach(function (s, i) {
+          if (s.classList.contains('bleed')) return;
+          var dark = s.classList.contains('tum-dark') || s.classList.contains('tum-deep');
+          var logo = document.createElement('img');
+          logo.className = 'tum-logo';
+          logo.src = dark ? 'assets/tum-logo-white.svg' : 'assets/tum-logo-blue.svg';
+          logo.alt = 'TUM';
+          s.appendChild(logo);
+          var footer = document.createElement('div');
+          footer.className = 'tum-footer';
+          footer.innerHTML =
+            '<div class="meta">' +
+            '<span>Agentic AI in Modern Business</span>' +
+            '<span>Group project</span>' +
+            '<span>09.10.2026</span>' +
+            '</div><div>' + (i === 0 ? '' : i + 1) + '</div>';
+          s.appendChild(footer);
+        });
+      })();
+
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0,
+        display: 'flex',
+        center: false,
+        hash: true,
+        slideNumber: false,
+        transition: 'fade',
+        transitionSpeed: 'fast',
+        plugins: [RevealNotes, RevealHighlight],
+      });
+    </script>
+  </body>
+</html>

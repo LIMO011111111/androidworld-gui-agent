@@ -55,6 +55,24 @@ in Android Studio: device Pixel 6, system image Tiramisu / API 33 with the
 target **"Google APIs"** (not "Google Play": AndroidWorld needs `adb root`,
 which Play images refuse), name `AndroidWorldAvd`.
 
+## Quick start (Windows)
+
+Install [Ollama](https://ollama.com/download) and Android Studio (SDK Manager,
+tab "SDK Tools": "Android SDK Command-line Tools"), then in PowerShell:
+
+```powershell
+pwsh -File scripts\setup_windows.ps1    # Python env, AndroidWorld, AVD, model, tests
+pwsh -File scripts\start_emulator.ps1   # terminal A, leave it running
+```
+
+Then the same `run_eval.py` / `summarize.py` commands as on macOS, with
+`.venv\Scripts\activate` instead of `source .venv/bin/activate`.
+`setup_windows.ps1` also applies `scripts/patch_android_env_windows.py`: android_env
+installs APKs through a temporary file that Windows keeps locked while open; the
+patch closes it first. Tested on Windows 11 with the x86_64 API 33 "Google APIs" image.
+Expect about four times the model time per step of an Apple-silicon Mac for the
+screenshot version (CPU inference).
+
 The default tasks are one per difficulty row of the project brief:
 
 | Difficulty | Task | Step budget |
@@ -185,6 +203,17 @@ under "Known limits".
   model.
 * AndroidWorld is pinned to the commit the agent was tested against
   (`scripts/setup_mac.sh`).
+* The evaluation was run on two machines: `runs/` (MacBook Air M4) and
+  `runs_windows/` (Windows 11 laptop, 27 runs, 0 ERROR). Same script, same seeds,
+  temperature 0; the model digests differ (different Ollama builds), so the two
+  tables are kept apart and compared, not merged. Same ranking (V1 > V2 > V3) and
+  the same failure patterns on both.
+
+## Presentation
+
+`docs/presentation/`: the final deck as `Agentic-AI-GUI-Agent-Deck.pdf` and as a
+reveal.js page (`index.html` + `assets/`, open in a browser; the speaker notes are
+inside the HTML).
 
 ## Using a different model
 
