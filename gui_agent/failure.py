@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
+from gui_agent import goal_values
+
 GROUNDING = "grounding"  # the tap lands on nothing, or in the wrong place
 TOO_EARLY = "too_early"  # acted on a screen that had not finished loading
 LOST_VALUE = "lost_value"  # a value was lost or invented on the way
@@ -72,6 +74,19 @@ def suggest_failure_class(
   if invented:
     shown = "; ".join(repr(t[:40]) for t in invented[:3])
     evidence.append(f"typed text that is not in the goal: {shown}")
+  # lost_value, the other half: a value from the goal was never typed at all
+  # ("Isla" typed, "Martin" never). Only a root cause if the agent then said
+  # "complete"; a run that simply ran out of steps may not have got there.
+  # Counted only when some goal values were typed and others not: an agent
+  # that typed nothing at all and said "complete" is plain `false_done`.
+  tracker = goal_values.GoalTracker(goal)
+  omitted = tracker.missing_parts(stats.get("typed_texts", []))
+  all_parts = [p for v in tracker.values for p in v.parts]
+  partly_typed = bool(omitted) and len(omitted) < len(all_parts)
+  if omitted and partly_typed:
+    shown = "; ".join(repr(t[:40]) for t in omitted[:3])
+    evidence.append(f"goal value(s) never typed: {shown}")
+  lost = bool(invented) or (partly_typed and declared_done)
 
   # grounding: taps that hit nothing or changed nothing.
   on_nothing = stats.get("taps_on_nothing", 0)
@@ -107,7 +122,7 @@ def suggest_failure_class(
 
   if wrong_app:
     chosen = WRONG_APP
-  elif invented:
+  elif lost:
     chosen = LOST_VALUE
   elif grounding:
     chosen = GROUNDING

@@ -218,3 +218,13 @@ def test_a_blocked_home_screen_tap_followed_by_open_app_is_not_wrong_app():
   assert "home screen" in evidence
   stats["apps_opened"] = []
   assert failure.suggest_failure_class(False, False, stats, goal, "step_limit")[0] == failure.WRONG_APP
+
+
+def test_an_omitted_goal_value_with_done_is_lost_value():
+  goal = "Create a new contact for Isla Martin. Their number is +15256606183."
+  stats = {"typed_texts": ["Isla", "+15256606183"]}
+  chosen, evidence = failure.suggest_failure_class(False, True, stats, goal, "model_done")
+  assert chosen == failure.LOST_VALUE
+  assert "never typed: 'Martin'" in evidence
+  # Without "complete" it is only evidence, not the root cause.
+  assert failure.suggest_failure_class(False, False, stats, goal, "step_limit")[0] != failure.LOST_VALUE

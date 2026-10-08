@@ -1,0 +1,14 @@
+{
+  "_comment": "V4 = V2 with exactly ONE change: a goal-value tracker in code. It lists the literal values of the goal (names, numbers, file names, note text), shows every step which were not typed yet, and vetoes 'complete' while one was never typed (at most 2 vetoes). No loop guard, no no-effect hint, no model check step: those hurt in V3.",
+  "name": "v4_tracker",
+  "model": "qwen3-vl:4b-instruct",
+  "observation": "tree",
+  "grounding": "index",
+  "wait_for_stable": false,
+  "transition_pause_s": 2.0,
+  "screen_change_hint": false,
+  "loop_guard": false,
+  "status_bar": false,
+  "verify_before_done": false,
+  "goal_tracker": true
+}

@@ -111,6 +111,11 @@ class AgentConfig:
   verify_before_done: bool = True  # check step before `status: complete`
   max_done_rejections: int = 2
   use_skills: bool = False  # load skills/<app>.md tips for the foreground app
+  # V4: code tracks which literal values from the goal (names, numbers, file
+  # names, note text) were typed, shows the gaps every step and vetoes
+  # "complete" while a value was never typed (fix for `lost_value`, without a
+  # second model call). At most `max_done_rejections` vetoes.
+  goal_tracker: bool = False
 
   # --- Safety -----------------------------------------------------------------
   # Which of the apps in APP_PACKAGES this agent may operate. To add an app,

@@ -33,6 +33,7 @@ from android_world.env import json_action
 
 from gui_agent import actions
 from gui_agent import config as config_lib
+from gui_agent import goal_values
 from gui_agent import guardrails
 from gui_agent import memory as memory_lib
 from gui_agent import model as model_lib
@@ -131,6 +132,8 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
     self._pending: Optional[_Observation] = None  # screen after the last action
     self._last_effect: Optional[str] = None
     self._done_rejections = 0
+    self._goal_rejections = 0
+    self._goal_tracker: Optional[goal_values.GoalTracker] = None
     self.stop_reason: Optional[str] = None
     self.stats: dict[str, Any] = {
         "steps": 0,
@@ -145,6 +148,7 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
         "pixel_fallback_steps": 0,
         "blocked": {},
         "done_rejections": 0,
+        "goal_value_rejections": 0,
         "action_errors": 0,
         "apps_opened": [],
         "packages_seen": [],
@@ -233,6 +237,10 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
       status_text = self._memory.render_status(
           step_no, self._budget.budget, obs.package, self._last_effect
       )
+    if cfg.goal_tracker:
+      tracker_text = self._tracker(goal).render(self.stats["typed_texts"])
+      if tracker_text:
+        status_text = f"{status_text}\n{tracker_text}" if status_text else tracker_text
     record["observation"] = {
         "mode": cfg.observation if not record.get("pixel_fallback") else "screenshot",
         "grounding": grounding,
@@ -481,6 +489,31 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
     action = resolved.action
     if (
         action.goal_status == actions.COMPLETE
+        and cfg.goal_tracker
+        and self._goal_rejections < cfg.max_done_rejections
+    ):
+      # Code-side check before `done` (V4): every literal value from the goal
+      # must have been typed at least once. No model call, so it cannot be
+      # fooled the way a same-size verifier model is.
+      missing = self._tracker(goal).missing_parts(self.stats["typed_texts"])
+      record["goal_values_missing"] = missing
+      if missing:
+        self._goal_rejections += 1
+        self.stats["done_rejections"] += 1
+        self.stats["goal_value_rejections"] += 1
+        listed = ", ".join(f'"{m}"' for m in missing)
+        message = (
+            f"REJECTED by code, not finished yet: you never typed {listed}"
+            " from the goal. Type it into the right field (and save) first."
+        )
+        self._memory.add_step("status complete", message)
+        self._last_effect = message
+        self._pending = obs  # nothing was executed, the screen is the same
+        record["outcome"] = "done_rejected"
+        self._log(record, obs)
+        return self._result(done=False, record=record)
+    if (
+        action.goal_status == actions.COMPLETE
         and cfg.verify_before_done
         and self._done_rejections < cfg.max_done_rejections
     ):
@@ -511,6 +544,11 @@ class GuiAgent(base_agent.EnvironmentInteractingAgent):
     record["stop_reason"] = self.stop_reason
     self._log(record, obs)
     return self._result(done=True, record=record)
+
+  def _tracker(self, goal: str) -> goal_values.GoalTracker:
+    if self._goal_tracker is None or self._goal_tracker.goal != goal:
+      self._goal_tracker = goal_values.GoalTracker(goal)
+    return self._goal_tracker
 
   def _verify(self, goal: str, obs: _Observation) -> Optional[dict[str, Any]]:
     """Asks for a strict yes/no on the current screen. None if it cannot tell."""

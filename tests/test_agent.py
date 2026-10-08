@@ -536,3 +536,32 @@ def test_tapping_a_text_field_or_going_home_twice_is_not_a_failed_action():
   history = model.calls[-1]["messages"][1]["content"]
   assert "navigate_home -> already on the home screen" in history
   assert agent.last_history_line.endswith("text field selected")
+
+
+def test_goal_tracker_shows_the_gap_and_vetoes_done_until_the_value_is_typed():
+  replies = [
+      reply(thought="open contacts", action_type="open_app", app_name="contacts"),
+      reply(thought="add", action_type="click", index=1),
+      reply(thought="first name", action_type="input_text", index=2, text="Nikola"),
+      reply(thought="number", action_type="input_text", index=3, text="+11417776317"),
+      reply(thought="save", action_type="click", index=1),
+      reply(thought="saved", action_type="status", goal_status="complete"),
+      reply(thought="saved", action_type="status", goal_status="complete"),
+      reply(thought="saved", action_type="status", goal_status="complete"),
+  ]
+  agent, _, model = make_agent(replies, status_bar=False, goal_tracker=True)
+  results = [agent.step(GOAL) for _ in range(8)]
+  # Two code vetoes (max_done_rejections), then the agent's word stands.
+  assert [r.done for r in results] == [False] * 7 + [True]
+  assert agent.stats["goal_value_rejections"] == 2
+  assert model.remaining == 0
+  prompt = model.calls[6]["messages"][1]["content"]
+  assert '"Nikola Fernandez": still missing "Fernandez"' in prompt
+  assert 'you never typed "Fernandez"' in prompt
+
+
+def test_goal_tracker_lets_a_complete_run_finish_at_once():
+  agent, _, _ = make_agent(HAPPY_PATH, status_bar=False, goal_tracker=True)
+  results = [agent.step(GOAL) for _ in range(6)]
+  assert results[-1].done
+  assert agent.stats["goal_value_rejections"] == 0
