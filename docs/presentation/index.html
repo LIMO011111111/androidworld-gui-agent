@@ -137,7 +137,7 @@
               <p class="eyebrow" style="margin-bottom:14px">The goal</p>
               <ul class="bullets" style="gap:20px">
                 <li style="font-size:21px">Not a demo: a measured result</li>
-                <li style="font-size:21px">3 tasks × 3 runs × 3 versions</li>
+                <li style="font-size:21px">3 tasks × 3 runs × 6 versions</li>
                 <li style="font-size:21px">Failures explained, every version measured before and after</li>
               </ul>
             </div>
@@ -150,7 +150,7 @@
               </ul>
             </div>
           </div>
-          <aside class="notes">Einstieg: Was war die Aufgabe? Ein Agent, der ein Android-Handy bedient wie ein Mensch (nur Bildschirm, keine Schnittstelle), in Googles Benchmark AndroidWorld. Ziel: keine Demo, sondern Messung ("my first question is: how many times did you run it?"): 3 Tasks, 3 Läufe, 3 Versionen (V1 Basis, V2 genau eine Änderung, V3 die restlichen Fixes), Fehler erklären, jede Verbesserung mit Zahlen belegen. Vorgaben des Dozenten: Modell frei, aber nennen; Guardrails im Code; ein Task pro Schwierigkeit; alles aufzeichnen. Ausführlicher Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Einstieg: Was war die Aufgabe? Ein Agent, der ein Android-Handy bedient wie ein Mensch (nur Bildschirm, keine Schnittstelle), in Googles Benchmark AndroidWorld. Ziel: keine Demo, sondern Messung ("my first question is: how many times did you run it?"): 3 Tasks, 3 Läufe, 6 Versionen (V1 Basis, V2 genau eine Änderung, V3 die restlichen Fixes; V4 bis V6 danach auf dem Mac, je genau eine Änderung: Code-Tracker, 8B-Modell, zwei Fixes), Fehler erklären, jede Verbesserung mit Zahlen belegen. Vorgaben des Dozenten: Modell frei, aber nennen; Guardrails im Code; ein Task pro Schwierigkeit; alles aufzeichnen. Ausführlicher Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 5 · Use case — content.md #5 -->
@@ -278,7 +278,7 @@
           <div class="cols">
             <div class="col">
               <p class="sub" style="font-weight:700;color:var(--text-strong)">Screenshot <span class="ver v1">V1</span></p>
-              <ul class="bullets" style="margin-top:12px">
+              <ul class="bullets" style="margin-top:10px;gap:10px">
                 <li>Sees every pixel, also WebViews and drawings</li>
                 <li>~1,900 prompt tokens per step</li>
                 <li>The model has to find the row itself</li>
@@ -286,11 +286,11 @@
             </div>
             <div class="col">
               <p class="sub" style="font-weight:700;color:var(--text-strong)">Accessibility tree <span class="ver v2">V2</span><span class="ver v3">V3</span><span class="ver v4">V4</span><span class="ver v5">V5</span><span class="ver v6">V6</span></p>
-              <pre class="mono" style="margin-top:12px">[1] ImageButton "Create contact"
+              <pre class="mono" style="margin-top:10px;font-size:16px">[1] ImageButton "Create contact"
 [2] Button "Don't allow"
 [7] EditText "First name"
 [10] EditText "Phone"</pre>
-              <ul class="bullets" style="margin-top:16px">
+              <ul class="bullets" style="margin-top:12px;gap:10px">
                 <li>~1,000 to 1,070 prompt tokens per step, exact bounds</li>
                 <li>Whatever has no description is simply not there</li>
                 <li>V4 to V6 keep the tree and change what is around it (chapter 5)</li>
@@ -312,7 +312,7 @@
               <p class="sub">The model produces the numbers. A 20-pixel error is a tap on the gap between two rows, and nothing reports an error.</p>
             </div>
             <div class="col box">
-              <p class="sub" style="font-weight:700;color:var(--text-strong)">By index <span class="ver v2">V2</span><span class="ver v3">V3</span></p>
+              <p class="sub" style="font-weight:700;color:var(--text-strong)">By index <span class="ver v2">V2</span><span class="ver v3">V3</span><span class="ver v4">V4</span><span class="ver v5">V5</span><span class="ver v6">V6</span></p>
               <pre class="mono" style="margin:14px 0">{"action_type": "click", "index": 3}</pre>
               <p class="sub">Our code looks element 3 up in the tree. It either finds it or it doesn't: a failure we can see and log.</p>
             </div>
@@ -341,7 +341,7 @@ user     GOAL: Create a new contact for Hugo Pereira …
               <ul class="bullets" style="gap:14px;font-size:22px">
                 <li style="font-size:22px">A tool-call loop, but compressed<small>each step gets a fresh prompt: the old screen is dropped, one text line per step stays. 20 kept screenshots would cost 20,000+ tokens</small></li>
                 <li style="font-size:22px">Stable prefix first, volatile last, so the KV cache hits<small>the model reuses what it computed for an unchanged beginning: fixed rules first, the ever-changing status line last</small></li>
-                <li style="font-size:22px">History and status are written by code, not by the model<small>"BLOCKED" or "changed nothing" is recorded by our code, so it is a fact. In V3 the note line carries a value into the next app</small></li>
+                <li style="font-size:22px">History and status are written by code, not by the model<small>"BLOCKED" or "changed nothing" is recorded by our code, so it is a fact. V3 adds a note line, V4 a tracker block, V6 a done hint: each one a line written by code</small></li>
               </ul>
             </div>
           </div>
@@ -388,6 +388,7 @@ keyboard_enter · wait · status</pre>
                 <li>Payment ban, layer 2: deny rules</li>
                 <li>Loop guard <span class="ver v3">V3</span></li>
               </ul>
+              <p class="sub" style="margin-top:18px;font-size:17px">The first three are identical in all six versions and never switched off.</p>
             </div>
             <div class="col" style="flex:0 0 54%">
               <p class="sub" style="font-weight:700;color:var(--text-strong)">A guardrail firing in our run <span class="ver v2">V2</span></p>
@@ -562,7 +563,7 @@ keyboard_enter · wait · status</pre>
                 <li>11 <code>status complete</code> → verifier: <span class="fail">FAIL</span></li>
               </ul>
               <p class="sub" style="margin-top:12px;font-size:18px;color:var(--text-strong)">Model's own thought at step 11: "The contact has been successfully created."</p>
-              <p class="sub" style="margin-top:10px;font-size:18px">Class: <strong>lost_value</strong>: a value from the goal never reached the device; the silent "done" is the symptom. Not a one-off: the surname is missing in 5 of 6 tree-based Contacts runs (V2, V3). V1 typed both names every time.</p>
+              <p class="sub" style="margin-top:10px;font-size:18px">Class: <strong>lost_value</strong>: a value from the goal never reached the device; the silent "done" is the symptom. Not a one-off: the surname is missing in 5 of 6 tree-based 4B runs (V2, V3); V1 typed both names every time, and so did the 8B model (V5, V6: 0 of 6 lost).</p>
             </div>
           </div>
           <aside class="notes">Echter Lauf (ContactsAddContact, V2, Windows, 08.10.). Zeigt zwei Dinge: der Guardrail greift (Schritt 2), und der Agent meldet Erfolg ohne zu prüfen. Tag 1: "the most dangerous of the three, because it is silent". Klassifikation nach Abgleich mit dem Mac-Bericht: Wurzel lost_value (Nachname kam nie an), Symptom false_done; unser Klassifizierer erkennt nur erfundenen Text, nicht ausgelassenen. Hypothese: In der Textliste wirkt "der Name" nach dem ersten Feld erledigt; im Screenshot ist das leere Feld "Last name" direkt darunter sichtbar, deshalb V1 3/3. V3-Prüfschritt vor done hat den fehlenden Nachnamen in allen drei V3-Läufen durchgewinkt (gleiches schwaches Modell als Prüfer). Dieser Lauf ist der Setup-Lauf vor der Evaluation; die drei gewerteten V2-Läufe zeigen dasselbe Muster. Sprechtext: notes/Sprechtext-Folien.md.</aside>
@@ -622,21 +623,21 @@ keyboard_enter · wait · status</pre>
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> In one breath</p>
           <h2 class="title" style="max-width:42ch">Six sentences that 81 runs on two machines support</h2>
           <hr class="rule" />
-          <ul class="bullets" style="gap:8px">
-            <li>Moving grounding into code made every step 3× faster and removed the taps into nothing<small>V1 → V2, both machines</small></li>
-            <li>With the tree, the 4B model lost the surname in 5 of 6 Contacts runs; the 8B model in 0 of 6<small>V2 + V3 vs. V5 + V6, MacBook</small></li>
-            <li>Every harness mechanism we added cost steps and none raised the success rate<small>V3 +1.7, V4 +1.9 steps per run; 2 / 9 → 0 / 9 and 1 / 9</small></li>
-            <li>A correct screen without "done" happened in every version from V2 on<small>the agent has to know it is finished; the checker does not help it</small></li>
-            <li>Not one task instance passed in all six versions; the .txt notes never passed after V1<small>same seed, same values: the extension field decides</small></li>
-            <li>The payment ban never had to fire; the home-screen rule did, in V2, V3 and V6<small>81 runs, 0 payment attempts, 6 blocked home-screen taps on the Mac</small></li>
+          <ul class="bullets" style="gap:8px;font-size:20px">
+            <li style="font-size:20px">Moving grounding into code made every step 3× faster and removed the taps into nothing<small>V1 → V2, both machines</small></li>
+            <li style="font-size:20px">With the tree, the 4B model lost the surname in 5 of 6 Contacts runs; the 8B model in 0 of 6<small>V2 + V3 vs. V5 + V6, MacBook</small></li>
+            <li style="font-size:20px">Every harness mechanism we added cost steps and none raised the success rate<small>V3 +1.7, V4 +1.9 steps per run; 2 / 9 → 0 / 9 and 1 / 9</small></li>
+            <li style="font-size:20px">A correct screen without "done" happened in every version from V2 on<small>the agent has to know it is finished; the checker does not help it</small></li>
+            <li style="font-size:20px">Not one task instance passed in all six versions; the .txt notes never passed after V1<small>same seed, same values: the extension field decides</small></li>
+            <li style="font-size:20px">The payment ban never had to fire; the home-screen rule did, in V2, V3 and V6<small>81 runs, 0 payment attempts, 6 blocked home-screen taps on the Mac</small></li>
           </ul>
           <aside class="notes">Liams Einstieg in Kapitel 5: sechs Sätze, jeder mit Beleg, bevor die Details kommen. (1) Folie 24, Windows 90 → 28 s, Mac 23,5 → 6,3 s. (2) V2 Contacts 2 von 3 verloren, V3 3 von 3; V5 und V6 je 0 von 3 (V6 Run 2 kam nie bis zum Formular, zählt nicht als verloren). (3) Mac: Schritte pro Lauf 12,9 (V2) → 14,6 (V3) → 14,8 (V4); Erfolg 2/9 → 0/9 → 1/9. (4) V2 Markor 1, V3 Markor 1, V4 SMS 3, V5 Markor 3, V6 Contacts 3. (5) Backup B12. (6) Payment-Ban: 0 Treffer in 81 Läufen; Home-Screen-Regel: 6 geblockte Taps auf dem Mac (V2: 3, V3: 2, V6: 1, inkl. ersetzter Läufe; stats.blocked.home_screen in result.json), 0 in V1 (Screenshot), V4 (back statt Tap) und V5. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 23 · The improvement — content.md #23 -->
         <section data-background-color="#ffffff">
-          <p class="eyebrow"><span class="day">What we changed and learned ·</span> V1 → V2 → V3</p>
-          <h2 class="title" style="max-width:52ch">What changed between the versions: one change for V2, five more for V3</h2>
+          <p class="eyebrow"><span class="day">What we changed and learned ·</span> V1 → V6</p>
+          <h2 class="title" style="max-width:52ch">What changed between the versions: one change for V2, five for V3, then three single-change tests</h2>
           <hr class="rule" />
           <table class="compact mid" style="font-size:17px">
             <thead><tr><th style="width:20%"></th><th style="width:26%">V1 baseline <span class="ver v1">V1</span></th><th style="width:26%">V2 index <span class="ver v2">V2</span></th><th>V3 full harness <span class="ver v3">V3</span></th></tr></thead>
@@ -649,7 +650,7 @@ keyboard_enter · wait · status</pre>
               <tr><td>Guardrails</td><td>step limit, payment ban, app scope</td><td>identical</td><td>identical</td></tr>
             </tbody>
           </table>
-          <p class="sub" style="margin-top:14px;font-size:17px">V1 → V2 is one change, so its effect can be attributed. V2 → V3 stacks five, so it cannot: V3 is a package test.</p>
+          <p class="sub" style="margin-top:8px;font-size:16px">V1 → V2 is one change, so its effect can be attributed. V2 → V3 stacks five: a package test. MacBook only, one change each on V2: <span class="ver v4">V4</span> + goal tracker in code · <span class="ver v5">V5</span> + 8B model · <span class="ver v6">V6</span> = V5 + clear field, done hint (26b).</p>
           <aside class="notes">Warum genau eine Änderung V1 → V2: sonst weiß man nicht, was den Unterschied gemacht hat. V2 → V3 bündelt fünf Mechanismen (stabiler Bildschirm abwarten, Hinweis "keine Wirkung", Loop-Guard, Statuszeile mit Notizen, Prüfschritt vor done); das ist ein Pakettest, nicht zuordenbar. Warum die V2-Änderung: V1 scheiterte an Tipps ins Leere (SMS-Läufe 4 bis 6 Tipps auf dieselbe Koordinate); ein Index kann nur Elemente benennen, die es gibt. Modellname hier nennen (Pflicht). Beide Versionen sind derselbe Code; die Version ist eine Config-Datei, die in jedes meta.json kopiert wird. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
@@ -665,7 +666,7 @@ keyboard_enter · wait · status</pre>
                 <div class="bar-col"><div class="bar-val">33 %</div><div class="bar" style="height:33%;background:var(--tum-blue-light)"></div><div class="bar-label">V2 · 3 of 9</div></div>
                 <div class="bar-col"><div class="bar-val">0 %</div><div class="bar" style="height:1%;background:var(--tum-blue)"></div><div class="bar-label">V3 · 0 of 9</div></div>
               </div>
-              <p class="sub" style="margin-top:12px;font-size:17px">Success rate (verifier PASS), same 9 task instances per version, 0 ERROR runs.</p>
+              <p class="sub" style="margin-top:12px;font-size:17px">Success rate (verifier PASS), same 9 task instances per version, 0 ERROR runs. V4 to V6 ran on the MacBook only: slide 26b.</p>
             </div>
             <div class="col" style="flex:0 0 40%">
               <table class="compact roomy" style="font-size:18px">
@@ -708,12 +709,13 @@ keyboard_enter · wait · status</pre>
           <hr class="rule" />
           <div class="cols" style="gap:56px">
             <div class="col">
-              <table class="compact roomy" style="font-size:18px">
+              <table class="compact mid" style="font-size:18px">
                 <thead><tr><th></th><th>Windows laptop</th><th>MacBook Air M4</th></tr></thead>
                 <tbody>
                   <tr><td>V1 <span class="ver v1">V1</span></td><td><strong>5 / 9</strong></td><td><strong>5 / 9</strong></td></tr>
                   <tr><td>V2 <span class="ver v2">V2</span></td><td><strong>3 / 9</strong></td><td><strong>2 / 9</strong></td></tr>
                   <tr><td>V3 <span class="ver v3">V3</span></td><td><strong>0 / 9</strong></td><td><strong>0 / 9</strong></td></tr>
+                  <tr><td>V4 · V5 · V6</td><td>not run</td><td>1 / 9 · 3 / 9 · 1 / 9</td></tr>
                   <tr><td>ERROR runs</td><td>0</td><td>11, re-run</td></tr>
                   <tr><td>V1 model time per step</td><td>90 s</td><td>23 s</td></tr>
                   <tr><td>Ollama / model digest</td><td>0.40.0 / ef33995b</td><td>0.35.1 / ee4b975b</td></tr>
@@ -735,7 +737,7 @@ keyboard_enter · wait · status</pre>
         <!-- 26b · Three more single-change tests on the MacBook — content.md #26b -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> Iterations after V3 (MacBook)</p>
-          <h2 class="title" style="max-width:44ch">Three more iterations on the MacBook: a bigger model fixed the lost surname, two code fixes never fired</h2>
+          <h2 class="title" style="max-width:52ch">Three more iterations on the MacBook: a bigger model fixed the lost surname, two code fixes never fired</h2>
           <hr class="rule" />
           <table class="compact mid" style="font-size:16px">
             <thead><tr><th style="width:22%"></th><th>V2 <span class="ver v2">V2</span></th><th>V4 = V2 + goal tracker in code <span class="ver v4">V4</span></th><th>V5 = V2 + 8B model <span class="ver v5">V5</span></th><th>V6 = V5 + clear field, "say done" hint <span class="ver v6">V6</span></th></tr></thead>
@@ -746,12 +748,12 @@ keyboard_enter · wait · status</pre>
               <tr><td>model time per step</td><td>6.3 s</td><td>9.3 s</td><td>7.3 s</td><td>14.6 s, laptop under load</td></tr>
             </tbody>
           </table>
-          <ul class="bullets" style="margin-top:16px;gap:6px">
-            <li style="font-size:19px">V4: the code veto never fired; the 4B model looped instead (12× back, 10 to 15 taps on one field). Every prompt line is an intervention</li>
-            <li style="font-size:19px">V5: +16 % time per step, surname never lost again; the extension-field loop and the missing "done" stay</li>
-            <li style="font-size:19px">V6: the field loop is taps, not typing; the done hint waited for a visible change, Markor's Save gives none (V3's assumption, repeated)</li>
+          <ul class="bullets" style="margin-top:10px;gap:4px">
+            <li style="font-size:18px">V4: the code veto never fired; the 4B model looped instead (12× back, 10 to 15 taps on one field). Every prompt line is an intervention</li>
+            <li style="font-size:18px">V5: +16 % time per step, surname never lost again; the extension-field loop and the missing "done" stay</li>
+            <li style="font-size:18px">V6: the field loop is taps, not typing; the done hint waited for a visible change, Markor's Save gives none (V3's assumption, repeated)</li>
           </ul>
-          <p class="sub" style="margin-top:10px;font-size:17px">Same model, same seeds, temperature 0: Contacts went 2 / 3 → 0 / 3 between V5 and V6. Three runs find patterns, not rankings.</p>
+          <p class="sub" style="margin-top:8px;font-size:16px">Same model, same seeds, temperature 0: Contacts went 2 / 3 → 0 / 3 between V5 and V6. Three runs find patterns, not rankings.</p>
           <aside class="notes">Mac-Läufe 08.10. (runs/summary.md des Kollegen, 54 Läufe, V1 bis V6). V4 = V2 plus Code-Tracker: Code zieht die Werte aus dem Goal (Name, Nummer, Dateiname, Text), zeigt jeden Schritt, was noch nicht getippt ist, und blockt "complete", solange etwas fehlt. 1/9: Das Veto hat nie gefeuert, dafür Schleifen (12× back auf dem Home-Screen, 10 bis 15× Tipp auf das Endungsfeld). V5 = V2 mit qwen3-vl:8b-instruct (6,1 GB): 3/9, 7,3 statt 6,3 s pro Schritt, Nachname nie wieder verloren, Contacts 2/3; Endungsfeld-Schleife und fehlendes "done" bleiben. V6 = V5 plus zwei Code-Fixes genau für diese zwei Muster: Feld mit Vorbelegung vor dem Tippen leeren, und nach Save/Send bei vollständig getippten Werten um "complete" bitten. 1/9: Die Endungsfeld-Schleife besteht aus Klicks, nie aus input_text, also hatte die Lösch-Regel nichts zu tun; der Hinweis war an "Bildschirm hat sich geändert" gekoppelt, Markors Save ändert nichts, also kam er bei Markor nie (derselbe Fehler wie in V3). Die 14,6 s pro Schritt sind Last auf dem Laptop (erste Schritte bis 76 s), nicht V6. Contacts 2/3 auf 0/3 bei gleichem Modell, gleichen Seeds und unverändertem Contacts-Pfad: so groß ist das Rauschen bei 3 Läufen. Bezug zu Folie 25: Für lost_value war die Antwort Parameters (8B), nicht Programs (Tracker).</aside>
         </section>
 
@@ -831,7 +833,7 @@ keyboard_enter · wait · status</pre>
           <hr class="rule" />
           <pre class="mono" style="font-size:20px;margin:8px 0 28px">python run_eval.py --config configs/v2_index.json</pre>
           <ul class="bullets">
-            <li>Same task seeds for every version (AndroidWorld's own seed formula)</li>
+            <li>Same task seeds for all six versions (AndroidWorld's own seed formula); one config file per version</li>
             <li>Temperature 0, fixed model seed; model name, size, quantisation and digest recorded per run<small>"if you change quantisation, or switch model, re-run your evaluation. It is a different model."</small></li>
             <li>AndroidWorld pinned to one commit; setup scripts for macOS and Windows; 226 unit tests without an emulator</li>
             <li>Every run leaves <code>trajectory.jsonl</code>, screenshots with the tap marked, <code>recording.mp4</code>, one log row</li>
@@ -842,12 +844,13 @@ keyboard_enter · wait · status</pre>
         <!-- 28 · What we learned — content.md #28 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> Key findings</p>
-          <h2 class="title" style="max-width:40ch">Four things the runs told us that a demo would not have</h2>
+          <h2 class="title" style="max-width:40ch">Five things the runs told us that a demo would not have</h2>
           <hr class="rule" style="border-top-color:var(--tum-orange)" />
-          <ul class="bullets findings" style="margin-top:8px;gap:22px">
+          <ul class="bullets findings" style="margin-top:4px;gap:14px">
             <li>Where grounding happens matters more than prompt wording<small>moving it into code made every step 3× faster and removed the taps into nothing. It also exposed the next weakness: lost values</small></li>
             <li>Every safety mechanism encodes an assumption about the app<small>V3's hint, loop guard and check step all assume a visible change. Markor autosaves. It became 0 of 9 on both machines</small></li>
             <li>A verifier as weak as the actor adds cost, not safety<small>the check step was the same 4B model; it accepted the missing surname every time</small></li>
+            <li>A bigger model closed the knowledge gap, not the finishing gap<small>the 8B model never lost the surname (V5, V6); the extension-field loop and the missing "done" stayed</small></li>
             <li>Three runs per task find patterns, not rankings<small>one run moves a task by 33 points; the trajectories carry the findings, not the rates</small></li>
           </ul>
           <aside class="notes">Stand nach allen 27 Windows-Läufen und dem Mac-Bericht (08.10.). Jede Zeile ein Finding mit Beleg: (1) Folie 24, Kosten und keine Tipps ins Leere in V2; (2) Folie 21, Save-Schleife, V3 0/9; (3) Folie 20/21, Prüfschritt winkt Nachname 3/3 durch; (4) Folie 24/25, Einzelläufe schwanken. Sprechtext: notes/Sprechtext-Folien.md.</aside>

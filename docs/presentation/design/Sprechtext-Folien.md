@@ -1,6 +1,6 @@
 # Sprechtext zu den Folien
 
-**Nummern = Foliennummer im Browser** (Stand 08.10., nach dem Umbau in fünf Kapitel; Trennfolien zählen mit).
+**Nummern = Folien-ID im Deck** (Kommentar über jeder Folie, z. B. `<!-- 21 · … -->`), nicht die laufende Browser-Nummer: Seit Liams Einschüben (19b, 19c, 21b, 22b, 26b bis 26d, 28b, 28c) stimmen beide nicht mehr überein. Die ID steht auch in content.md.
 
 Stand 08.10.2026. Pro Folie: was drauf steht, was dazu gesagt wird, was die Zuhörer mitnehmen sollen. Wird fortgeschrieben, sobald eine Folie abgenommen ist.
 
@@ -81,6 +81,10 @@ Die Aufgabe war nicht „bau einen Agenten", sondern „bau einen Agenten und mi
 
 - „Warum drei Versionen?" V1 ist die einfachste Variante, V2 ändert genau eine Sache, damit der Effekt zuordenbar ist, V3 enthält die restlichen Fixes. Nur V1 → V2 ist ein sauberer Vergleich, V2 → V3 bündelt mehrere Änderungen.
 - „Was ist ein Emulator?" Ein simuliertes Android-Handy, das auf dem Laptop läuft. Gleiche Apps, gleiches System, nur ohne Hardware.
+
+### Ergänzung: sechs Versionen
+
+Auf der Folie steht jetzt „3 tasks × 3 runs × 6 versions". Geplant waren drei (V1, V2, V3). Liam hat am 08.10. auf dem Mac drei weitere gefahren, jede mit genau einer Änderung gegenüber V2: V4 = Code-Tracker für die Aufgabenwerte, V5 = das größere 8B-Modell, V6 = V5 plus zwei Code-Fixes. Insgesamt 81 Läufe auf zwei Rechnern. Mündlich: „Drei Versionen waren geplant, drei kamen dazu, als wir wissen wollten, ob ein größeres Modell oder mehr Code hilft."
 
 ---
 
@@ -437,6 +441,10 @@ Unser Code sucht Element 3 in der Liste aus Folie 10. Entweder es ist da oder ni
 - „Was, wenn das Element nicht in der Liste ist?" Dann kann V2 es nicht antippen. Das ist die Schwäche des Trees von Folie 10. V3 hat dafür keine Lösung; das wäre ein Fall für einen Screenshot-Fallback, den wir nicht gebaut haben.
 - „Woher weiß das Modell, welche Nummer das Namensfeld hat?" Aus der Liste, die es in jedem Schritt bekommt: jede Zeile hat eine Nummer, einen Typ und eine Beschriftung, z. B. `[7] EditText "First name"`.
 
+### Ergänzung: V4 bis V6
+
+Alle Versionen ab V2 zeigen per Index (Marken V2 bis V6 auf der Folie). Nur V1 zeigt per Koordinate.
+
 ---
 
 ## Folie 12: What the model sees each step
@@ -774,6 +782,10 @@ Dieser Lauf ist der Setup-Lauf von heute Morgen (vor der gewerteten Evaluation).
 - „Warum lässt das Modell den Nachnamen weg?" Hypothese: In der Textliste stehen „[7] EditText First name" und „[8] EditText Last name" als zwei Zeilen. Das kleine Modell hält „den Namen" nach dem ersten Feld für erledigt, und nichts in der Liste widerspricht. Im Screenshot ist das leere Feld direkt unter dem Vornamen sichtbar.
 - „Hat V3 das nicht abgefangen? Da gibt es doch einen Prüfschritt vor done." Nein. Der Prüfschritt nutzt dasselbe kleine Modell, und das hat den fehlenden Nachnamen in allen drei V3-Läufen durchgewinkt. Ein Prüfer, der so schwach ist wie der Handelnde, bringt Kosten, keine Sicherheit. Kommt auf Folie 21 und 28.
 
+### Ergänzung: das 8B-Modell
+
+Der Satz unten sagt jetzt auch: Das 8B-Modell (V5, V6, Mac) hat den Nachnamen in 0 von 6 Kontakt-Läufen verloren. Der verlorene Nachname war also eine Grenze des 4B-Modells, kein Fehler der Textliste an sich. Das ist die Brücke zu Folie 26b.
+
 ---
 
 ## Folie 21: Was it reliable?
@@ -812,6 +824,10 @@ Satz unten: Jeder V3-Mechanismus nimmt an, dass eine erfolgreiche Aktion den Bil
 
 - „Wie hätte man den Prüfschritt richtig gebaut?" Nicht den Bildschirm prüfen, sondern den Zustand, den die Oberfläche nicht zeigt: die Kontaktdatenbank, die Dateiliste. Oder ein stärkeres Modell nur für die Prüfung. Kommt auf Folie 25.
 - „Warum hat V2 Markor bestanden, V3 nicht, bei gleichen Aufgaben?" V2 hatte keinen Hinweis und keinen Wächter. Es tippte zwei-, dreimal Save, sagte fertig, und der Prüfer fand die Datei. V3 hat sich an genau dieser Stelle festgebissen.
+
+### Ergänzung: V4 bis V6
+
+Für die Mac-Versionen gibt es eine eigene Folie direkt danach (21b, „Reliability check, the later iterations", von Liam; kann gezeigt oder übersprungen werden). Kurz: V4 hat einen Tracker-Block in den Prompt gelegt und ein Code-Veto gegen „fertig", solange ein Wert fehlt; das Veto wurde nie erreicht, das 4B-Modell drückte mit dem Block elfmal „zurück". V5 nahm das 8B-Modell: Nachname in allen Läufen getippt. V6 fügte zwei Regeln hinzu (Feld vor dem Tippen leeren, Done-Hint nach Save/Send), die in den gescheiterten Läufen nie griffen, weil die Schleife aus Klicks bestand und der Hint an eine sichtbare Änderung gekoppelt war, derselbe Denkfehler wie bei V3. Liams Satz dazu: Ein Mechanismus ist nur so gut wie die Bedingung, auf die er wartet.
 
 ---
 
@@ -882,6 +898,10 @@ V1 scheiterte an Tipps ins Leere: In den SMS-Läufen tippte es vier- bis sechsma
 - „Warum habt ihr V3 nicht auch als Einzeländerungen gemacht?" Fünf Einzelversionen mal neun Läufe wären 45 weitere Läufe, bei 7 Minuten pro Lauf über fünf Stunden. Das Paket war die ehrliche Abkürzung, und wir sagen offen, dass es nicht zuordenbar ist.
 - „Was heißt Aufgaben-Instanz?" Die Aufgabe „Kontakt anlegen" mit konkreten Werten, z. B. Hugo Pereira mit einer bestimmten Nummer. AndroidWorld erzeugt die Werte aus einem Seed (Startwert). Gleicher Seed, gleiche Werte. So bekommt Lauf 1 in V1, V2 und V3 exakt denselben Kontakt.
 
+### Ergänzung: V4 bis V6
+
+Unter der Tabelle steht jetzt: Auf dem MacBook drei weitere Versionen mit je genau einer Änderung auf V2: V4 = V2 plus Code-Tracker, V5 = V2 plus 8B-Modell, V6 = V5 plus Feld-leeren und Done-Hint. Zahlen dazu auf Folie 26b. Mündlich reicht: „Und danach drei Einzeländerungen auf dem Mac, je eine: Tracker im Code, größeres Modell, zwei Fixes."
+
 ---
 
 ## Folie 24: Before / after
@@ -921,6 +941,10 @@ V1 scheiterte an Tipps ins Leere: In den SMS-Läufen tippte es vier- bis sechsma
 - **Prompt-Tokens pro Aufruf:** wie viel Text das Modell pro Anfrage lesen muss (Folie 10: Screenshot ist teurer als Liste).
 - **Zeit pro Lauf:** Modellzeit plus Warten auf den Emulator, über alle Schritte eines Laufs.
 - **Ungültige Antworten:** wie oft das Modell etwas ausgab, das nicht ins Schema passte (Folie 13): nie, in 27 Läufen.
+
+### Ergänzung
+
+Die Balken zeigen die Windows-Läufe (V1 bis V3). V4 bis V6 liefen nur auf dem Mac, deshalb stehen sie hier nicht; der Hinweis unten verweist auf Folie 26b.
 
 ---
 
@@ -1009,6 +1033,10 @@ Rechts: gleiches Skript, gleiche Seeds, Temperatur 0. Gleiche Muster: Nachname f
 
 - „Wenn es ein anderes Modell ist, darf man die beiden überhaupt nebeneinander zeigen?" Ja, genau deshalb stehen sie nebeneinander und nicht in einer gemeinsamen Tabelle. Wir mischen die Zahlen nicht. Wir zeigen, dass die Erkenntnis auf beiden Rechnern gilt, die Einzelwerte aber nicht übertragbar sind.
 - „Warum ist V1 auf dem Mac viermal schneller?" Apple-Chip mit Grafikbeschleunigung für das Modell; auf dem Windows-Laptop rechnet die CPU. Für die Erfolgsquote spielt das keine Rolle, für die Laufzeit schon.
+
+### Ergänzung: Zeile V4 bis V6
+
+Neue Zeile in der Tabelle: V4 · V5 · V6 wurden auf Windows nicht gefahren, auf dem Mac 1/9 · 3/9 · 1/9. Mündlich: „Die drei weiteren Versionen gibt es nur vom Mac, dazu Liam gleich."
 
 ---
 
@@ -1143,6 +1171,10 @@ Punkt 1 bis 3 sind die Lektionen aus der Analyse des Kollegen, bestätigt durch 
 
 - „Was würdet ihr als Nächstes tun?" Zwei Dinge: dem Modell Liste und Bild zusammen geben (gegen den übersehenen Nachnamen), und den Prüfschritt auf den Gerätezustand setzen statt auf den Bildschirm (Kontaktdatenbank, Dateiliste). Beides steht auf Folie 25.
 - „War das Projekt dann ein Misserfolg?" Nein. Die Aufgabe war, zu messen, wo der Agent bricht, und das belegt zu erklären. Das haben wir mit 54 Läufen auf zwei Rechnern. Ein Agent, der auf dem Papier besser aussieht, aber nie gemessen wurde, wäre der Misserfolg gewesen.
+
+### Ergänzung: fünfte Erkenntnis
+
+**A bigger model closed the knowledge gap, not the finishing gap.** Das 8B-Modell hat den Nachnamen nie verloren (V5, V6). Geblieben sind die Schleife am Dateiendungs-Feld und das fehlende „fertig". Modellgröße schließt Wissenslücken, nicht Interaktions- oder Abschlusslücken. Überschrift jetzt „Five things".
 
 ---
 
