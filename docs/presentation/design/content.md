@@ -1,0 +1,90 @@
+# content.md — what goes into the presentation (and why)
+
+This file **guards the deck**. Nothing gets built in `deck/index.html` until it has an entry
+here. The point is to force the thinking *before* the designing: if you can't say the one point
+and why it belongs, it doesn't go in.
+
+## The rule
+
+**No slide without an entry.** To propose a slide, add a row below. To build it, the entry must
+be filled in and marked `approved`. Claude will refuse to add a slide that has no approved entry
+here, and will flag any slide in the deck that isn't listed.
+
+## How to add a slide (fill this in first)
+
+For every candidate slide, answer three things, honestly and in one line each:
+
+1. **The one point**: the single thing the audience should remember. One sentence. If it needs
+   two, it's two slides.
+2. **So what?**: why this belongs in *our* story. What does it prove or move forward? If the
+   honest answer is "it's background" or "it's interesting," reconsider.
+3. **Evidence**: the run, number, screenshot or doc that backs it, with a path.
+
+If a slide can't clear all three, it doesn't make the cut. That's the feature.
+
+## Frame (from the syllabus and Day 1 slides)
+
+- 10 to 30 minutes plus 5 to 10 minutes Q&A, Friday afternoon.
+- Required contents: use case · agent design · implementation · evaluation results · key
+  findings · at least one unsuccessful attempt or failure. Model name stated.
+- Graded on: clarity and structure, quality of the technical explanation and analysis, and
+  asking questions after the other groups' talks.
+- The lecturer's own words: "Friday's presentation is this table, sorted." (the run log)
+
+## Structure decision (Bela, 2026-10-08)
+
+**Revised 2026-10-08 (Bela: "I no longer see the thread").** The deck now follows the project's
+own story in **five chapters**, each opened by a dark divider slide and listed on an
+agenda slide. Slide numbers are the browser's slide numbers (dividers count): 1 The assignment · 2 How we built it · 3 How we measured · 4 What happened ·
+5 What we changed and learned. Every content slide's eyebrow names its chapter. Lecture
+references (`Day N`, lecture quotes in eyebrows, the `Draft` footer) were removed from the visible
+deck; they survive only in speaker notes. Reward design and "why we did not train" moved to the
+backup (B4, B5) as lecture reflection. The "Day" column below is bookkeeping only.
+
+## The deck's spine (in order)
+
+Status values: `proposed` → `approved` → `built`.
+
+| # | Day | Working title | The ONE point (one sentence) | So what? | Evidence | Status |
+|---|---|---|---|---|---|---|
+| 1 | — | Title & team | Title "Agentic AI in Modern Business", subtitle "A GUI agent for AndroidWorld, and where it breaks", team (Jonas Schmidt, Vincent Fischer, Liam Meinhart, Bela Gehlen, Gloria Dell'Etere), course, date. No model name here; it is stated on #23. | Frames the talk. | — | approved |
+| 2 | — | Agenda | The five chapters of the talk in one view, each with a one-line summary. | Bela 2026-10-08: the audience needs to see the thread before the first content slide. | — | approved |
+| 3 | — | Chapter divider: The assignment | "What we were asked to build, and the three tasks we chose to run it on." | Bela 2026-10-08: dividers carry the story; every slide's eyebrow names its chapter. | — | approved |
+| 4 | 1 | The assignment: task, goal, guidelines | Build a GUI agent for AndroidWorld (one class, one step(), sees only the screen); the goal is a measured result, not a demo (3 tasks × 3 runs × 3 versions, failures explained, every version measured before/after); the lecturer's guidelines: any model but name it, guardrails in code, one task per difficulty row, record every run. | Bela 2026-10-08: the old opening was too abrupt; the audience first needs to know what the task was and what the rules were before seeing the three tasks. | Day 1 slides "Project", "Tasks"; `../Anforderungen-und-Abgabe.md` sections 1 and 2 | approved |
+| 5 | 1 | Use case: the three tasks | One task per difficulty row so the agent is pushed to where it breaks: add a contact, create a Markor note, create a note and send it by SMS. | Required content; follows the lecturer's advice ("if everything comes from the top box, you will never find out where your agent breaks"). | Day 1 slide "Tasks"; `configs/*.json` | approved |
+| 6 | — | Chapter divider: How we built it | "One agent, three versions. The decisions behind it, from the model to the guardrails." | Bela 2026-10-08: dividers carry the story; every slide's eyebrow names its chapter. | — | approved |
+| 7 | 1 | The model: where it runs, what it costs | qwen3-vl:4b-instruct on the laptop via Ollama (nothing leaves the machine); Q4_K_M ≈ 3.3 GB weights; num_ctx 8,192; temperature 0, seed 42, top-p default; max 400 output tokens, schema-constrained. | Bela's request 2026-10-08: temperature/seed/top-p, context window, memory, where it runs (Day 1 slides 37 "three places", "how much memory", quantisation). | `gui_agent/config.py`, `meta.json` of any run, `ollama show` | approved |
+| 8 | 1 | Agent design: one step() + the five harness parts | The agent is a fixed 8-stage pipeline where only one stage is the model; the table maps Day 1's five harness parts (loop control, context assembly, tool dispatch, error recovery, guardrails) to stages. | Required content; Day 1 slide 40 "You have already built four of these" (Bela's request). | `README.md` table "The agent"; `gui_agent/agent.py` | approved |
+| 9 | 3 | ReAct: one step traced | Every step is reason → act → observe with the real step-5 JSON from our run; Day 3's tool categories and the "Computer Use" plugin mapped onto our agent; discovery/MCP not needed. | Bela's request 2026-10-08. Day 3 slides 1 to 5 covered in one slide. | `trajectory.jsonl` step 5 of the Windows run; Day 3 slides | approved |
+| 10 | 1 | Design decision 1: what the agent sees | Screenshot vs. accessibility tree: pixels see everything but point badly, the tree is precise but incomplete; screenshot ≈ 1,900 prompt tokens/step vs. tree ≈ 980. | "The first real design decision of your project"; "a screenshot is the most expensive thing in your window" with our own numbers. | Day 1 slides; `observation.py`; `summary.md` cost table | approved |
+| 11 | 1 | Design decision 2: how it points | Index from the tree vs. coordinates from the model: with index, grounding is a table lookup in our code and a visible failure. | "Most GUI-agent failures are pointing failures." Sets up V1 → V2. | Day 1 slide "The hard step is pointing"; `actions.py` | approved |
+| 12 | 2 | Context engineering: multi-turn loop, compressed, cache-friendly | Day 2's multi-turn tool-call loop (slide 11), but the prompt is rebuilt each step instead of appended; stable prefix first so the KV cache hits, status bar last; history and status written by code. | Day 2 slide 11 and KV-cache rules applied one to one (Bela, 2026-10-08); context cost stays flat. Speaker note states the trade-off honestly: only the system prefix is cached. | `gui_agent/prompts.py` docstring, `memory.py` | approved |
+| 13 | 3 | Action space: ten actions, one JSON schema | The action space is a schema handed to the model server; action types and app names outside it cannot be generated, then validation + one retry. | Day 3 "tools are the action space", Day 1 order "constrain decoding → validate and retry → only then prompt". 0 invalid replies in 16 runs. | `actions.py` `action_schema`, `model.py`; `summary.md` cost table | approved |
+| 14 | 4 | Guardrails in code | Step limit, payment ban in two layers, app allow-list and loop guard have no off switch; a scripted model that taps "Pay" produces zero device actions. | Required minimum; Day 4 "enforcement layer, not prompt rule"; "valid calls can still make no progress" → loop guard. | `guardrails.py`; `tests/test_guardrails.py` | approved |
+| 15 | — | Chapter divider: How we measured | "When a run stops, what counts as a pass, and the one row we wrote per run." | Bela 2026-10-08: dividers carry the story; every slide's eyebrow names its chapter. | — | approved |
+| 16 | 1 | When a run stops, what counts as success | Five stop reasons (model_done, model_infeasible, step_limit, loop_abort, error); PASS only if the agent reported complete AND AndroidWorld's checker returns 1.0; step limit is never a PASS; ERROR excluded from rates. | Bela's request 2026-10-08: rules for abort and success; Day 1 "three ways the loop breaks". | `run_eval.py` lines 123–130, `agent.py` STOP_* | approved |
+| 17 | 1 | Log your run: one row per run | The lecturer's row format (task · run · model · observation · grounding · steps (budget) · verifier · failure_class · recording · note) shown with one real row from our run; the five failure classes. | Bela's request 2026-10-08: Day 1 slide 52 must be in the deck. Written during the run, not from memory. | `runs/log.csv`, `evallog.py`; our Windows run | approved |
+| 18 | — | Chapter divider: What happened | "The V1 numbers, one failure step by step, and the diagnosis." | Bela 2026-10-08: dividers carry the story; every slide's eyebrow names its chapter. | — | approved |
+| 19 | 4 | Results V1: the log table | 9 Windows runs (08.10.), 5/9 PASS: Contacts 3/3, Markor 2/3, Note+SMS 0/3; all SMS failures are repeated taps in the SMS app (grounding). | "This table is your presentation." Honest baseline. Decision 2026-10-08: Windows runs are the main table (0 ERROR, no RAM confound), Mac runs become the second-machine slide. | `runs/log.csv` (Windows, 08.10.) | approved |
+| 20 | 1 | One failure, step by step | Real trace: typed "Hugo", never "Pereira", reported done; class lost_value (root cause, the surname never reached the device), false_done is the symptom; runner had guessed wrong_app. Same omission in 5 of 6 tree-based Contacts runs (V2, V3), never in V1. Recording embedded at 8× speed, autoplays. | Required: at least one failure analysed; shows the five failure classes in use and why the recording decides. | `runs_setup/v2_index/ContactsAddContact/run1_20261008-103339/` (Windows run) | approved |
+| 21 | 4 | Was it reliable? The four levers | Day 4's core concepts and four reliability levers (feedback, recovery, verification, constraints) mapped onto V1/V2 vs. V3 with honest verdicts: strong on constraints and observability, no verification before done in V1/V2 (where lost_value goes through); V3 added feedback, verification and a loop guard, and all three misfired because they assume a successful action changes the screen (Markor autosaves) and the check step uses the same 4B model (accepted the missing surname 3/3). Updated 2026-10-08 after all 27 runs: V3 0/9. | Bela's request 2026-10-08 (D4 slides 10 and 23). Turns "why did it fail" into Day 4 vocabulary; sets up V3. | `config.py` (parse_retries 2, request_timeout 300, max_done_rejections 2, loop guard), `agent.py` | approved |
+| 22 | — | Chapter divider: What we changed and learned | "One change, the before-and-after numbers, and where a fix belongs." | Bela 2026-10-08: dividers carry the story; every slide's eyebrow names its chapter. | — | approved |
+| 23 | 4 | The improvement: V1 → V2, one change | V1 → V2: observation + grounding changed, nothing else; same seeds, same model (**qwen3-vl:4b-instruct, named here**), same prompt structure. V2 → V3: five harness mechanisms stacked (stable-screen wait, no-effect hint, loop guard, status bar with notes, check step before done), so V3 is a package test, not attributable. Added V3 column 2026-10-08 (Bela). | Required: one documented improvement, attributable because it is exactly one change. Carries the required model name. | `configs/v1_baseline.json` vs `v2_index.json` | approved |
+| 24 | 4 | Before / after numbers | Success rate and cost for V1, V2 and V3 side by side, same task instances: 5/9, 3/9, 0/9; V2 3× faster and 44 % fewer tokens than V1. | Required: before-and-after results. The change hit what it targeted (no more no-effect coordinate taps, cost) and exposed lost_value; V3 made it worse. Windows runs, 0 ERROR. | `runs/log.csv` (Windows, 08.10.) | approved |
+| 25 | 5 | Where the fix belongs | For each failure we saw: what we tried, where we placed it (all Programs), whether it worked, and where it really belongs. Code fixed the mechanical failures (grounding, wrong_app) and failed on judgement (lost_value, false_done: same weak model as checker) and on app-specific behaviour (Markor autosave: a one-sentence Instruction, not a generic loop guard). Rewritten 2026-10-08 after all runs. | Day 5 table "Put the fix in"; strong Q&A material. | Day 5 slide "How to choose"; `docs/DESIGN.md` | approved |
+| 26 | 1 | Same code, second machine | The colleague's MacBook runs (V1 5/9, V2 2/9, V3 0/9, 11 ERROR re-run) show the same ranking and the same failure patterns as the Windows runs (5/9, 3/9, 0/9, 0 ERROR); single runs differ because Ollama build and model digest differ. | Reproducibility, demonstrated: "how many times did you run it?" → 54 runs on two machines. A different digest is a different model. Decision 2026-10-08: Windows is the main table, Mac the replication. | Mac report draft (08.10.), `runs/log.csv` (Windows) | approved |
+| 27 | 1 | Reproduce it | One command per version, config copied into every run, model digest recorded, Mac and Windows setup scripts. | Graded criterion: reproducibility; Day 1 "if you switch model, re-run". | `README.md`, `scripts/` | proposed |
+| 28 | 1 | What we learned | Four findings in one line each: where grounding happens matters more than prompt wording (3× faster, no taps into nothing, exposed lost_value); every safety mechanism encodes an assumption about the app (V3 assumes a visible change, Markor autosaves, 2/9 → 0/9); a verifier as weak as the actor adds cost, not safety (check step accepted the missing surname 3/3); three runs per task find patterns, not rankings. Rewritten 2026-10-08 after all runs. | Required: key findings; critical analysis, not just numbers. | `runs/log.csv` (`failure_reviewed`), `summary.md` cost table | proposed |
+| 29 | — | Close + Q&A | "The model decides. The harness makes it safe, measurable and honest." | Ends the story. | — | proposed |
+| 30 | — | Thank you | "Thank you. Questions?" with the team, mirrors the title slide. | Bela 2026-10-08: the deck needs a proper closing slide. | — | approved |
+| 31 | — | Backup divider | A dark "Backup" slide listing what follows, so the audience sees the talk is over. | Bela 2026-10-08. | — | approved |
+| B1 | — | Backup: V2 log rows | All V2 rows incl. the 2 ERROR runs. | For Q&A. | `runs/log.md` | proposed |
+| B2 | — | Backup: V3 (if run) | The remaining harness fixes stacked; several changes at once, so not attributable. | Only if the runs exist. | `configs/v3_full.json`, `runs/` | proposed |
+| B3 | 2 | Backup: skills, user memory, RAG | Moved to backup (Bela, 2026-10-08: a slide that says "not built" three times does not carry the story; kept for Q&A). Skills mechanism exists (`skills/<app>.md`, loaded only while that app is in front) but is off in all configs to keep V1 → V2 comparable; user memory and RAG not built because every run starts fresh and the need is perception, not knowledge. | Bela's request 2026-10-08. Shows the Day 2 concepts are understood and the omission is a decision, not a gap; links to Day 5 "Instructions" column. | `skills/README.md`, `config.py` `use_skills`, `docs/DESIGN.md` table | approved |
+| B4 | 5 | Backup (moved 2026-10-08, lecture reflection kept for Q&A): Reward design: our verifier is a reward function | The reward comes from the environment (AndroidWorld's checker), never from the agent's report; Day 5's four reward questions answered; false_done as our reward-hacking analogue; 46 % of a V2 run is waiting for the emulator. | Bela's request 2026-10-08. Maps our PASS rule onto Day 5 vocabulary; own number for the "77 % waiting" slide. | `run_eval.py` PASS rule; `summary.md` cost table (102.6 s/run, 4.7 s × 11.7 steps) | proposed |
+| B5 | 5 | Backup (moved 2026-10-08, lecture reflection kept for Q&A): Why we did not train | Our evaluation has the shape of one RL training step (attempts → verifier → compare → update), but the update goes into the harness; Day 5's "which stage" table shows our failure would qualify for RL, yet one attempt costs minutes on a real emulator, so the fix went into Programs. | Bela's request 2026-10-08. Explains the absence of training as a decision; closes with D5's last sentence. | Day 5 slides "One training step", "Which stage", "Classic RL vs LLM agent" | proposed |
+
+## Parked (not in the deck, maybe later)
+
+- Prompt-injection demo (clinic.html pattern): app allow-list refuses `open_app("Settings")`.
+- Token/latency per step V1 vs. V2 as a chart (numbers in `summary.md` cost table).
