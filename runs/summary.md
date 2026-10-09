@@ -15,7 +15,7 @@ Runs with the same seed have identical task parameters.
 
 | task | seed | v1_baseline | v2_index | v3_full | v4_tracker | v5_8b | v6_fixes |
 |---|---|---|---|---|---|---|---|
-| ContactsAddContact | 1324763856 | FAIL in 12 steps [grounding] | FAIL in 12 steps [grounding] | FAIL in 11 steps [too_early] | FAIL in 12 steps [grounding] | PASS in 12 steps | FAIL in 12 steps [grounding] |
+| ContactsAddContact | 1324763856 | FAIL in 12 steps [grounding] | FAIL in 12 steps [lost_value] | FAIL in 11 steps [lost_value] | FAIL in 12 steps [grounding] | PASS in 12 steps | FAIL in 12 steps [grounding] |
 | ContactsAddContact | 596600690 | PASS in 11 steps | FAIL in 9 steps [lost_value] | FAIL in 12 steps [lost_value] | FAIL in 12 steps [grounding] | PASS in 8 steps | FAIL in 12 steps [grounding] |
 | MarkorCreateNote | 1196614525 | FAIL in 9 steps [false_done] | PASS in 9 steps | FAIL in 10 steps [grounding] | FAIL in 16 steps [grounding] | FAIL in 16 steps [grounding] | PASS in 14 steps |
 | MarkorCreateNoteAndSms | 3221046986 | FAIL in 18 steps [grounding] | FAIL in 16 steps [lost_value] | FAIL in 18 steps [grounding] | FAIL in 18 steps [grounding] | FAIL in 18 steps [grounding] | FAIL in 18 steps [grounding] |
@@ -43,8 +43,8 @@ A class followed by (?) in log.md is still an unreviewed suggestion.
 | agent | FAIL runs | grounding | too_early | lost_value | wrong_app | false_done | reviewed |
 |---|---|---|---|---|---|---|---|
 | v1_baseline | 4 | 3 | 0 | 0 | 0 | 1 | 0/4 |
-| v2_index | 7 | 4 | 0 | 2 | 0 | 1 | 3/7 |
-| v3_full | 9 | 6 | 1 | 2 | 0 | 0 | 2/9 |
+| v2_index | 7 | 3 | 0 | 3 | 0 | 1 | 4/7 |
+| v3_full | 9 | 6 | 0 | 3 | 0 | 0 | 3/9 |
 | v4_tracker | 8 | 8 | 0 | 0 | 0 | 0 | 0/8 |
 | v5_8b | 6 | 6 | 0 | 0 | 0 | 0 | 0/6 |
 | v6_fixes | 8 | 7 | 0 | 0 | 0 | 1 | 1/8 |

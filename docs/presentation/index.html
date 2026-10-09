@@ -137,7 +137,7 @@
               <p class="eyebrow" style="margin-bottom:14px">The goal</p>
               <ul class="bullets" style="gap:20px">
                 <li style="font-size:21px">Not a demo: a measured result</li>
-                <li style="font-size:21px">3 tasks × 3 runs × 6 versions</li>
+                <li style="font-size:21px">3 tasks × 3 runs × 6 versions, on two machines: 81 runs</li>
                 <li style="font-size:21px">Failures explained, every version measured before and after</li>
               </ul>
             </div>
@@ -150,7 +150,7 @@
               </ul>
             </div>
           </div>
-          <aside class="notes">Einstieg: Was war die Aufgabe? Ein Agent, der ein Android-Handy bedient wie ein Mensch (nur Bildschirm, keine Schnittstelle), in Googles Benchmark AndroidWorld. Ziel: keine Demo, sondern Messung ("my first question is: how many times did you run it?"): 3 Tasks, 3 Läufe, 6 Versionen (V1 Basis, V2 genau eine Änderung, V3 die restlichen Fixes; V4 bis V6 danach auf dem Mac, je genau eine Änderung: Code-Tracker, 8B-Modell, zwei Fixes), Fehler erklären, jede Verbesserung mit Zahlen belegen. Vorgaben des Dozenten: Modell frei, aber nennen; Guardrails im Code; ein Task pro Schwierigkeit; alles aufzeichnen. Ausführlicher Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Einstieg: Was war die Aufgabe? Ein Agent, der ein Android-Handy bedient wie ein Mensch (nur Bildschirm, keine Schnittstelle), in Googles Benchmark AndroidWorld. Ziel: keine Demo, sondern Messung ("my first question is: how many times did you run it?"): 3 Tasks, 3 Läufe, 6 Versionen (V1 Basis, V2 genau eine Änderung, V3 die restlichen Fixes; V4 bis V6 danach auf dem Mac: V4 Code-Tracker und V5 8B-Modell je genau eine Änderung, V6 zwei gezielte Fixes). Insgesamt 81 Läufe auf zwei Rechnern, 54 Mac + 27 Windows, siehe Backup-Folie 53, Fehler erklären, jede Verbesserung mit Zahlen belegen. Vorgaben des Dozenten: Modell frei, aber nennen; Guardrails im Code; ein Task pro Schwierigkeit; alles aufzeichnen. Ausführlicher Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 5 · Use case — content.md #5 -->
@@ -175,13 +175,13 @@
           <h2 class="title title--xl">How we built it</h2>
           <hr class="rule rule--wide" />
           <p class="lead" style="max-width:44ch">One agent, six versions. The decisions behind it, from the model to the guardrails.</p>
-          <aside class="notes">Kapitelwechsel. Ein Satz: One agent, three versions. The decisions behind it, from the model to the guardrails.</aside>
+          <aside class="notes">Kapitelwechsel. Ein Satz: One agent, six versions. The decisions behind it, from the model to the guardrails.</aside>
         </section>
 
         <!-- 7 · The model — content.md #7 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">How we built it ·</span> The model</p>
-          <h2 class="title" style="max-width:34ch">Which model we use and how it is configured</h2>
+          <h2 class="title" style="max-width:34ch">A 4B model on a laptop, pinned so every run can be repeated</h2>
           <hr class="rule" />
           <div class="cols" style="gap:48px">
             <div class="col" style="flex:0 0 46%">
@@ -472,8 +472,8 @@ keyboard_enter · wait · status</pre>
           <p class="section-num">4</p>
           <h2 class="title title--xl">What happened</h2>
           <hr class="rule rule--wide" />
-          <p class="lead" style="max-width:44ch">The V1 numbers, one failure step by step, and the diagnosis.</p>
-          <aside class="notes">Kapitelwechsel. Ein Satz: The V1 numbers, one failure step by step, and the diagnosis.</aside>
+          <p class="lead" style="max-width:44ch">The V1 numbers, all 81 runs in one matrix, one failure step by step, and the diagnosis.</p>
+          <aside class="notes">Kapitelwechsel. Ein Satz: The V1 numbers, all 81 runs in one matrix, one failure step by step, and the diagnosis.</aside>
         </section>
 
         <!-- 19 · Results V1 — content.md #19 -->
@@ -508,7 +508,7 @@ keyboard_enter · wait · status</pre>
             <thead><tr><th style="width:22%">task instance (same seed in every column)</th><th>W V1</th><th>W V2</th><th>W V3</th><th style="border-left:2px solid var(--border-default)">M V1</th><th>M V2</th><th>M V3</th><th>M V4</th><th>M V5</th><th>M V6</th></tr></thead>
             <tbody>
               <tr><td>Contacts · Hugo Pereira</td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
-              <tr><td>Contacts · Mariam Chen</td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> te</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
+              <tr><td>Contacts · Mariam Chen</td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
               <tr><td>Contacts · Isla Martin</td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> lv</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
               <tr><td>Markor · wise_yacht.md</td><td><span class="pass">P</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
               <tr><td>Markor · brave_nest.txt</td><td><span class="pass">P</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="pass">P</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td><td><span class="fail">F</span><span style="color:var(--text-muted)"> gr</span></td></tr>
@@ -519,7 +519,7 @@ keyboard_enter · wait · status</pre>
               <tr><td><strong>PASS</strong></td><td><strong>5</strong></td><td><strong>3</strong></td><td><strong>0</strong></td><td style="border-left:2px solid var(--border-default)"><strong>5</strong></td><td><strong>2</strong></td><td><strong>0</strong></td><td><strong>1</strong></td><td><strong>3</strong></td><td><strong>1</strong></td></tr>
             </tbody>
           </table>
-          <p class="sub" style="margin-top:10px;font-size:15px">W = Windows laptop, M = MacBook Air. V4 to V6 are three later single-change iterations on the Mac, explained in chapter 5. gr grounding · lv lost_value · fd false_done · te too_early. Classes are the log's; the runs discussed in this talk are reviewed. Read down a column for a version's pattern, across a row for the noise between machines and versions.</p>
+          <p class="sub" style="margin-top:10px;font-size:15px">W = Windows laptop, M = MacBook Air. V4 to V6 are three later iterations on the Mac (V4 and V5 one change each, V6 two fixes), explained in chapter 5. gr grounding · lv lost_value · fd false_done. Classes are the log's; the runs discussed in this talk are reviewed. Read down a column for a version's pattern, across a row for the noise between machines and versions.</p>
           <aside class="notes">Quelle: runs_windows/log.csv und runs/log.csv (gewertete Läufe, ersetzte Abstürze ausgeschlossen). Jede Zeile ist dieselbe Aufgabeninstanz (gleicher Seed) in allen neun Spalten. Lesart: Spalten zeigen das Muster einer Version (V3 überall grounding durch die Save-Schleife; V2 lost_value bei Contacts), Zeilen zeigen das Rauschen (Hugo Pereira: Windows V2 FAIL, Mac V2 PASS, gleicher Seed, anderer Modell-Build). Die .txt-Notizen bestehen nach V1 nie. Nächste Folie: die drei häufigsten Fehler pro Version in Worten, nicht als Klassenlabel.</aside>
         </section>
 
@@ -627,17 +627,17 @@ keyboard_enter · wait · status</pre>
             <li style="font-size:20px">Moving grounding into code made every step 3× faster and removed the taps into nothing<small>V1 → V2, both machines</small></li>
             <li style="font-size:20px">With the tree, the 4B model lost the surname in 5 of 6 Contacts runs; the 8B model in 0 of 6<small>V2 + V3 vs. V5 + V6, MacBook</small></li>
             <li style="font-size:20px">Every harness mechanism we added cost steps and none raised the success rate<small>V3 +1.7, V4 +1.9 steps per run; 2 / 9 → 0 / 9 and 1 / 9</small></li>
-            <li style="font-size:20px">A correct screen without "done" happened in every version from V2 on<small>the agent has to know it is finished; the checker does not help it</small></li>
+            <li style="font-size:20px">A correct screen without "done" happened in every version, V1 included<small>the agent has to know it is finished; the checker does not help it</small></li>
             <li style="font-size:20px">Not one task instance passed in all six versions; the .txt notes never passed after V1<small>same seed, same values: the extension field decides</small></li>
             <li style="font-size:20px">The payment ban never had to fire; the home-screen rule did, in V2, V3 and V6<small>81 runs, 0 payment attempts, 6 blocked home-screen taps on the Mac</small></li>
           </ul>
-          <aside class="notes">Liams Einstieg in Kapitel 5: sechs Sätze, jeder mit Beleg, bevor die Details kommen. (1) Folie 24, Windows 90 → 28 s, Mac 23,5 → 6,3 s. (2) V2 Contacts 2 von 3 verloren, V3 3 von 3; V5 und V6 je 0 von 3 (V6 Run 2 kam nie bis zum Formular, zählt nicht als verloren). (3) Mac: Schritte pro Lauf 12,9 (V2) → 14,6 (V3) → 14,8 (V4); Erfolg 2/9 → 0/9 → 1/9. (4) V2 Markor 1, V3 Markor 1, V4 SMS 3, V5 Markor 3, V6 Contacts 3. (5) Backup B12. (6) Payment-Ban: 0 Treffer in 81 Läufen; Home-Screen-Regel: 6 geblockte Taps auf dem Mac (V2: 3, V3: 2, V6: 1, inkl. ersetzter Läufe; stats.blocked.home_screen in result.json), 0 in V1 (Screenshot), V4 (back statt Tap) und V5. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Liams Einstieg in Kapitel 5: sechs Sätze, jeder mit Beleg, bevor die Details kommen. (1) Folie 28, Windows 90 → 28 s, Mac 23,5 → 6,3 s. (2) V2 Contacts 2 von 3 verloren, V3 3 von 3; V5 und V6 je 0 von 3 (V6 Run 2 kam nie bis zum Formular, zählt nicht als verloren). (3) Mac: Schritte pro Lauf 12,9 (V2) → 14,6 (V3) → 14,8 (V4); Erfolg 2/9 → 0/9 → 1/9. (4) V2 Markor 1, V3 Markor 1, V4 SMS 3, V5 Markor 3, V6 Contacts 3. (5) Backup B12. (6) Payment-Ban: 0 Treffer in 81 Läufen; Home-Screen-Regel: 6 geblockte Taps auf dem Mac (V2: 3, V3: 2, V6: 1, inkl. ersetzter Läufe; stats.blocked.home_screen in result.json), 0 in V1 (Screenshot), V4 (back statt Tap) und V5. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 23 · The improvement — content.md #23 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow"><span class="day">What we changed and learned ·</span> V1 → V6</p>
-          <h2 class="title" style="max-width:52ch">What changed between the versions: one change for V2, five for V3, then three single-change tests</h2>
+          <h2 class="title" style="max-width:52ch">One change for V2, five for V3, then three Mac tests, two of them single-change</h2>
           <hr class="rule" />
           <table class="compact mid" style="font-size:17px">
             <thead><tr><th style="width:20%"></th><th style="width:26%">V1 baseline <span class="ver v1">V1</span></th><th style="width:26%">V2 index <span class="ver v2">V2</span></th><th>V3 full harness <span class="ver v3">V3</span></th></tr></thead>
@@ -650,7 +650,7 @@ keyboard_enter · wait · status</pre>
               <tr><td>Guardrails</td><td>step limit, payment ban, app scope</td><td>identical</td><td>identical</td></tr>
             </tbody>
           </table>
-          <p class="sub" style="margin-top:8px;font-size:16px">V1 → V2 is one change, so its effect can be attributed. V2 → V3 stacks five: a package test. MacBook only, one change each on V2: <span class="ver v4">V4</span> + goal tracker in code · <span class="ver v5">V5</span> + 8B model · <span class="ver v6">V6</span> = V5 + clear field, done hint (26b).</p>
+          <p class="sub" style="margin-top:8px;font-size:16px">V1 → V2 is one change: attributable. V2 → V3 stacks five: a package test. Mac only: <span class="ver v4">V4</span> = V2 + goal tracker · <span class="ver v5">V5</span> = V2 + 8B model · <span class="ver v6">V6</span> = V5 + two fixes (slide 31).</p>
           <aside class="notes">Warum genau eine Änderung V1 → V2: sonst weiß man nicht, was den Unterschied gemacht hat. V2 → V3 bündelt fünf Mechanismen (stabiler Bildschirm abwarten, Hinweis "keine Wirkung", Loop-Guard, Statuszeile mit Notizen, Prüfschritt vor done); das ist ein Pakettest, nicht zuordenbar. Warum die V2-Änderung: V1 scheiterte an Tipps ins Leere (SMS-Läufe 4 bis 6 Tipps auf dieselbe Koordinate); ein Index kann nur Elemente benennen, die es gibt. Modellname hier nennen (Pflicht). Beide Versionen sind derselbe Code; die Version ist eine Config-Datei, die in jedes meta.json kopiert wird. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
@@ -666,7 +666,7 @@ keyboard_enter · wait · status</pre>
                 <div class="bar-col"><div class="bar-val">33 %</div><div class="bar" style="height:33%;background:var(--tum-blue-light)"></div><div class="bar-label">V2 · 3 of 9</div></div>
                 <div class="bar-col"><div class="bar-val">0 %</div><div class="bar" style="height:1%;background:var(--tum-blue)"></div><div class="bar-label">V3 · 0 of 9</div></div>
               </div>
-              <p class="sub" style="margin-top:12px;font-size:17px">Success rate (verifier PASS), same 9 task instances per version, 0 ERROR runs. V4 to V6 ran on the MacBook only: slide 26b.</p>
+              <p class="sub" style="margin-top:12px;font-size:17px">Success rate (verifier PASS), same 9 task instances per version, 0 ERROR runs. V4 to V6 ran on the MacBook only: slide 31.</p>
             </div>
             <div class="col" style="flex:0 0 40%">
               <table class="compact roomy" style="font-size:18px">
@@ -731,7 +731,7 @@ keyboard_enter · wait · status</pre>
             </div>
           </div>
           <p class="sub" style="margin-top:16px;font-size:18px">"If you change quantisation, or switch model, re-run your evaluation. It is a different model." A different digest is a different model.</p>
-          <aside class="notes">Hinweis zu Folie 20 und 26c: Hugo Pereira (Seed 1155463587) ist auf Windows ein FAIL (Nachname fehlt) und auf dem Mac in V2 ein PASS. Gleicher Seed, anderer Modell-Build, anderes Ergebnis; das ist genau der Digest-Punkt dieser Folie. Mac-Läufe des Kollegen (07./08.10., sein Bericht): V1 5/9 (Contacts 2/3, Markor 2/3, SMS 1/3), V2 2/9, V3 0/9, 11 ERROR (Emulator-Abstürze, ersetzt), Emulator-RAM-Wechsel 2 auf 4 GB mitten in der Messung. Windows: 0 ERROR, durchgehend gleiche Einstellung. Gleiches Modell dem Namen nach, aber anderer Ollama-Build und anderer Digest, also formal ein anderes Modell; deshalb gehen Einzelläufe mit gleichem Seed anders aus (Mac Contacts V1 2/3 vs. 3/3, Markor V2 1/3 vs. 3/3). Die Rangfolge und die Fehlermuster sind auf beiden Rechnern gleich. Antwort auf "how many times did you run it?": 54 Läufe auf zwei Rechnern. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Hinweis zu Folie 22 und 32: Hugo Pereira (Seed 1155463587) ist auf Windows ein FAIL (Nachname fehlt) und auf dem Mac in V2 ein PASS. Gleicher Seed, anderer Modell-Build, anderes Ergebnis; das ist genau der Digest-Punkt dieser Folie. Mac-Läufe des Kollegen (07./08.10., sein Bericht): V1 5/9 (Contacts 2/3, Markor 2/3, SMS 1/3), V2 2/9, V3 0/9, 11 ERROR (Emulator-Abstürze, ersetzt), Emulator-RAM-Wechsel 2 auf 4 GB mitten in der Messung. Windows: 0 ERROR, durchgehend gleiche Einstellung. Gleiches Modell dem Namen nach, aber anderer Ollama-Build und anderer Digest, also formal ein anderes Modell; deshalb gehen Einzelläufe mit gleichem Seed anders aus (Mac Contacts V1 2/3 vs. 3/3, Markor V2 1/3 vs. 3/3). Die Rangfolge und die Fehlermuster sind auf beiden Rechnern gleich. Antwort auf "how many times did you run it?": 81 Läufe auf zwei Rechnern, 54 Mac + 27 Windows. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 26b · Three more single-change tests on the MacBook — content.md #26b -->
@@ -749,12 +749,12 @@ keyboard_enter · wait · status</pre>
             </tbody>
           </table>
           <ul class="bullets" style="margin-top:10px;gap:4px">
-            <li style="font-size:18px">V4: the code veto never fired; the 4B model looped instead (12× back, 10 to 15 taps on one field). Every prompt line is an intervention</li>
+            <li style="font-size:18px">V4: the code veto never fired; the 4B model looped instead (11× back, 10 to 15 taps on one field). Every prompt line is an intervention</li>
             <li style="font-size:18px">V5: +16 % time per step, surname never lost again; the extension-field loop and the missing "done" stay</li>
             <li style="font-size:18px">V6: the field loop is taps, not typing; the done hint waited for a visible change, Markor's Save gives none (V3's assumption, repeated)</li>
           </ul>
           <p class="sub" style="margin-top:8px;font-size:16px">Same model, same seeds, temperature 0: Contacts went 2 / 3 → 0 / 3 between V5 and V6. Three runs find patterns, not rankings.</p>
-          <aside class="notes">Mac-Läufe 08.10. (runs/summary.md des Kollegen, 54 Läufe, V1 bis V6). V4 = V2 plus Code-Tracker: Code zieht die Werte aus dem Goal (Name, Nummer, Dateiname, Text), zeigt jeden Schritt, was noch nicht getippt ist, und blockt "complete", solange etwas fehlt. 1/9: Das Veto hat nie gefeuert, dafür Schleifen (12× back auf dem Home-Screen, 10 bis 15× Tipp auf das Endungsfeld). V5 = V2 mit qwen3-vl:8b-instruct (6,1 GB): 3/9, 7,3 statt 6,3 s pro Schritt, Nachname nie wieder verloren, Contacts 2/3; Endungsfeld-Schleife und fehlendes "done" bleiben. V6 = V5 plus zwei Code-Fixes genau für diese zwei Muster: Feld mit Vorbelegung vor dem Tippen leeren, und nach Save/Send bei vollständig getippten Werten um "complete" bitten. 1/9: Die Endungsfeld-Schleife besteht aus Klicks, nie aus input_text, also hatte die Lösch-Regel nichts zu tun; der Hinweis war an "Bildschirm hat sich geändert" gekoppelt, Markors Save ändert nichts, also kam er bei Markor nie (derselbe Fehler wie in V3). Die 14,6 s pro Schritt sind Last auf dem Laptop (erste Schritte bis 76 s), nicht V6. Contacts 2/3 auf 0/3 bei gleichem Modell, gleichen Seeds und unverändertem Contacts-Pfad: so groß ist das Rauschen bei 3 Läufen. Bezug zu Folie 25: Für lost_value war die Antwort Parameters (8B), nicht Programs (Tracker).</aside>
+          <aside class="notes">Mac-Läufe 08.10. (runs/summary.md des Kollegen, 54 Läufe, V1 bis V6). V4 = V2 plus Code-Tracker: Code zieht die Werte aus dem Goal (Name, Nummer, Dateiname, Text), zeigt jeden Schritt, was noch nicht getippt ist, und blockt "complete", solange etwas fehlt. 1/9: Das Veto hat nie gefeuert, dafür Schleifen (11× back auf dem Home-Screen, 10 bis 15× Tipp auf das Endungsfeld). V5 = V2 mit qwen3-vl:8b-instruct (6,1 GB): 3/9, 7,3 statt 6,3 s pro Schritt, Nachname nie wieder verloren, Contacts 2/3; Endungsfeld-Schleife und fehlendes "done" bleiben. V6 = V5 plus zwei Code-Fixes genau für diese zwei Muster: Feld mit Vorbelegung vor dem Tippen leeren, und nach Save/Send bei vollständig getippten Werten um "complete" bitten. 1/9: Die Endungsfeld-Schleife besteht aus Klicks, nie aus input_text, also hatte die Lösch-Regel nichts zu tun; der Hinweis war an "Bildschirm hat sich geändert" gekoppelt, Markors Save ändert nichts, also kam er bei Markor nie (derselbe Fehler wie in V3). Die 14,6 s pro Schritt sind Last auf dem Laptop (erste Schritte bis 76 s), nicht V6. Contacts 2/3 auf 0/3 bei gleichem Modell, gleichen Seeds und unverändertem Contacts-Pfad: so groß ist das Rauschen bei 3 Läufen. Bezug zu Folie 25: Für lost_value war die Antwort Parameters (8B), nicht Programs (Tracker).</aside>
         </section>
 
         <!-- 26c · V4 trace — content.md #26c -->
@@ -788,7 +788,7 @@ keyboard_enter · wait · status</pre>
               </ul>
             </div>
           </div>
-          <aside class="notes">Mac, V4 Contacts Run 1 (Seed 1155463587), trajectory.jsonl. Achtung: Derselbe Seed ist Belas Folie 20, dort auf Windows ein FAIL (Nachname fehlt); auf dem Mac war V2 hier ein PASS. Gleicher Seed, anderer Modell-Build, anderes Ergebnis (Folie 26). Einmal laut sagen, sonst wirkt es wie ein Widerspruch. Gedanken-Log Schritt 4 bis 12 wörtlich gleich. V2-Erfolg auf demselben Seed hing an einer Guardrail-Nachricht: Der Tap auf die Suchleiste wurde geblockt, und die Nachricht sagte dem Modell, was es stattdessen tun soll. In V4 wählte das Modell "back" statt Tap, darauf gibt es keine Regel und ohne V3-Hinweis "screen did not change" merkt es nichts. Warum das 4B-Modell mit dem Tracker-Block "back" statt Tap wählt, steht nicht im Log; wir wissen nur: Der Block ist der einzige Unterschied. Für ein 4B-Modell ist Prompt-Text ein Eingriff, kein neutraler Informationsort. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Mac, V4 Contacts Run 1 (Seed 1155463587), trajectory.jsonl. Achtung: Derselbe Seed ist Belas Folie 22, dort auf Windows ein FAIL (Nachname fehlt); auf dem Mac war V2 hier ein PASS. Gleicher Seed, anderer Modell-Build, anderes Ergebnis (Folie 30). Einmal laut sagen, sonst wirkt es wie ein Widerspruch. Gedanken-Log Schritt 4 bis 12 wörtlich gleich. V2-Erfolg auf demselben Seed hing an einer Guardrail-Nachricht: Der Tap auf die Suchleiste wurde geblockt, und die Nachricht sagte dem Modell, was es stattdessen tun soll. In V4 wählte das Modell "back" statt Tap, darauf gibt es keine Regel und ohne V3-Hinweis "screen did not change" merkt es nichts. Warum das 4B-Modell mit dem Tracker-Block "back" statt Tap wählt, steht nicht im Log; wir wissen nur: Der Block ist der einzige Unterschied. Für ein 4B-Modell ist Prompt-Text ein Eingriff, kein neutraler Informationsort. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 26d · V5/V6 traces — content.md #26d -->
@@ -823,7 +823,7 @@ keyboard_enter · wait · status</pre>
               </ul>
             </div>
           </div>
-          <aside class="notes">Links: Mac V5 Contacts Run 3 (Seed 596600690), 8 Schritte, alle drei Werte, PASS. Derselbe Seed in V2 (Folie 20 bei Bela ist der Windows-Zwilling davon): Vorname, Telefon, Save, "complete", FAIL. Einziger Unterschied: 8B statt 4B. Rechts: V6 Note+SMS Run 3 (Seed 3564688147). Der Done-Hint hängt an der History-Zeile von Schritt 14 und 15; das Modell drückt trotzdem noch einmal SMS und geht dann nach Hause. Auf den Screenshots ist die SMS nach dem ersten Tap als gesendet zu sehen, der zweite Tap trifft ein leeres Feld; welche Hälfte der Checker abgelehnt hat (Notizinhalt oder SMS), sieht man am Bildschirm nicht. Bei Markor-Save kam der Hinweis nie, weil wir ihn an "Bildschirm geändert" gekoppelt haben (Backup B7). Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Links: Mac V5 Contacts Run 3 (Seed 596600690), 8 Schritte, alle drei Werte, PASS. Derselbe Seed in V2 (Folie 22 bei Bela ist der Windows-Zwilling davon): Vorname, Telefon, Save, "complete", FAIL. Einziger Unterschied: 8B statt 4B. Rechts: V6 Note+SMS Run 3 (Seed 3564688147). Der Done-Hint hängt an der History-Zeile von Schritt 14 und 15; das Modell drückt trotzdem noch einmal SMS und geht dann nach Hause. Auf den Screenshots ist die SMS nach dem ersten Tap als gesendet zu sehen, der zweite Tap trifft ein leeres Feld; welche Hälfte der Checker abgelehnt hat (Notizinhalt oder SMS), sieht man am Bildschirm nicht. Bei Markor-Save kam der Hinweis nie, weil wir ihn an "Bildschirm geändert" gekoppelt haben (Backup B7). Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 27 · Reproduce it — content.md #27 -->
@@ -853,7 +853,7 @@ keyboard_enter · wait · status</pre>
             <li>A bigger model closed the knowledge gap, not the finishing gap<small>the 8B model never lost the surname (V5, V6); the extension-field loop and the missing "done" stayed</small></li>
             <li>Three runs per task find patterns, not rankings<small>one run moves a task by 33 points; the trajectories carry the findings, not the rates</small></li>
           </ul>
-          <aside class="notes">Stand nach allen 27 Windows-Läufen und dem Mac-Bericht (08.10.). Jede Zeile ein Finding mit Beleg: (1) Folie 24, Kosten und keine Tipps ins Leere in V2; (2) Folie 21, Save-Schleife, V3 0/9; (3) Folie 20/21, Prüfschritt winkt Nachname 3/3 durch; (4) Folie 24/25, Einzelläufe schwanken. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Stand nach allen 27 Windows-Läufen und dem Mac-Bericht (08.10.). Jede Zeile ein Finding mit Beleg: (1) Folie 28, Kosten und keine Tipps ins Leere in V2; (2) Folie 23, Save-Schleife, V3 0/9; (3) Folie 22/23, Prüfschritt winkt Nachname 3/3 durch; (4) Folie 28/29, Einzelläufe schwanken. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 28b · Limitations — content.md #28b -->
@@ -867,8 +867,8 @@ keyboard_enter · wait · status</pre>
               <tr><td>3 runs per task</td><td>Rates cannot rank versions; one run moves a task by 33 points</td><td>V5 → V6 Contacts 2 / 3 → 0 / 3 with no code change on that path</td></tr>
               <tr><td>Two machines, two model files</td><td>Same model name, different Ollama build and digest: formally a different model. Single runs are not comparable across machines</td><td>Windows ef33995b vs. Mac ee4b975b; Mac V2 2 / 9 vs. Windows 3 / 9</td></tr>
               <tr><td>Emulator noise on the Mac</td><td>11 crashes re-run, emulator RAM changed 2 → 4 GB mid-measurement, V6 timed under laptop load</td><td><code>runs/log_replaced.csv</code>; V6 14.6 s per step vs. V5 7.3 s, same model</td></tr>
-              <tr><td>Failure classes are suggestions</td><td>Code proposes one of five classes from the trajectory; the six runs discussed in detail were confirmed on the step screenshots, the rest are unreviewed</td><td><code>log.md</code> marks unreviewed rows with (?)</td></tr>
-              <tr><td>Strict PASS rule</td><td>A correct device state without "complete" is a FAIL; the checker also gives 0.5 for a note without the SMS, which we count as FAIL</td><td>At least one such run in every version from V2 on</td></tr>
+              <tr><td>Failure classes are suggestions</td><td>Code proposes one of five classes from the trajectory; 16 of the 61 failed runs were confirmed against the recording or the step screenshots, the rest are unreviewed</td><td><code>log.md</code> marks unreviewed rows with (?)</td></tr>
+              <tr><td>Strict PASS rule</td><td>A correct device state without "complete" is a FAIL; the checker also gives 0.5 for a note without the SMS, which we count as FAIL</td><td>At least one such run in every version</td></tr>
               <tr><td>Small local models, three tasks</td><td>4B and 8B at 4-bit; no cloud-model baseline, tree + screenshot together never tested, 3 of 116 AndroidWorld tasks</td><td>configs/, slide 7</td></tr>
             </tbody>
           </table>
@@ -887,7 +887,7 @@ keyboard_enter · wait · status</pre>
             <li>Split actor and verifier<small>4B acts, 8B checks: V5 showed the 8B model reads the form correctly, and the check costs one call per run</small></li>
             <li>Fix the done hint, then rank properly<small>fire on the commit tap, not on a visible change; 10 runs per task on one machine and one digest</small></li>
           </ul>
-          <aside class="notes">Reihenfolge nach erwartetem Nutzen pro Aufwand. (1) Zustand statt Bildschirm prüfen: adb kann die Kontakt-DB und Markors Dateiliste lesen, das ist der Verifier, den V3 gebraucht hätte, unabhängig vom Modell. (2) "both" steht als Option in observation.py, nie gelaufen, nur Kostenfrage (Screenshot ca. 1900 Tokens). (3) Markor-Wissen als Skill-Datei (Folie 25, Instructions-Spalte), Mechanismus ist gebaut, use_skills=false in allen Configs. (4) Actor/Verifier-Split: der Prüfschritt aus V3 mit dem 8B-Modell statt demselben 4B. (5) Done-Hint-Bedingung von "Bildschirm geändert" auf "Commit-Tap" umstellen (Backup B7), dann zehn Läufe pro Task auf einem Rechner, damit man ranken darf. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Reihenfolge nach erwartetem Nutzen pro Aufwand. (1) Zustand statt Bildschirm prüfen: adb kann die Kontakt-DB und Markors Dateiliste lesen, das ist der Verifier, den V3 gebraucht hätte, unabhängig vom Modell. (2) "both" steht als Option in observation.py, nie gelaufen, nur Kostenfrage (Screenshot ca. 1900 Tokens). (3) Markor-Wissen als Skill-Datei (Folie 29, Instructions-Spalte), Mechanismus ist gebaut, use_skills=false in allen Configs. (4) Actor/Verifier-Split: der Prüfschritt aus V3 mit dem 8B-Modell statt demselben 4B. (5) Done-Hint-Bedingung von "Bildschirm geändert" auf "Commit-Tap" umstellen (Backup B7), dann zehn Läufe pro Task auf einem Rechner, damit man ranken darf. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 29 · Close — content.md #29 -->
@@ -958,6 +958,7 @@ keyboard_enter · wait · status</pre>
             <li>Check step before done: the model is asked a second question, with a veto budget (false_done)</li>
           </ul>
           <p class="sub" style="margin-top:24px">Result: 0 / 9 on both machines. The check step accepted the missing surname 3 of 3 times; the loop guard and the "no effect" hint fired on Markor's Save, which autosaves without a visible change.</p>
+          <aside class="notes">Nur bei Nachfrage. V3 = V2 plus fünf Mechanismen auf einmal (Folie 27), deshalb kein Ein-Faktor-Test. Ergebnis 0/9 auf beiden Rechnern (Folie 28, 30). Warum es schiefging: Folie 23 (Annahme "sichtbare Änderung", Markor speichert still) und Folie 29 (Prüfschritt mit demselben 4B-Modell).</aside>
         </section>
         <!-- B3 · Backup: Skills, memory, RAG — content.md #B3 -->
         <section data-background-color="#ffffff">
@@ -992,11 +993,11 @@ keyboard_enter · wait · status</pre>
               </table>
             </div>
             <div class="col">
-              <div class="keyfig"><div class="keyfig__value">46<span class="keyfig__unit">%</span></div><div class="keyfig__label">of a V2 run is waiting for the emulator, not the model (102 s per run, 55 s of it model time)</div></div>
+              <div class="keyfig"><div class="keyfig__value">41<span class="keyfig__unit">%</span></div><div class="keyfig__label">of a V2 run on the Mac is waiting for the emulator, not the model (137 s per run, 81 s of it model time)</div></div>
               <p class="sub" style="margin-top:22px"><strong>Reward hacking, our version:</strong> <code>status: complete</code> without checking is the boat going in circles. The agent tries it (false_done); the verifier does not pay for it.</p>
             </div>
           </div>
-          <aside class="notes">Tag 5 "The Recipe": Reward aus der Umgebung, nie aus dem Bericht des Agenten. Genau unsere PASS-Regel. Vier Fragen (Source / Information / Timing / Path). Reward Hacking: Bootsrennen-Beispiel, bei uns false_done. "77 % waiting for the environment" auf der Folie, bei uns 46 % bei V2 (V1: 22 %, weil das Modell dort langsamer ist). Zahlen aus summary.md Cost-Tabelle, vorläufig.</aside>
+          <aside class="notes">Tag 5 "The Recipe": Reward aus der Umgebung, nie aus dem Bericht des Agenten. Genau unsere PASS-Regel. Vier Fragen (Source / Information / Timing / Path). Reward Hacking: Bootsrennen-Beispiel, bei uns false_done. "77 % waiting for the environment" auf der Folie, bei uns 41 % bei V2 auf dem Mac (V1: 18 %, weil das Modell dort langsamer ist; Windows V2: 15 %). Zahlen aus den 81 Läufen, Stand 09.10.</aside>
         </section>
 
         <!-- B5 · Backup: why we did not train — content.md #B5 -->
@@ -1028,7 +1029,7 @@ keyboard_enter · wait · status</pre>
               <p class="sub" style="margin-top:14px;font-size:18px">"A cheap simulator favours classic RL; costly or irreversible interaction favours an LLM agent." And: "if your knowledge and your instructions are good enough, you do not need to do RL at all."</p>
             </div>
           </div>
-          <aside class="notes">Tag 5 "One training step" (Attempts, Reward, Advantage, Update) und Tabelle "Which stage does the failure belong to?". Unser Fall erfüllt die RL-Bedingungen (Erfolg > 0, verlässlicher Reward, gute Strategie selten), aber die Kostenregel spricht dagegen: Minuten pro Versuch statt 10.000 Versuche in 10 Sekunden. Darum Fix in Programs (Folie 22). Letzter Satz von D5 als Schluss.</aside>
+          <aside class="notes">Tag 5 "One training step" (Attempts, Reward, Advantage, Update) und Tabelle "Which stage does the failure belong to?". Unser Fall erfüllt die RL-Bedingungen (Erfolg > 0, verlässlicher Reward, gute Strategie selten), aber die Kostenregel spricht dagegen: Minuten pro Versuch statt 10.000 Versuche in 10 Sekunden. Darum Fix in Programs (Folie 29). Letzter Satz von D5 als Schluss.</aside>
         </section>
 
         <!-- B6 · Backup: goal-value tracker — content.md #B6 -->
@@ -1075,7 +1076,7 @@ keyboard_enter · wait · status</pre>
             <thead><tr><th style="width:17%">Rule</th><th style="width:38%">Fires when (all of)</th><th style="width:22%">Effect</th><th>In the 9 V6 runs</th></tr></thead>
             <tbody>
               <tr><td>clear prefilled text</td><td><code>input_text</code> into an editable element · the element shows text that is not its hint · the new text does not continue it · the agent has not typed it before</td><td>select all + delete before typing (<code>clear_text</code> on the device action)</td><td><span class="fail">0 ×</span>: the extension-field loop is 8 to 14 <code>click</code>s on ".md", never an <code>input_text</code></td></tr>
-              <tr><td>done hint</td><td>a tap on Save / Send / SMS / OK / Done / Create / Add · every goal value typed (B6) · no action error · <strong>the screen changed</strong></td><td>history line gets: "if the goal is fully done, reply status complete now instead of pressing it again"</td><td><span class="fail">1 ×</span> (Note + SMS run 3, after "SMS"; the agent pressed again). On Markor "Save" the screen never changes, so 0 ×</td></tr>
+              <tr><td>done hint</td><td>a tap on Save / Send / SMS / OK / Done / Create / Add · every goal value typed (slide 46) · no action error · <strong>the screen changed</strong></td><td>history line gets: "if the goal is fully done, reply status complete now instead of pressing it again"</td><td><span class="fail">1 ×</span> (Note + SMS run 3, after "SMS"; the agent pressed again). On Markor "Save" the screen never changes, so 0 ×</td></tr>
             </tbody>
           </table>
           <p class="sub" style="margin-top:14px;font-size:17px">Both rules were written from the V4/V5 logs and gated on a condition the failing trajectories do not meet. The "screen changed" gate is V3's autosave mistake, repeated. Fix: fire on the commit tap itself.</p>
@@ -1197,7 +1198,7 @@ keyboard_enter · wait · status</pre>
             </tbody>
           </table>
           <p class="sub" style="margin-top:10px;font-size:15px">* V6 timed while the laptop was under other load (first steps up to 76 s, later runs 10 to 15 s); same model and prompt size as V5. 11 ERROR runs (all V3, emulator crashes) re-run with the same seed and excluded from every rate. Ollama 0.35.1; model digests are recorded per run in <code>meta.json</code>.</p>
-          <aside class="notes">runs/summary.md auf dem Mac, Stand 08.10. abends. Spalte V6 Zeit mit Sternchen, siehe Folie 28b. Bei Nachfrage nach dem Digest: meta.json jedes Laufs enthält ihn.</aside>
+          <aside class="notes">runs/summary.md auf dem Mac, Stand 08.10. abends. Spalte V6 Zeit mit Sternchen, siehe Folie 36. Bei Nachfrage nach dem Digest: meta.json jedes Laufs enthält ihn.</aside>
         </section>
 
         <!-- B12 · Backup: same seed, six versions — content.md #B12 -->
@@ -1257,7 +1258,7 @@ keyboard_enter · wait · status</pre>
           <hr class="rule" />
           <img src="assets/viz/fig-02.png" alt="Note + SMS is passed exactly once across all versions and both machines" style="display:block;max-width:100%;max-height:385px;margin:0" />
           <p class="sub" style="margin-top:8px;font-size:15px">All 81 runs: rows = task instances (same seed), columns = version and machine. Four outcome types instead of PASS/FAIL.</p>
-          <aside class="notes">Alle 81 Läufe. Nach unten lesen = Muster, quer = Rauschen. Vier Ergebnisarten, weil FAIL zwei verschiedene Fehler zusammenfasst (B17). Quelle: runs/log.csv, runs_windows/log.csv, result.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+          <aside class="notes">Alle 81 Läufe. Nach unten lesen = Muster, quer = Rauschen. Vier Ergebnisarten, weil FAIL zwei verschiedene Fehler zusammenfasst (Folie 57). Quelle: runs/log.csv, runs_windows/log.csv, result.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
         </section>
 
         <!-- B16 · Backup: data viz figure 3 — content.md #B16 -->
@@ -1283,10 +1284,10 @@ keyboard_enter · wait · status</pre>
         <!-- B18 · Backup: data viz figure 5 — content.md #B18 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow">Backup · All 81 runs, re-read · Figure 5 of 14</p>
-          <h2 class="title" style="max-width:62ch;font-size:28px">“grounding” is a catch-all: 45 of 61 failures carry it, including every run that reached the goal</h2>
+          <h2 class="title" style="max-width:62ch;font-size:28px">“grounding” is a catch-all: 44 of 61 failures carry it, including every run that reached the goal</h2>
           <hr class="rule" />
-          <img src="assets/viz/fig-05.png" alt="“grounding” is a catch-all: 45 of 61 failures carry it, including every run that reached the goal" style="display:block;max-width:100%;max-height:385px;margin:0" />
-          <p class="sub" style="margin-top:8px;font-size:15px">Rows: failure class in the log; columns: what objectively happened. Only 14 of 61 classes were reviewed by hand.</p>
+          <img src="assets/viz/fig-05.png" alt="“grounding” is a catch-all: 44 of 61 failures carry it, including every run that reached the goal" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Rows: failure class in the log; columns: what objectively happened. Only 16 of 61 classes were reviewed by hand.</p>
           <aside class="notes">Ehrliche Grenze unserer Fehleranalyse: Der Runner nennt alles 'grounding', was im Schrittlimit endet. Gute Antwort, falls jemand die Fehlerklassen hinterfragt. Quelle: log.csv failure_class vs. result.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
         </section>
 
@@ -1316,7 +1317,7 @@ keyboard_enter · wait · status</pre>
           <h2 class="title" style="max-width:62ch;font-size:28px">Index instead of screenshot makes each model call on the Mac about five times faster (median)</h2>
           <hr class="rule" />
           <img src="assets/viz/fig-08.png" alt="Index instead of screenshot makes each model call on the Mac about five times faster (median)" style="display:block;max-width:100%;max-height:385px;margin:0" />
-          <p class="sub" style="margin-top:8px;font-size:15px">Model time per step. Small dots = single steps, large dot = median, bar = middle 80%. One shared seconds axis.</p>
+          <p class="sub" style="margin-top:8px;font-size:15px">Model time per step. Small dots = single steps, large dot = median, bar = middle 80%. One shared seconds axis. Slides 26 and 28 quote the mean (3×), which the outliers pull up.</p>
           <aside class="notes">Kosten sind das robusteste Ergebnis (über 1.000 Aufrufe). Mac Median 25,9 s → 4,9 s. V6-Ausreißer bis 68 s = Fremdlast. Windows ohne GPU beim Screenshot ca. 3,5× langsamer. Quelle: trajectory.jsonl: latency per model call. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
         </section>
 
@@ -1326,7 +1327,7 @@ keyboard_enter · wait · status</pre>
           <h2 class="title" style="max-width:62ch;font-size:28px">The accessibility tree halves the prompt: about 1,000 instead of 1,900 tokens per model call</h2>
           <hr class="rule" />
           <img src="assets/viz/fig-09.png" alt="The accessibility tree halves the prompt: about 1,000 instead of 1,900 tokens per model call" style="display:block;max-width:100%;max-height:385px;margin:0" />
-          <p class="sub" style="margin-top:8px;font-size:15px">Average prompt tokens per model call. Almost identical on both machines, so the time gap in B21 is hardware, not prompt.</p>
+          <p class="sub" style="margin-top:8px;font-size:15px">Average prompt tokens per model call. Almost identical on both machines, so the time gap in Figure 8 is hardware, not prompt.</p>
           <aside class="notes">Belegt Tag 2 'ein Screenshot ist das Teuerste im Kontextfenster' mit eigenen Zahlen. Quelle: result.json: prompt_tokens, model_calls. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
         </section>
 
