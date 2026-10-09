@@ -569,46 +569,6 @@ keyboard_enter · wait · status</pre>
           <aside class="notes">Echter Lauf (ContactsAddContact, V2, Windows, 08.10.). Zeigt zwei Dinge: der Guardrail greift (Schritt 2), und der Agent meldet Erfolg ohne zu prüfen. Tag 1: "the most dangerous of the three, because it is silent". Klassifikation nach Abgleich mit dem Mac-Bericht: Wurzel lost_value (Nachname kam nie an), Symptom false_done; unser Klassifizierer erkennt nur erfundenen Text, nicht ausgelassenen. Hypothese: In der Textliste wirkt "der Name" nach dem ersten Feld erledigt; im Screenshot ist das leere Feld "Last name" direkt darunter sichtbar, deshalb V1 3/3. V3-Prüfschritt vor done hat den fehlenden Nachnamen in allen drei V3-Läufen durchgewinkt (gleiches schwaches Modell als Prüfer). Dieser Lauf ist der Setup-Lauf vor der Evaluation; die drei gewerteten V2-Läufe zeigen dasselbe Muster. Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
-        <!-- 21 · Was it reliable? — content.md #21 -->
-        <section data-background-color="#ffffff">
-          <p class="eyebrow"><span class="day">What happened ·</span> Was it reliable?</p>
-          <h2 class="title" style="max-width:40ch">Reliability check: strong on constraints, weak on verification. V3 added it, and it misfired.</h2>
-          <hr class="rule" />
-          <table class="compact" style="font-size:16px">
-            <thead><tr><th style="width:15%">Reliability lever</th><th style="width:22%">What it asks</th><th style="width:30%">V1 / V2</th><th>V3</th></tr></thead>
-            <tbody>
-              <tr><td>Goal clarity</td><td>What counts as success?</td><td><span class="pass">✓</span> the task text, plus AndroidWorld's checker on the device state</td><td><span class="pass">✓</span> same</td></tr>
-              <tr><td>Observable state</td><td>What can the agent see?</td><td><span class="pass">✓</span> the current screen every step; history lines show what changed</td><td><span class="pass">✓</span> same</td></tr>
-              <tr><td>Feedback</td><td>Does it know what happened?</td><td><span class="fail">weak</span>: "executed"</td><td>"your action changed nothing": <span class="fail">wrong on Save</span>, Markor autosaves without a visible change</td></tr>
-              <tr><td>Verification</td><td>Did the result work?</td><td><span class="fail">none before done</span>: the missing surname goes through</td><td>check step with the same 4B model: <span class="fail">accepted the missing surname every time</span></td></tr>
-              <tr><td>Recovery</td><td>Retry, revise, roll back or stop?</td><td>invalid JSON: retry with the error, 2×. Timeout 300 s: ERROR</td><td>+ loop guard: same action, same screen, 3× blocked. <span class="fail">Fired on Save</span>, ended 3 runs</td></tr>
-              <tr><td>Constraints</td><td>Which rules must the system enforce?</td><td><span class="pass">✓</span> in code, not in the prompt: step limit, payment ban, app scope</td><td><span class="pass">✓</span> same, held in all 81 runs on two machines</td></tr>
-            </tbody>
-          </table>
-          <p class="sub" style="margin-top:14px;font-size:18px">Every V3 mechanism assumes that a successful action changes the screen. Where that assumption fails, the safety net turns a pass into a fail.</p>
-          <aside class="notes">Stand 08.10. nach allen 27 Läufen: V3 0/9. Tag 4 Folie "Core Concepts" (goal clarity, observable state, actionability, feedback, verification, recovery) und "Four Reliability Levers" (feedback, recovery, verification, constraints). Ehrliche Einordnung: V1/V2 haben Constraints und Beobachtbarkeit, aber keine Verifikation vor done. Das erklärt false_done bzw. lost_value. V3 hat Feedback, Verifikation und Loop-Guard ergänzt; alle drei beruhen auf der Annahme "erfolgreiche Aktion = sichtbare Änderung". Markor speichert automatisch ohne sichtbare Änderung, also feuern alle drei auf Save falsch (Save-Schleife, loop_abort, Prüfschritt lehnt korrekte Notiz ab). Der Prüfschritt vor done nutzt dasselbe 4B-Modell und hat den fehlenden Nachnamen 3 von 3 Mal durchgewinkt. Sprechtext: notes/Sprechtext-Folien.md.</aside>
-        </section>
-
-        <!-- 21b · Reliability check V4-V6 (show or hide) — content.md #21b -->
-        <section data-background-color="#ffffff">
-          <p class="eyebrow"><span class="day">What happened ·</span> Was it reliable? V4 to V6 (MacBook)</p>
-          <h2 class="title" style="max-width:48ch">Reliability check, the later iterations: the checks were right, the conditions they waited for never came</h2>
-          <hr class="rule" />
-          <table class="compact mid" style="font-size:14px">
-            <thead><tr><th style="width:14%">Reliability lever</th><th>V4 = V2 + goal tracker <span class="ver v4">V4</span></th><th>V5 = V2 + 8B model <span class="ver v5">V5</span></th><th>V6 = V5 + two code rules <span class="ver v6">V6</span></th></tr></thead>
-            <tbody>
-              <tr><td>Goal clarity</td><td><span class="pass">✓</span> same, plus the goal's values listed by code every step</td><td><span class="pass">✓</span> same as V2</td><td><span class="pass">✓</span> same as V2</td></tr>
-              <tr><td>Observable state</td><td><span class="pass">✓</span> screen + "NOT typed yet: Martin" block</td><td><span class="pass">✓</span> same as V2</td><td><span class="pass">✓</span> same as V2</td></tr>
-              <tr><td>Feedback</td><td><span class="fail">weak</span>: "executed"; nothing says that "back" changed nothing</td><td><span class="fail">weak</span>: "executed"</td><td>done hint after Save / Send once all values are typed: <span class="fail">fired 1× in 9 runs</span>, gated on a visible change</td></tr>
-              <tr><td>Verification</td><td>code veto on "complete" while a value is missing: <span class="fail">never reached</span>, the agent never said complete</td><td><span class="fail">none before done</span>; but the 8B model reads the form right: surname 3 of 3</td><td><span class="fail">none before done</span></td></tr>
-              <tr><td>Recovery</td><td><span class="fail">none</span>: 11× back, 10 to 15 taps on one field, no loop guard</td><td><span class="fail">none</span>: 6 to 14 taps on the extension field</td><td>clear a prefilled field before typing: <span class="fail">fired 0×</span>, the loop is taps, not typing</td></tr>
-              <tr><td>Constraints</td><td><span class="pass">✓</span> held</td><td><span class="pass">✓</span> held</td><td><span class="pass">✓</span> held</td></tr>
-            </tbody>
-          </table>
-          <p class="sub" style="margin-top:12px;font-size:16px">V3's lesson, repeated: a mechanism is only as good as the condition it fires on. V4's veto waited for a "complete" that never came; V6's hint waited for a screen change that Markor never shows.</p>
-          <aside class="notes">Zweite Folie zu den Tag-4-Hebeln, für die Mac-Iterationen; je nach Zeit ein- oder ausblenden. V4: Beobachtbarkeit besser (Tracker-Block), aber Feedback und Recovery fehlen, deshalb die Schleifen. V5: nur das Modell stärker, Hebel unverändert; der Nachname kommt, weil das Modell das Formular besser liest, nicht weil ein Hebel greift. V6: zwei Hebel ergänzt (Feedback: Done-Hint; Recovery: Feld leeren), beide an Bedingungen gekoppelt, die in den Fehlläufen nicht eintreten. Zahlen: Backup B7.</aside>
-        </section>
-
         <!-- 22 · Chapter: What we changed and learned — content.md #22 -->
         <section class="center tum-deep" data-background-color="#003359">
           <p class="section-num">5</p>
@@ -919,7 +879,7 @@ keyboard_enter · wait · status</pre>
         <section class="center tum-deep" data-background-color="#003359">
           <h2 class="title title--xl">Backup</h2>
           <hr class="rule rule--wide" />
-          <p class="lead" style="max-width:48ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train · Technical: goal tracker · V6 rules · failure classifier · payment ban · config knobs · all 54 Mac runs · same seed, six versions · where the 81 runs come from · 14 charts re-reading all 81 runs</p>
+          <p class="lead" style="max-width:48ch">V2 log rows · V3 · Day 4 reliability levers (V1–V3, V4–V6) · Skills, user memory, RAG · Reward design · Why we did not train · Technical: goal tracker · V6 rules · failure classifier · payment ban · config knobs · all 54 Mac runs · same seed, six versions · where the 81 runs come from · 14 charts re-reading all 81 runs</p>
           <aside class="notes">Nur für die Fragerunde.</aside>
         </section>
 
@@ -960,6 +920,46 @@ keyboard_enter · wait · status</pre>
           <p class="sub" style="margin-top:24px">Result: 0 / 9 on both machines. The check step accepted the missing surname 3 of 3 times; the loop guard and the "no effect" hint fired on Markor's Save, which autosaves without a visible change.</p>
           <aside class="notes">Nur bei Nachfrage. V3 = V2 plus fünf Mechanismen auf einmal (Folie 27), deshalb kein Ein-Faktor-Test. Ergebnis 0/9 auf beiden Rechnern (Folie 28, 30). Warum es schiefging: Folie 23 (Annahme "sichtbare Änderung", Markor speichert still) und Folie 29 (Prüfschritt mit demselben 4B-Modell).</aside>
         </section>
+        <!-- B2b · Backup: reliability check V1–V3 (moved from chapter 4, 2026-10-09) — content.md #B2b -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Day 4 reliability levers · V1 to V3</p>
+          <h2 class="title" style="max-width:40ch">Reliability check: strong on constraints, weak on verification. V3 added it, and it misfired.</h2>
+          <hr class="rule" />
+          <table class="compact" style="font-size:16px">
+            <thead><tr><th style="width:15%">Reliability lever</th><th style="width:22%">What it asks</th><th style="width:30%">V1 / V2</th><th>V3</th></tr></thead>
+            <tbody>
+              <tr><td>Goal clarity</td><td>What counts as success?</td><td><span class="pass">✓</span> the task text, plus AndroidWorld's checker on the device state</td><td><span class="pass">✓</span> same</td></tr>
+              <tr><td>Observable state</td><td>What can the agent see?</td><td><span class="pass">✓</span> the current screen every step; history lines show what changed</td><td><span class="pass">✓</span> same</td></tr>
+              <tr><td>Feedback</td><td>Does it know what happened?</td><td><span class="fail">weak</span>: "executed"</td><td>"your action changed nothing": <span class="fail">wrong on Save</span>, Markor autosaves without a visible change</td></tr>
+              <tr><td>Verification</td><td>Did the result work?</td><td><span class="fail">none before done</span>: the missing surname goes through</td><td>check step with the same 4B model: <span class="fail">accepted the missing surname every time</span></td></tr>
+              <tr><td>Recovery</td><td>Retry, revise, roll back or stop?</td><td>invalid JSON: retry with the error, 2×. Timeout 300 s: ERROR</td><td>+ loop guard: same action, same screen, 3× blocked. <span class="fail">Fired on Save</span>, ended 3 runs</td></tr>
+              <tr><td>Constraints</td><td>Which rules must the system enforce?</td><td><span class="pass">✓</span> in code, not in the prompt: step limit, payment ban, app scope</td><td><span class="pass">✓</span> same, held in all 81 runs on two machines</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:18px">Every V3 mechanism assumes that a successful action changes the screen. Where that assumption fails, the safety net turns a pass into a fail.</p>
+          <aside class="notes">Ins Backup verschoben (Bela, 09.10.): Die Tabelle zeigt nur Zustände (grün/rot), nicht die Richtung; dass V3 von 3/9 auf 0/9 fiel, sieht man ihr nicht an. Nur bei Nachfrage zu den Tag-4-Hebeln zeigen. Stand 08.10. nach allen 27 Läufen: V3 0/9. Tag 4 Folie "Core Concepts" (goal clarity, observable state, actionability, feedback, verification, recovery) und "Four Reliability Levers" (feedback, recovery, verification, constraints). Ehrliche Einordnung: V1/V2 haben Constraints und Beobachtbarkeit, aber keine Verifikation vor done. Das erklärt false_done bzw. lost_value. V3 hat Feedback, Verifikation und Loop-Guard ergänzt; alle drei beruhen auf der Annahme "erfolgreiche Aktion = sichtbare Änderung". Markor speichert automatisch ohne sichtbare Änderung, also feuern alle drei auf Save falsch (Save-Schleife, loop_abort, Prüfschritt lehnt korrekte Notiz ab). Der Prüfschritt vor done nutzt dasselbe 4B-Modell und hat den fehlenden Nachnamen 3 von 3 Mal durchgewinkt. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+        </section>
+
+        <!-- B2c · Backup: reliability check V4–V6 (moved from chapter 4, 2026-10-09) — content.md #B2c -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Day 4 reliability levers · V4 to V6 (MacBook)</p>
+          <h2 class="title" style="max-width:48ch">Reliability check, the later iterations: the checks were right, the conditions they waited for never came</h2>
+          <hr class="rule" />
+          <table class="compact mid" style="font-size:14px">
+            <thead><tr><th style="width:14%">Reliability lever</th><th>V4 = V2 + goal tracker <span class="ver v4">V4</span></th><th>V5 = V2 + 8B model <span class="ver v5">V5</span></th><th>V6 = V5 + two code rules <span class="ver v6">V6</span></th></tr></thead>
+            <tbody>
+              <tr><td>Goal clarity</td><td><span class="pass">✓</span> same, plus the goal's values listed by code every step</td><td><span class="pass">✓</span> same as V2</td><td><span class="pass">✓</span> same as V2</td></tr>
+              <tr><td>Observable state</td><td><span class="pass">✓</span> screen + "NOT typed yet: Martin" block</td><td><span class="pass">✓</span> same as V2</td><td><span class="pass">✓</span> same as V2</td></tr>
+              <tr><td>Feedback</td><td><span class="fail">weak</span>: "executed"; nothing says that "back" changed nothing</td><td><span class="fail">weak</span>: "executed"</td><td>done hint after Save / Send once all values are typed: <span class="fail">fired 1× in 9 runs</span>, gated on a visible change</td></tr>
+              <tr><td>Verification</td><td>code veto on "complete" while a value is missing: <span class="fail">never reached</span>, the agent never said complete</td><td><span class="fail">none before done</span>; but the 8B model reads the form right: surname 3 of 3</td><td><span class="fail">none before done</span></td></tr>
+              <tr><td>Recovery</td><td><span class="fail">none</span>: 11× back, 10 to 15 taps on one field, no loop guard</td><td><span class="fail">none</span>: 6 to 14 taps on the extension field</td><td>clear a prefilled field before typing: <span class="fail">fired 0×</span>, the loop is taps, not typing</td></tr>
+              <tr><td>Constraints</td><td><span class="pass">✓</span> held</td><td><span class="pass">✓</span> held</td><td><span class="pass">✓</span> held</td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:12px;font-size:16px">V3's lesson, repeated: a mechanism is only as good as the condition it fires on. V4's veto waited for a "complete" that never came; V6's hint waited for a screen change that Markor never shows.</p>
+          <aside class="notes">Ins Backup verschoben (Bela, 09.10.), gleicher Grund wie die Folie davor. Zweite Folie zu den Tag-4-Hebeln, für die Mac-Iterationen; je nach Zeit ein- oder ausblenden. V4: Beobachtbarkeit besser (Tracker-Block), aber Feedback und Recovery fehlen, deshalb die Schleifen. V5: nur das Modell stärker, Hebel unverändert; der Nachname kommt, weil das Modell das Formular besser liest, nicht weil ein Hebel greift. V6: zwei Hebel ergänzt (Feedback: Done-Hint; Recovery: Feld leeren), beide an Bedingungen gekoppelt, die in den Fehlläufen nicht eintreten. Zahlen: Backup B7.</aside>
+        </section>
+
         <!-- B3 · Backup: Skills, memory, RAG — content.md #B3 -->
         <section data-background-color="#ffffff">
           <p class="eyebrow">Backup · Skills, user memory, RAG</p>
