@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>GUI Agent in 81 Runs</title>
+<style>
+/* Layout: one reading column (max 1040px), each figure = headline (the claim) + chart + why-block + table twin. TUM: one typeface, blue carries the brand. */
+:root {
+  --bg: #ffffff; --panel: #f7f7f5; --ink: #1a1a1a; --ink2: #4d4d4d; --muted: #767676;
+  --grid: #ebebea; --axis: #c9c9c6; --line: rgba(0,0,0,.10);
+  --brand: #0065bd; --brand-deep: #003359;
+  --s1: #0065bd; --s2: #e37222; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --neutral: #c6c5bf;
+  --q1: #e3edf8; --q2: #a9cbee; --q3: #5b97d6; --q4: #0065bd;
+  --on-dark: #ffffff;
+  --font: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141a22; --panel: #1b232d; --ink: #f2f3f5; --ink2: #c4c9d0; --muted: #8d95a0;
+  --grid: #232c37; --axis: #3a4552; --line: rgba(255,255,255,.10);
+  --brand: #5aa0ea; --brand-deep: #9cc6f2;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --neutral: #4b5561;
+  --q1: #1d2a3a; --q2: #1f4a7a; --q3: #2f6fb5; --q4: #5aa0ea;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141a22; --panel: #1b232d; --ink: #f2f3f5; --ink2: #c4c9d0; --muted: #8d95a0;
+  --grid: #232c37; --axis: #3a4552; --line: rgba(255,255,255,.10);
+  --brand: #5aa0ea; --brand-deep: #9cc6f2;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --neutral: #4b5561;
+  --q1: #1d2a3a; --q2: #1f4a7a; --q3: #2f6fb5; --q4: #5aa0ea;
+  color-scheme: dark; }
+
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; }
+@media (max-width: 520px) { .wrap { padding-inline: 16px; } }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+header.top { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+header.top h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -.01em; }
+header.top .lede { max-width: 68ch; color: var(--ink2); font-size: 17px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 28px; }
+@media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tile { background: var(--bg); padding: 16px 18px; display: grid; gap: 2px; }
+.tile .v { font-size: 34px; font-weight: 700; line-height: 1.1; }
+.tile .l { font-size: 13px; color: var(--ink2); }
+.tile .d { font-size: 12px; color: var(--muted); }
+
+nav.toc { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+nav.toc a { color: var(--ink2); text-decoration: none; border-bottom: 1px solid var(--line); }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--brand); border-color: var(--brand); }
+
+.chapter { margin-top: 64px; display: grid; gap: 6px; }
+.chapter h2 { font-size: 24px; }
+.chapter p { color: var(--ink2); max-width: 68ch; }
+
+figure.fig { margin: 36px 0 0; display: grid; gap: 14px; padding-top: 22px; border-top: 1px solid var(--line); }
+.fig-head { display: grid; gap: 6px; }
+.fig-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.fig-meta .num { font-family: var(--mono); color: var(--ink2); }
+.chip { font-size: 11px; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink2); }
+.chip.new { border-color: var(--brand); color: var(--brand); }
+.fig h3 { font-size: 20px; line-height: 1.3; max-width: 46ch; }
+.fig .sub { color: var(--ink2); font-size: 14px; max-width: 76ch; }
+.chart { width: 100%; min-width: 0; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.legend i.dot { border-radius: 50%; }
+.legend i.hollow { background: transparent !important; border: 1.5px solid var(--ink2); }
+.why { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; font-size: 13.5px; color: var(--ink2); background: var(--panel); padding: 14px 16px; border-radius: 4px; }
+@media (max-width: 700px) { .why { grid-template-columns: 1fr; } }
+.why b { color: var(--ink); display: block; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 2px; }
+details.tbl { font-size: 13px; }
+details.tbl summary { cursor: pointer; color: var(--ink2); width: fit-content; }
+details.tbl summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.tblwrap { overflow-x: auto; margin-top: 8px; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 100%; }
+th, td { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-weight: 600; color: var(--ink2); font-size: 12px; }
+td.n, th.n { text-align: right; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 13px; }
+.controls label { color: var(--ink2); display: inline-flex; gap: 8px; align-items: center; }
+select { font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); border: 1px solid var(--axis); border-radius: 4px; padding: 4px 8px; }
+select:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+.notlist { display: grid; gap: 0; margin-top: 18px; border-top: 1px solid var(--line); }
+.notlist div { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 6px 24px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+@media (max-width: 640px) { .notlist div { grid-template-columns: 1fr; } }
+.notlist b { font-weight: 600; }
+.notlist p { color: var(--ink2); }
+footer { margin-top: 56px; font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; }
+code { font-family: var(--mono); font-size: .92em; }
+
+/* svg text and marks: tokens only */
+svg text { font-family: var(--font); fill: var(--ink2); font-size: 12px; }
+svg text.lab { fill: var(--ink); }
+svg text.mut { fill: var(--muted); font-size: 11px; }
+svg text.mono { font-family: var(--mono); font-size: 11px; }
+svg text.in { fill: var(--on-dark); font-size: 11px; font-weight: 600; }
+svg .grid { stroke: var(--grid); stroke-width: 1; }
+svg .axis { stroke: var(--axis); stroke-width: 1; }
+.f-pass { fill: var(--s1); } .f-silent { fill: var(--s3); } .f-wrongdone { fill: var(--s2); } .f-none { fill: var(--neutral); }
+.f-mac { fill: var(--s1); } .f-win { fill: var(--s2); }
+.st-mac { stroke: var(--s1); } .st-win { stroke: var(--s2); }
+.f-c { fill: var(--s1); } .f-t { fill: var(--s2); } .f-b { fill: var(--s3); } .f-o { fill: var(--s4); } .f-h { fill: var(--s5); } .f-x { fill: var(--neutral); }
+.st-c { stroke: var(--s1); } .st-t { stroke: var(--s2); } .st-b { stroke: var(--s3); } .st-o { stroke: var(--s4); } .st-h { stroke: var(--s5); } .st-x { stroke: var(--neutral); }
+.bg-pass { background: var(--s1); } .bg-silent { background: var(--s3); } .bg-wrongdone { background: var(--s2); } .bg-none { background: var(--neutral); }
+.bg-mac { background: var(--s1); } .bg-win { background: var(--s2); }
+.bg-c { background: var(--s1); } .bg-t { background: var(--s2); } .bg-b { background: var(--s3); } .bg-o { background: var(--s4); } .bg-h { background: var(--s5); } .bg-x { background: var(--neutral); }
+.ring { fill: none; stroke: var(--bg); stroke-width: 2; }
+[data-tip] { cursor: default; }
+[data-tip]:focus-visible { outline: 2px solid var(--brand); }
+
+#tip { position: fixed; z-index: 10; pointer-events: none; background: var(--bg); color: var(--ink); border: 1px solid var(--axis); box-shadow: 0 4px 14px rgba(0,0,0,.14); border-radius: 4px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45; max-width: 300px; white-space: pre-line; }
+@media (prefers-reduced-motion: no-preference) { #tip { transition: opacity .08s; } }
+</style>
+
+<main class="wrap">
+  <header class="top">
+    <div class="eyebrow">Agentic AI in Modern Business · MGTHN0211 · Group project</div>
+    <h1>GUI Agent in 81 Runs</h1>
+    <p class="lede">An Android agent built on <code>qwen3-vl</code> (4B, local via Ollama): six versions, three AndroidWorld tasks, two machines. This page re-reads the raw data of every scored run: the log rows, the AndroidWorld checker result and each of the 1,094 agent steps.</p>
+    <div class="tiles" id="tiles"></div>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <a href="#bau">Blueprint</a><a href="#ergebnis">Results</a><a href="#kosten">Cost</a><a href="#verhalten">Behaviour</a><a href="#belastbar">Robustness</a><a href="#nicht">Deliberately not shown</a>
+  </nav>
+
+  <!-- ===== A ===== -->
+  <section class="chapter" id="bau">
+    <div class="eyebrow">Part A</div>
+    <h2>What we built</h2>
+    <p>Every later chart compares versions. Without knowing what differs between them, none of those comparisons can be read.</p>
+  </section>
+
+  <figure class="fig" id="g1">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 1</span><span class="chip">configurations</span></div>
+      <h3>Three versions change exactly one thing; V3 and V6 bundle several</h3>
+      <p class="sub">Dot = mechanism on. Ring = new or changed compared with the base version. The mandatory guardrails are built into all six versions.</p>
+    </div>
+    <div class="legend"><span><i class="dot" style="background:var(--ink2)"></i>on</span><span><i class="dot hollow"></i>new compared with base (ring)</span></div>
+    <div class="chart" id="c1"></div>
+    <div class="why">
+      <div><b>Why show it</b>Only V1→V2, V4 and V5 are clean single-factor tests. For V3 (five mechanisms) and V6 (two fixes) an effect cannot be attributed to one mechanism. You need to see that before comparing results.</div>
+      <div><b>Why this form</b>A dot matrix instead of prose: columns = versions, rows = mechanisms. The ring marks the change per version without needing a second colour.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t1"></div></details>
+  </figure>
+
+  <!-- ===== B ===== -->
+  <section class="chapter" id="ergebnis">
+    <div class="eyebrow">Part B</div>
+    <h2>What came out</h2>
+    <p>“PASS” means the agent itself reported “complete” and the AndroidWorld checker returns 1.0. For everything else we newly separate how the run failed. This needs no manual review; it follows from two fields: the checker score and whether “complete” was reported.</p>
+  </section>
+
+  <figure class="fig" id="g2">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 2</span><span class="chip">all 81 runs</span></div>
+      <h3>Note + SMS is passed exactly once across all versions and both machines</h3>
+      <p class="sub">Rows: the nine task instances (same seed = same names, numbers, texts). Columns: version and machine. Read down for the patterns, across for the noise.</p>
+    </div>
+    <div class="legend" id="lg-out2"></div>
+    <div class="chart" id="c2"></div>
+    <div class="why">
+      <div><b>Why show it</b>With only 9 runs per version, averages are shaky. The matrix shows every single run, including the Mac runs V4–V6, and that task difficulty matters more than the version.</div>
+      <div><b>Why this form</b>A heatmap with four outcome types instead of PASS/FAIL only. “FAIL” lumps together two very different failures (Figure 4). The step count is in the tooltip, not in every cell.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t2"></div></details>
+  </figure>
+
+  <figure class="fig" id="g3">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 3</span><span class="chip new">not in the slides</span></div>
+      <h3>With 9 runs per version all uncertainty ranges overlap; even 5/9 and 0/9 still touch</h3>
+      <p class="sub">Dot = success rate, line = 95% Wilson confidence interval. A single run moves the rate by 11 percentage points.</p>
+    </div>
+    <div class="legend"><span><i class="dot bg-mac"></i>MacBook Air M4</span><span><i class="dot bg-win"></i>Windows laptop (CPU)</span></div>
+    <div class="chart" id="c3"></div>
+    <div class="why">
+      <div><b>Why show it</b>The slides show 56%, 22% and 0% as hard numbers. The intervals show what the data actually supports: V1, V2, V4, V5 and V6 cannot be ranked. That is the answer to “how many times did you run it?”.</div>
+      <div><b>Why this form</b>Dot plus interval instead of a bar. A bar stresses the area down to zero and suggests precision. Wilson instead of a simple ± interval, because with n = 9 and rates near 0 it never goes negative.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t3"></div></details>
+  </figure>
+
+  <figure class="fig" id="g4">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 4</span><span class="chip new">not in the slides</span></div>
+      <h3>Half of all failures are a wrong judgement about “complete”, not an operating error</h3>
+      <p class="sub" id="s4"></p>
+    </div>
+    <div class="legend" id="lg-out4"></div>
+    <div class="chart" id="c4"></div>
+    <div class="why">
+      <div><b>Why show it</b>The failure class in the log is mostly an unreviewed suggestion by the runner (only 14 of 61 FAIL runs reviewed). This split needs no review: it comes from the checker score and whether the agent said “complete”. It separates “the agent does not reach the goal” from “the agent misjudges the goal”.</div>
+      <div><b>Why this form</b>Stacked 100% bars, because every version has the same number of runs (9) and the point is the composition. Grey is deliberately the quietest colour: “neither” is the unspecific remainder.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t4"></div></details>
+  </figure>
+
+  <figure class="fig" id="g5">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 5</span><span class="chip new">not in the slides</span></div>
+      <h3>The label “grounding” is a catch-all: it sits on 45 of 61 failures, including every run that had actually reached the goal</h3>
+      <p class="sub">Rows: failure class in the log. Columns: what objectively happened (Figure 4). Number = runs.</p>
+    </div>
+    <div class="chart" id="c5"></div>
+    <div class="why">
+      <div><b>Why show it</b>The failure classes are mandatory and appear in the slides as a finding. The cross-check shows how little they separate: the runner calls everything “grounding” that ends at the step limit. That is an honest limit of our failure analysis and belongs in the critical analysis.</div>
+      <div><b>Why this form</b>A cross-tabulation as a one-hue heatmap (light = few, dark = many). Every cell carries its number, because there are only 15 cells and the exact values matter.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t5"></div></details>
+  </figure>
+
+  <figure class="fig" id="g6">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 6</span><span class="chip new">not in the slides</span></div>
+      <h3>The task matters more than the version: the same instance is passed by 0 to 5 of the 9 variants</h3>
+      <p class="sub">Number of version-machine combinations (out of 9) that pass an instance.</p>
+    </div>
+    <div class="chart" id="c6"></div>
+    <div class="why">
+      <div><b>Why show it</b>The variance between tasks is larger than between versions. This supports the choice “one task per difficulty level” and shows where the agent breaks: when switching between two apps.</div>
+      <div><b>Why this form</b>One bar per instance, grouped by task. A single colour, because length carries all the information.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t6"></div></details>
+  </figure>
+
+  <figure class="fig" id="g7">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 7</span><span class="chip new">not in the slides</span></div>
+      <h3>When the agent stops by itself, it is right in only 20 of 43 cases; the other 38 runs are stopped by the harness</h3>
+      <p class="sub">Each dot is a run. Left: runs ended by the agent itself (or the loop guard), by share of budget used. Stacked on the right: runs stopped only by the step limit in code.</p>
+    </div>
+    <div class="legend" id="lg-out7"></div>
+    <div class="chart" id="c7"></div>
+    <div class="why">
+      <div><b>Why show it</b>The step limit is a mandatory guardrail. Here you can see it actually working: no run at the limit was a success. Without the limit these runs would have kept consuming compute.</div>
+      <div><b>Why this form</b>A strip plot with one dot per run instead of an average. The pile-up at 100% is the point, and an average would swallow it.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t7"></div></details>
+  </figure>
+
+  <!-- ===== C ===== -->
+  <section class="chapter" id="kosten">
+    <div class="eyebrow">Part C</div>
+    <h2>What it costs</h2>
+    <p>Cost is the most robust result of the project. It rests on more than a thousand model calls instead of nine runs per version.</p>
+  </section>
+
+  <figure class="fig" id="g8">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 8</span><span class="chip">slide 24 as an average</span></div>
+      <h3>Index instead of screenshot makes each model call on the Mac about five times faster (median)</h3>
+      <p class="sub">Model time per step. Small dots = single steps, large dot = median, bar = middle 80%.</p>
+    </div>
+    <div class="legend"><span><i class="dot bg-mac"></i>MacBook Air M4</span><span><i class="dot bg-win"></i>Windows laptop (CPU)</span></div>
+    <div class="chart" id="c8"></div>
+    <div class="why">
+      <div><b>Why show it</b>The distribution shows two things an average hides: the V6 outliers up to 68 s come from other load on the laptop (see report 7d). And Windows without a GPU is about 3.5 times slower than the Mac on screenshots.</div>
+      <div><b>Why this form</b>A strip plot with median and 80% band on one shared seconds axis for both machines. The machine comparison stays honest because no second axis is needed.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t8"></div></details>
+  </figure>
+
+  <figure class="fig" id="g9">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 9</span><span class="chip">slide 10 as a number</span></div>
+      <h3>The accessibility tree halves the prompt: about 1,000 instead of 1,900 tokens per model call</h3>
+      <p class="sub">Average prompt tokens per model call (total tokens / total calls).</p>
+    </div>
+    <div class="legend"><span><i class="bg-mac"></i>MacBook Air M4</span><span><i class="bg-win"></i>Windows laptop</span></div>
+    <div class="chart" id="c9"></div>
+    <div class="why">
+      <div><b>Why show it</b>This backs the Day 2 claim “a screenshot is the most expensive thing in your window” with our own numbers. Note: tokens are almost identical on both machines, so the time gap in Figure 8 comes from the hardware, not the prompt.</div>
+      <div><b>Why this form</b>Bars, because quantities are compared from zero. Values are labelled only on Mac V1 and Mac V2 (the one documented improvement); the rest is in the tooltip and the table.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t9"></div></details>
+  </figure>
+
+  <figure class="fig" id="g10">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 10</span><span class="chip new">not in the slides</span></div>
+      <h3>No version is both cheap and good; V1 buys its successes with the longest run time</h3>
+      <p class="sub">x = average run time, y = success rate. Hollow dot: time distorted by other load (Mac V6).</p>
+    </div>
+    <div class="legend"><span><i class="dot bg-mac"></i>MacBook Air M4</span><span><i class="dot bg-win"></i>Windows laptop</span><span><i class="dot hollow"></i>time not comparable</span></div>
+    <div class="chart" id="c10"></div>
+    <div class="why">
+      <div><b>Why show it</b>The management question is “what does a successful run cost?”. Success and cost side by side show the trade-off: V2 is fast and worse, V1 is slow and best, V3 is slow and bad.</div>
+      <div><b>Why this form</b>A scatter plot with two real axes instead of a dual-y-axis chart. Every dot is labelled, because there are only nine and each identity matters.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t10"></div></details>
+  </figure>
+
+  <!-- ===== D ===== -->
+  <section class="chapter" id="verhalten">
+    <div class="eyebrow">Part D</div>
+    <h2>How the agent behaves</h2>
+    <p>The trajectories show more than the success rates: what does the agent tap, and does the screen change afterwards?</p>
+  </section>
+
+  <figure class="fig" id="g11">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 11</span><span class="chip new">not in the slides</span></div>
+      <h3>V4 spends two thirds of its steps on actions that do not change the screen</h3>
+      <p class="sub">Share of executed steps without a visible screen change (fingerprint before = after).</p>
+    </div>
+    <div class="legend"><span><i class="dot bg-mac"></i>MacBook Air M4</span><span><i class="dot bg-win"></i>Windows laptop</span></div>
+    <div class="chart" id="c11"></div>
+    <div class="why">
+      <div><b>Why show it</b>“Action without effect” is the common cause behind the Save loop in Markor, the Back loop in V4 and the taps on the extension field in V5 and V6. It also shows why V3’s loop guard misfires in Markor: there, Save visibly changes nothing.</div>
+      <div><b>Why this form</b>A dot plot with two dots per version (Mac and Windows) on one percent axis. The gap between the dots shows directly how well the effect repeats on the second machine.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t11"></div></details>
+  </figure>
+
+  <figure class="fig" id="g12">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 12</span><span class="chip new">not in the slides</span></div>
+      <h3>Every extra rule shifts what the agent does: V4 presses “Back” 35 times, V2 only six</h3>
+      <p class="sub">All actions split by type, per version and machine. “Other” = wait, scroll and report “complete”.</p>
+    </div>
+    <div class="legend" id="lg-act12"></div>
+    <div class="chart" id="c12"></div>
+    <div class="why">
+      <div><b>Why show it</b>This makes the V4 lesson measurable: one extra, correct prompt block clearly changes the behaviour of a 4B model. In the code, only that block differed.</div>
+      <div><b>Why this form</b>Stacked 100% bars with five colours plus grey for the rest. More than six classes would no longer be distinguishable, so the small remainder is grouped.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t12"></div></details>
+  </figure>
+
+  <figure class="fig" id="g13">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 13</span><span class="chip new">not in the slides</span><span class="chip">interactive</span></div>
+      <h3>Two versions, same tasks, step by step</h3>
+      <p class="sub">Each row is a run, each box a step. Hollow box = screen did not change, cross = blocked by the harness. Right: the outcome.</p>
+    </div>
+    <div class="controls">
+      <label for="selA">Top <select id="selA"></select></label>
+      <label for="selB">Bottom <select id="selB"></select></label>
+    </div>
+    <div class="legend" id="lg-act13"></div>
+    <div class="chart" id="c13"></div>
+    <div class="why">
+      <div><b>Why show it</b>The slides tell single failures as text (slides 20, 26c). These strips show all runs of two versions at once, step by step, so you can see whether a failure is typical or an exception. Default: V2 against V4 on the Mac.</div>
+      <div><b>Why this form</b>A barcode with boxes instead of a line, because steps are discrete. The effect is encoded by shape (filled or hollow), not by another colour, so the action colours stay the same as in Figure 12.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t13"></div></details>
+  </figure>
+
+  <!-- ===== E ===== -->
+  <section class="chapter" id="belastbar">
+    <div class="eyebrow">Part E</div>
+    <h2>How robust this is</h2>
+    <p>Same code, same seeds, temperature 0, two machines. The model digests differ because the Ollama builds differ, so strictly speaking it is a different model.</p>
+  </section>
+
+  <figure class="fig" id="g14">
+    <div class="fig-head">
+      <div class="fig-meta"><span class="num">Figure 14</span><span class="chip">slide 26 as text</span></div>
+      <h3>22 of 27 runs end the same on both machines, mostly because both fail</h3>
+      <p class="sub">One 2×2 table per version: result on Windows (rows) against result on the Mac (columns) for the same seed. The diagonal is agreement.</p>
+    </div>
+    <div class="chart" id="c14"></div>
+    <div class="why">
+      <div><b>Why show it</b>Reproducibility is graded. “Same ranking on both machines” sounds strong, but the agreement comes mostly from shared FAILs (V3: 9 of 9). Of the 10 pairs with at least one PASS (V1, V2), every second one flips. That is the honest picture.</div>
+      <div><b>Why this form</b>Small multiples (one agreement table per version), because “does run X agree on both?” is a paired comparison. Shading uses one hue; the number sits in the cell.</div>
+    </div>
+    <details class="tbl"><summary>Data as a table</summary><div class="tblwrap" id="t14"></div></details>
+  </figure>
+
+  <!-- ===== Not shown ===== -->
+  <section class="chapter" id="nicht">
+    <div class="eyebrow">Part F</div>
+    <h2>Deliberately not shown</h2>
+    <p>These charts would be the obvious choice. We leave them out because with our data they would claim more than the data supports.</p>
+    <div class="notlist">
+      <div><b>Success rates as bars without intervals</b><p>56% against 22% looks like a clear difference, but with n = 9 it is within noise. Replaced by Figure 3.</p></div>
+      <div><b>Failure-class distribution as the main finding</b><p>47 of the 61 labels are unreviewed runner suggestions, and “grounding” is a catch-all (Figure 5). As a headline chart it would fake a precision we do not have. Replaced by the objective split in Figure 4.</p></div>
+      <div><b>A line from V1 to V6</b><p>A line claims a progression. But the versions do not build on each other: V4 and V5 both start from V2. That is why we use dots or bars everywhere.</p></div>
+      <div><b>Cost and success on two y-axes</b><p>Where the two curves cross depends only on how the axes are scaled, which invents a correlation that is not in the data. Replaced by the scatter plot in Figure 10.</p></div>
+      <div><b>Mac and Windows merged into one rate</b><p>Different model digests are different models (Day 1). Both machines stay separate in every chart.</p></div>
+      <div><b>Pie or donut chart of PASS/FAIL</b><p>20 against 61 is a single number. It is shown as a tile at the top; a pie would add nothing.</p></div>
+      <div><b>Radar chart of the versions</b><p>Axes with different units (seconds, tokens, percent) on one area. How large the area gets depends only on the order of the axes.</p></div>
+      <div><b>ERROR runs in rates</b><p>The 11 emulator crashes (all Mac V3) say nothing about the agent. They were re-run with the same seed and are excluded from every chart.</p></div>
+      <div><b>Mac V6 times as a cost comparison</b><p>These runs ran under other load (up to 68 s per step). They appear only marked (Figures 8 and 10) and are not read as an effect of the fixes.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Sources: <code>runs/log.csv</code> (Mac, 54 runs), <code>runs_windows/log.csv</code> (Windows, 27 runs), per run <code>result.json</code> and <code>trajectory.jsonl</code>. Excluding the 11 ERROR runs.</span>
+    <span>Model: qwen3-vl:4b-instruct (V5, V6: 8b-instruct), Q4_K_M, Ollama, temperature 0. As of 9 October 2026.</span>
+  </footer>
+</main>
+<div id="tip" hidden></div>
+
+<script>
+const RUNS = [{"m":"Mac","v":"v1_baseline","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":491.8,"ms":364.7,"pt":22605,"mc":12,"fc":"grounding","rv":false,"s":[["o",1,27.54,"e"],["c",1,30.59,"e"],["c",0,27.53,"e"],["c",1,43.91,"e"],["c",1,42.64,"e"],["c",1,27.83,"e"],["t",1,25.89,"e"],["t",1,27.38,"e"],["c",1,25.33,"e"],["t",1,33.23,"e"],["c",1,25.34,"e"],["c",1,27.45,"e"]]},{"m":"Mac","v":"v1_baseline","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":12,"dur":310.3,"ms":245.0,"pt":20599,"mc":11,"fc":"","rv":false,"s":[["o",1,26.63,"e"],["w",1,23.21,"e"],["c",1,27.76,"e"],["c",1,24.83,"e"],["t",1,21.35,"e"],["t",1,20.26,"e"],["c",1,21.19,"e"],["t",1,16.84,"e"],["c",0,18.13,"e"],["c",1,18.9,"e"],["s",null,25.85,"d"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":270.4,"ms":231.2,"pt":16746,"mc":9,"fc":"false_done","rv":false,"s":[["o",1,21.29,"e"],["c",1,22.43,"e"],["t",1,31.46,"e"],["c",0,23.04,"e"],["c",1,26.22,"e"],["c",1,31.79,"e"],["c",1,25.39,"e"],["t",1,27.42,"e"],["s",null,22.11,"d"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":486.2,"ms":405.7,"pt":34840,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,21.13,"e"],["c",1,19.92,"e"],["t",1,23.28,"e"],["c",0,25.6,"e"],["c",0,28.64,"e"],["c",0,36.91,"e"],["c",1,45.32,"e"],["c",1,32.21,"e"],["c",1,40.13,"e"],["t",1,42.15,"e"],["c",0,35.67,"e"],["o",1,16.67,"e"],["c",0,9.47,"e"],["c",0,10.0,"e"],["c",0,3.0,"e"],["c",0,3.12,"e"],["c",1,3.25,"e"],["c",0,9.25,"e"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":16,"bu":18,"dur":252.2,"ms":177.7,"pt":31257,"mc":16,"fc":"","rv":false,"s":[["o",1,8.77,"e"],["c",1,8.61,"e"],["t",1,10.34,"e"],["c",1,9.43,"e"],["t",1,10.38,"e"],["c",0,10.15,"e"],["c",0,9.59,"e"],["b",1,9.87,"e"],["o",1,10.29,"e"],["c",1,11.05,"e"],["c",0,13.3,"e"],["t",1,4.04,"e"],["c",1,15.11,"e"],["t",1,14.98,"e"],["c",1,12.68,"e"],["s",null,19.07,"d"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":534.8,"ms":453.2,"pt":34723,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,9.08,"e"],["c",1,10.1,"e"],["t",1,25.15,"e"],["c",1,23.27,"e"],["t",1,29.2,"e"],["c",0,31.05,"e"],["b",1,29.64,"e"],["b",1,26.95,"e"],["o",1,26.56,"e"],["c",1,30.2,"e"],["c",0,32.0,"e"],["c",0,30.16,"e"],["c",0,33.19,"e"],["c",1,32.88,"e"],["c",1,28.3,"e"],["t",1,22.34,"e"],["c",1,17.28,"e"],["h",1,15.91,"e"]]},{"m":"Mac","v":"v2_index","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":12,"dur":92.8,"ms":56.2,"pt":11311,"mc":11,"fc":"","rv":false,"s":[["h",0,5.32,"e"],["c",null,2.82,"x"],["o",1,3.74,"e"],["c",1,2.8,"e"],["t",1,4.32,"e"],["c",0,4.05,"e"],["t",1,3.65,"e"],["c",1,2.69,"e"],["t",1,4.33,"e"],["c",1,4.43,"e"],["s",null,18.0,"d"]]},{"m":"Mac","v":"v2_index","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":106.3,"ms":62.6,"pt":11963,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,4.47,"e"],["c",null,3.98,"x"],["o",1,4.43,"e"],["c",1,18.22,"e"],["c",0,4.96,"e"],["c",1,3.21,"e"],["c",1,3.48,"e"],["c",1,4.44,"e"],["t",1,3.16,"e"],["c",1,2.7,"e"],["t",1,5.28,"e"],["c",1,4.31,"e"]]},{"m":"Mac","v":"v2_index","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":12,"dur":66.5,"ms":35.6,"pt":8461,"mc":9,"fc":"lost_value","rv":true,"s":[["h",0,3.71,"e"],["c",null,4.05,"x"],["o",1,4.36,"e"],["c",1,3.53,"e"],["t",1,4.9,"e"],["c",1,3.25,"e"],["t",1,4.49,"e"],["c",1,3.64,"e"],["s",null,3.7,"d"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":143.8,"ms":85.4,"pt":15779,"mc":16,"fc":"grounding","rv":true,"s":[["o",1,4.33,"e"],["c",1,4.05,"e"],["c",1,5.37,"e"],["t",1,4.89,"e"],["c",0,3.56,"e"],["c",0,5.96,"e"],["c",0,6.06,"e"],["c",1,5.68,"e"],["c",1,3.57,"e"],["c",1,5.53,"e"],["t",1,5.93,"e"],["c",0,4.76,"e"],["c",0,5.72,"e"],["c",0,5.89,"e"],["c",0,5.89,"e"],["c",0,8.24,"e"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":81.6,"ms":39.5,"pt":8867,"mc":9,"fc":"grounding","rv":false,"s":[["o",1,3.02,"e"],["c",1,4.1,"e"],["t",1,5.46,"e"],["c",1,3.35,"e"],["t",1,4.96,"e"],["c",0,4.27,"e"],["c",0,4.49,"e"],["c",0,4.61,"e"],["s",null,5.21,"d"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":80.7,"ms":43.0,"pt":8489,"mc":9,"fc":"","rv":false,"s":[["o",1,4.26,"e"],["c",1,4.03,"e"],["t",1,6.03,"e"],["c",0,5.0,"e"],["c",1,4.75,"e"],["t",1,4.86,"e"],["c",0,4.19,"e"],["c",0,4.88,"e"],["s",null,4.97,"d"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":16,"bu":18,"dur":146.6,"ms":67.1,"pt":15571,"mc":16,"fc":"lost_value","rv":true,"s":[["o",1,4.09,"e"],["c",1,4.02,"e"],["t",1,4.03,"e"],["c",1,4.72,"e"],["t",1,4.57,"e"],["c",0,3.94,"e"],["b",1,3.84,"e"],["b",1,3.65,"e"],["o",1,3.84,"e"],["c",1,4.45,"e"],["t",1,4.84,"e"],["c",1,3.83,"e"],["t",1,4.33,"e"],["c",1,3.08,"e"],["c",0,5.53,"e"],["s",null,4.3,"d"]]},{"m":"Mac","v":"v1_baseline","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":12,"dur":343.6,"ms":297.6,"pt":20586,"mc":11,"fc":"","rv":false,"s":[["o",1,25.26,"e"],["w",1,23.44,"e"],["c",1,24.19,"e"],["c",1,27.45,"e"],["c",1,29.24,"e"],["t",1,26.1,"e"],["t",1,29.37,"e"],["c",1,30.44,"e"],["t",1,30.88,"e"],["c",0,25.02,"e"],["s",null,26.18,"d"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":297.8,"ms":254.1,"pt":16954,"mc":9,"fc":"","rv":false,"s":[["o",1,26.64,"e"],["c",1,25.02,"e"],["t",1,33.17,"e"],["c",1,24.21,"e"],["t",1,31.62,"e"],["t",1,29.8,"e"],["c",0,26.59,"e"],["c",0,29.15,"e"],["s",null,27.9,"d"]]},{"m":"Mac","v":"v1_baseline","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":16,"dur":323.2,"ms":273.5,"pt":20875,"mc":11,"fc":"","rv":false,"s":[["o",1,8.43,"e"],["c",1,5.69,"e"],["t",1,34.0,"e"],["c",0,28.51,"e"],["c",1,26.53,"e"],["c",1,27.21,"e"],["t",1,29.98,"e"],["c",0,28.45,"e"],["c",0,28.74,"e"],["c",0,28.63,"e"],["s",null,27.29,"d"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":262.8,"ms":170.2,"pt":19007,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,13.08,"e"],["c",1,6.62,"e"],["t",1,10.23,"e"],["c",0,9.73,"e"],["c",1,8.53,"e"],["t",1,29.68,"e"],["c",0,7.99,"e"],["b",1,6.88,"e"],["b",1,6.93,"e"],["c",1,7.9,"e"],["h",1,9.91,"e"],["o",1,7.91,"e"],["c",1,7.15,"e"],["t",1,8.23,"e"],["c",1,6.4,"e"],["c",1,7.36,"e"],["t",1,8.95,"e"],["c",1,6.71,"e"]]},{"m":"Mac","v":"v2_index","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":16,"bu":18,"dur":247.9,"ms":166.9,"pt":17458,"mc":16,"fc":"false_done","rv":false,"s":[["o",1,7.31,"e"],["c",1,6.62,"e"],["t",1,7.96,"e"],["c",1,6.51,"e"],["t",1,28.01,"e"],["c",0,7.09,"e"],["b",1,6.72,"e"],["b",1,6.53,"e"],["o",1,6.31,"e"],["c",1,7.56,"e"],["t",1,8.61,"e"],["c",1,6.38,"e"],["t",1,33.15,"e"],["c",1,7.5,"e"],["c",1,11.41,"e"],["s",null,9.24,"d"]]},{"m":"Mac","v":"v3_full","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":12,"bu":12,"dur":259.1,"ms":203.7,"pt":16130,"mc":13,"fc":"lost_value","rv":true,"s":[["h",0,11.45,"e"],["c",null,9.37,"x"],["o",1,8.75,"e"],["c",1,34.97,"e"],["c",1,7.9,"e"],["c",1,31.54,"e"],["t",1,9.26,"e"],["b",1,34.17,"e"],["c",1,9.69,"e"],["t",1,11.26,"e"],["c",1,9.7,"e"],["s",null,11.57,"d"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":306.8,"ms":250.2,"pt":20998,"mc":17,"fc":"grounding","rv":false,"s":[["o",1,8.23,"e"],["c",1,28.94,"e"],["c",1,8.03,"e"],["c",0,11.39,"e"],["t",1,9.73,"e"],["c",0,10.89,"e"],["c",0,12.13,"e"],["c",null,10.41,"x"],["c",null,10.05,"x"],["c",1,11.37,"e"],["c",1,27.78,"e"],["c",1,13.26,"e"],["t",1,34.83,"e"],["c",0,11.07,"e"],["s",null,13.15,"j"],["c",0,15.39,"e"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":265.3,"ms":185.8,"pt":18479,"mc":16,"fc":"grounding","rv":false,"s":[["o",1,8.26,"e"],["c",1,28.81,"e"],["c",0,8.53,"e"],["c",1,10.44,"e"],["c",0,9.89,"e"],["t",1,11.18,"e"],["c",0,12.43,"e"],["c",1,11.07,"e"],["c",1,8.92,"e"],["c",1,9.33,"e"],["c",1,11.14,"e"],["t",1,13.35,"e"],["c",1,11.39,"e"],["c",1,10.2,"e"],["c",1,8.85,"e"],["t",1,12.0,"e"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":0.0,"dn":false,"stop":"loop_abort","st":10,"bu":16,"dur":139.5,"ms":93.7,"pt":10719,"mc":10,"fc":"grounding","rv":false,"s":[["o",1,8.2,"e"],["c",1,7.8,"e"],["t",1,8.31,"e"],["c",1,7.13,"e"],["t",1,9.93,"e"],["c",0,8.34,"e"],["c",0,8.01,"e"],["c",null,9.57,"x"],["c",null,11.73,"x"],["c",null,14.7,"x"]]},{"m":"Mac","v":"v3_full","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":11,"bu":12,"dur":176.0,"ms":136.9,"pt":12996,"mc":12,"fc":"too_early","rv":false,"s":[["h",0,22.1,"e"],["c",null,7.93,"x"],["o",1,8.03,"e"],["w",1,31.95,"e"],["c",1,7.1,"e"],["c",0,6.7,"e"],["t",1,8.66,"e"],["c",1,7.53,"e"],["t",1,9.49,"e"],["c",1,8.35,"e"],["s",null,8.02,"d"]]},{"m":"Mac","v":"v3_full","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":12,"bu":12,"dur":208.5,"ms":161.9,"pt":15771,"mc":13,"fc":"lost_value","rv":true,"s":[["b",0,6.04,"e"],["h",0,7.26,"e"],["o",1,7.25,"e"],["w",1,26.12,"e"],["c",1,7.77,"e"],["c",1,25.55,"e"],["t",1,8.47,"e"],["b",1,28.89,"e"],["c",1,7.19,"e"],["t",1,10.08,"e"],["c",1,8.11,"e"],["s",null,7.82,"d"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":309.5,"ms":216.7,"pt":22270,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,7.1,"e"],["c",1,27.71,"e"],["t",1,8.68,"e"],["c",0,8.52,"e"],["t",1,9.05,"e"],["c",1,8.85,"e"],["t",1,30.92,"e"],["c",0,8.31,"e"],["c",0,8.03,"e"],["c",null,9.23,"x"],["c",1,11.74,"e"],["c",1,6.32,"e"],["c",1,8.65,"e"],["c",null,9.44,"z"],["c",1,7.85,"e"],["h",1,27.58,"e"],["o",1,10.27,"e"],["c",1,8.43,"e"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":299.3,"ms":214.2,"pt":22627,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,8.42,"e"],["w",1,27.74,"e"],["c",1,7.15,"e"],["t",1,9.21,"e"],["c",1,9.45,"e"],["c",1,7.09,"e"],["c",1,25.08,"e"],["t",1,10.39,"e"],["c",0,8.22,"e"],["c",0,11.78,"e"],["c",null,10.51,"x"],["c",null,13.15,"x"],["c",0,13.74,"e"],["c",0,11.19,"e"],["c",1,14.07,"e"],["c",1,8.43,"e"],["c",1,7.6,"e"],["h",1,11.01,"e"]]},{"m":"Mac","v":"v3_full","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":295.2,"ms":204.9,"pt":21980,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,7.71,"e"],["c",1,28.72,"e"],["c",0,8.46,"e"],["c",1,9.46,"e"],["t",1,8.3,"e"],["c",1,6.85,"e"],["c",1,6.03,"e"],["c",1,27.15,"e"],["t",1,9.16,"e"],["c",0,10.79,"e"],["c",0,9.72,"e"],["c",null,10.5,"x"],["c",null,13.56,"x"],["c",1,10.79,"e"],["c",1,9.14,"e"],["h",1,11.52,"e"],["o",1,8.89,"e"],["c",1,8.2,"e"]]},{"m":"Mac","v":"v4_tracker","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":132.9,"ms":95.2,"pt":11212,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,21.37,"e"],["b",0,7.59,"e"],["b",0,7.07,"e"],["b",0,6.23,"e"],["b",0,6.74,"e"],["b",0,5.75,"e"],["b",0,6.76,"e"],["b",0,6.67,"e"],["b",0,6.11,"e"],["b",0,7.0,"e"],["b",0,6.93,"e"],["b",0,7.01,"e"]]},{"m":"Mac","v":"v4_tracker","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":119.4,"ms":82.1,"pt":11200,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,6.85,"e"],["b",0,7.05,"e"],["b",0,7.08,"e"],["b",0,7.01,"e"],["b",0,6.92,"e"],["b",0,6.8,"e"],["b",0,6.48,"e"],["b",0,6.39,"e"],["b",0,6.55,"e"],["b",0,7.65,"e"],["b",0,7.03,"e"],["b",0,6.25,"e"]]},{"m":"Mac","v":"v4_tracker","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":117.5,"ms":79.9,"pt":11200,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,7.02,"e"],["b",0,6.44,"e"],["b",0,6.42,"e"],["b",0,6.75,"e"],["b",0,6.34,"e"],["b",0,6.34,"e"],["b",0,6.32,"e"],["b",0,6.4,"e"],["b",0,6.45,"e"],["b",0,7.27,"e"],["b",0,7.32,"e"],["b",0,6.84,"e"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":16,"dur":176.3,"ms":131.3,"pt":12812,"mc":11,"fc":"","rv":false,"s":[["o",1,8.7,"e"],["c",1,8.4,"e"],["t",1,11.38,"e"],["c",0,7.55,"e"],["c",1,7.78,"e"],["c",1,37.65,"e"],["t",1,9.87,"e"],["c",0,8.03,"e"],["c",0,9.53,"e"],["c",0,10.63,"e"],["s",null,11.84,"d"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":214.6,"ms":153.5,"pt":16674,"mc":16,"fc":"grounding","rv":false,"s":[["h",0,7.63,"e"],["o",1,8.56,"e"],["c",1,8.92,"e"],["t",1,9.67,"e"],["c",0,7.69,"e"],["c",0,9.65,"e"],["c",0,9.32,"e"],["c",0,9.16,"e"],["c",0,10.45,"e"],["c",0,9.37,"e"],["c",0,9.77,"e"],["c",0,9.27,"e"],["c",0,10.48,"e"],["c",0,10.99,"e"],["t",1,11.1,"e"],["c",1,11.43,"e"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":215.5,"ms":154.5,"pt":16517,"mc":16,"fc":"grounding","rv":false,"s":[["o",1,8.83,"e"],["c",1,8.17,"e"],["t",1,11.5,"e"],["c",0,6.98,"e"],["c",1,7.92,"e"],["c",1,7.8,"e"],["c",1,7.51,"e"],["c",1,10.22,"e"],["c",1,7.59,"e"],["c",1,11.22,"e"],["c",1,8.9,"e"],["w",0,14.11,"e"],["o",0,13.08,"e"],["c",1,11.01,"e"],["c",1,8.56,"e"],["c",1,11.13,"e"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":238.5,"ms":160.4,"pt":18973,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,8.49,"e"],["c",1,9.13,"e"],["t",1,8.83,"e"],["c",0,7.44,"e"],["c",0,8.49,"e"],["c",0,9.73,"e"],["c",0,8.29,"e"],["c",0,9.5,"e"],["c",0,7.52,"e"],["c",0,9.12,"e"],["c",0,9.19,"e"],["c",0,9.2,"e"],["c",0,9.09,"e"],["c",0,9.28,"e"],["c",0,9.67,"e"],["c",0,9.17,"e"],["c",0,9.02,"e"],["c",0,9.29,"e"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":254.6,"ms":176.7,"pt":19959,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,8.96,"e"],["c",1,9.27,"e"],["t",1,10.93,"e"],["c",0,7.91,"e"],["c",0,10.26,"e"],["c",0,9.61,"e"],["c",0,9.08,"e"],["c",0,8.17,"e"],["c",0,7.7,"e"],["c",0,9.83,"e"],["c",0,10.9,"e"],["c",0,10.53,"e"],["c",0,10.41,"e"],["c",0,11.36,"e"],["c",0,10.91,"e"],["c",0,9.28,"e"],["c",0,10.89,"e"],["c",0,10.71,"e"]]},{"m":"Mac","v":"v4_tracker","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":289.1,"ms":202.1,"pt":21199,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,8.62,"e"],["c",1,8.54,"e"],["t",1,9.65,"e"],["c",0,7.05,"e"],["c",1,7.78,"e"],["t",1,31.72,"e"],["c",0,9.77,"e"],["b",1,8.48,"e"],["b",1,7.82,"e"],["c",1,8.45,"e"],["h",1,10.46,"e"],["o",1,9.37,"e"],["c",1,7.91,"e"],["t",1,9.49,"e"],["c",1,6.43,"e"],["t",1,31.34,"e"],["c",1,8.07,"e"],["c",0,11.13,"e"]]},{"m":"Mac","v":"v5_8b","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":171.8,"ms":129.3,"pt":11621,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,39.18,"e"],["o",0,18.1,"e"],["o",1,13.33,"e"],["c",1,10.13,"e"],["c",1,21.07,"e"],["c",0,3.75,"e"],["c",1,3.54,"e"],["c",1,3.97,"e"],["t",1,3.43,"e"],["c",0,4.77,"e"],["c",0,3.82,"e"],["t",1,4.24,"e"]]},{"m":"Mac","v":"v5_8b","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":12,"bu":12,"dur":119.3,"ms":77.3,"pt":14014,"mc":13,"fc":"","rv":false,"s":[["h",0,4.05,"e"],["o",1,5.91,"e"],["b",1,4.17,"e"],["o",1,5.89,"e"],["c",1,19.67,"e"],["c",1,4.17,"e"],["t",1,4.98,"e"],["c",0,4.36,"e"],["t",1,4.02,"e"],["t",1,6.15,"e"],["c",0,7.28,"e"],["s",null,6.68,"d"]]},{"m":"Mac","v":"v5_8b","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":8,"bu":12,"dur":108.7,"ms":76.3,"pt":8960,"mc":8,"fc":"","rv":false,"s":[["o",1,7.04,"e"],["w",1,21.09,"e"],["c",1,3.71,"e"],["t",1,21.66,"e"],["t",1,6.16,"e"],["t",1,7.65,"e"],["c",1,5.32,"e"],["s",null,3.65,"d"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":16,"dur":133.9,"ms":92.4,"pt":11500,"mc":11,"fc":"","rv":false,"s":[["o",1,4.91,"e"],["c",1,4.91,"e"],["c",0,5.57,"e"],["c",1,6.05,"e"],["t",1,7.25,"e"],["c",0,5.98,"e"],["c",1,5.08,"e"],["t",1,25.08,"e"],["c",0,7.19,"e"],["c",0,11.93,"e"],["s",null,8.43,"d"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":93.4,"ms":55.6,"pt":8611,"mc":9,"fc":"grounding","rv":false,"s":[["o",1,3.65,"e"],["c",1,5.03,"e"],["c",1,6.03,"e"],["t",1,7.7,"e"],["c",0,5.11,"e"],["c",1,5.14,"e"],["t",1,7.27,"e"],["c",0,6.09,"e"],["s",null,9.59,"d"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":192.6,"ms":137.0,"pt":16082,"mc":16,"fc":"grounding","rv":false,"s":[["o",1,3.59,"e"],["c",1,5.38,"e"],["c",0,5.61,"e"],["c",1,5.55,"e"],["t",1,6.26,"e"],["c",0,6.75,"e"],["c",1,6.66,"e"],["t",1,25.22,"e"],["c",0,7.54,"e"],["c",1,10.73,"e"],["c",1,5.62,"e"],["c",0,10.05,"e"],["c",0,10.3,"e"],["c",0,11.62,"e"],["c",1,10.06,"e"],["c",1,6.11,"e"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":184.5,"ms":105.9,"pt":17037,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,4.66,"e"],["c",1,4.84,"e"],["c",1,5.07,"e"],["t",1,6.13,"e"],["c",0,5.84,"e"],["c",0,4.44,"e"],["c",0,4.35,"e"],["c",0,5.14,"e"],["c",0,4.74,"e"],["c",0,7.02,"e"],["c",1,6.88,"e"],["o",1,7.05,"e"],["c",1,6.26,"e"],["t",1,7.04,"e"],["c",1,5.05,"e"],["t",1,6.71,"e"],["c",1,5.6,"e"],["c",0,9.06,"e"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":164.1,"ms":93.8,"pt":17813,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,4.43,"e"],["c",1,4.28,"e"],["c",1,5.07,"e"],["t",1,6.4,"e"],["c",0,3.52,"e"],["c",0,3.5,"e"],["c",0,3.63,"e"],["c",0,3.79,"e"],["c",0,3.83,"e"],["c",0,5.35,"e"],["c",0,5.57,"e"],["c",0,6.47,"e"],["c",0,5.84,"e"],["c",0,5.79,"e"],["c",0,5.98,"e"],["c",0,6.02,"e"],["c",0,7.53,"e"],["c",0,6.75,"e"]]},{"m":"Mac","v":"v5_8b","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.5,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":205.9,"ms":127.2,"pt":18442,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,4.66,"e"],["c",1,4.48,"e"],["t",1,6.16,"e"],["c",0,4.54,"e"],["c",1,4.19,"e"],["t",1,21.5,"e"],["c",1,5.17,"e"],["h",1,6.37,"e"],["o",1,4.62,"e"],["c",1,6.13,"e"],["t",1,6.93,"e"],["c",1,4.99,"e"],["t",1,6.41,"e"],["c",1,6.03,"e"],["c",0,9.41,"e"],["h",1,10.84,"e"],["o",1,6.92,"e"],["c",1,7.85,"e"]]},{"m":"Mac","v":"v6_fixes","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":515.2,"ms":337.3,"pt":12637,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,55.35,"e"],["o",0,24.8,"e"],["o",1,17.18,"e"],["w",1,68.3,"e"],["o",1,17.49,"e"],["w",1,55.45,"e"],["c",0,14.18,"e"],["c",1,14.99,"e"],["c",1,20.12,"e"],["t",1,19.99,"e"],["t",1,14.78,"e"],["t",1,14.66,"e"]]},{"m":"Mac","v":"v6_fixes","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":309.1,"ms":209.3,"pt":11749,"mc":12,"fc":"grounding","rv":false,"s":[["h",0,14.22,"e"],["o",0,22.82,"e"],["o",1,16.2,"e"],["b",1,53.27,"e"],["c",1,11.36,"e"],["b",0,12.37,"e"],["b",0,12.16,"e"],["b",1,12.04,"e"],["o",0,12.94,"e"],["o",1,16.72,"e"],["c",0,13.13,"e"],["c",1,12.06,"e"]]},{"m":"Mac","v":"v6_fixes","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":321.6,"ms":239.7,"pt":13262,"mc":12,"fc":"grounding","rv":false,"s":[["o",0,19.66,"e"],["h",1,12.62,"e"],["c",null,45.76,"x"],["o",0,15.1,"e"],["o",1,12.54,"e"],["c",1,47.29,"e"],["c",1,11.77,"e"],["t",1,13.06,"e"],["c",1,17.86,"e"],["t",1,12.21,"e"],["t",1,16.83,"e"],["c",0,14.99,"e"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":13,"bu":16,"dur":265.9,"ms":181.6,"pt":13540,"mc":13,"fc":"grounding","rv":false,"s":[["o",1,10.29,"e"],["c",0,11.18,"e"],["c",0,11.03,"e"],["c",0,11.16,"e"],["c",0,13.67,"e"],["c",0,11.1,"e"],["c",0,11.73,"e"],["c",1,11.47,"e"],["t",1,11.28,"e"],["c",1,10.65,"e"],["t",1,42.11,"e"],["c",0,12.47,"e"],["s",null,13.44,"d"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":14,"bu":16,"dur":266.3,"ms":194.2,"pt":14725,"mc":14,"fc":"grounding","rv":false,"s":[["o",1,9.02,"e"],["c",1,10.54,"e"],["c",0,9.75,"e"],["c",0,10.95,"e"],["c",0,11.43,"e"],["c",1,12.12,"e"],["c",0,12.66,"e"],["t",1,15.08,"e"],["c",1,10.65,"e"],["c",1,42.9,"e"],["t",1,12.69,"e"],["c",0,11.11,"e"],["c",0,13.78,"e"],["s",null,11.54,"d"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":14,"bu":16,"dur":214.2,"ms":162.3,"pt":14192,"mc":14,"fc":"","rv":false,"s":[["o",1,6.51,"e"],["c",1,7.5,"e"],["c",0,8.09,"e"],["c",1,7.77,"e"],["t",1,9.02,"e"],["c",0,9.37,"e"],["c",1,9.25,"e"],["t",1,32.89,"e"],["c",0,9.91,"e"],["c",1,14.25,"e"],["c",1,7.62,"e"],["c",0,13.39,"e"],["c",0,13.73,"e"],["s",null,12.95,"d"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":289.1,"ms":206.9,"pt":19072,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,7.45,"e"],["c",1,7.95,"e"],["c",0,8.09,"e"],["t",1,9.67,"e"],["c",0,7.47,"e"],["c",0,9.07,"e"],["c",0,7.8,"e"],["c",0,9.09,"e"],["c",0,7.74,"e"],["c",0,10.1,"e"],["c",0,10.14,"e"],["c",0,10.87,"e"],["c",1,9.88,"e"],["o",1,32.33,"e"],["c",1,8.7,"e"],["t",1,33.76,"e"],["c",1,7.81,"e"],["t",1,9.03,"e"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":227.9,"ms":153.3,"pt":17813,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,8.86,"e"],["c",1,9.2,"e"],["c",1,9.13,"e"],["t",1,11.25,"e"],["c",0,7.36,"e"],["c",0,6.83,"e"],["c",0,6.83,"e"],["c",0,6.79,"e"],["c",0,6.79,"e"],["c",0,8.68,"e"],["c",0,8.75,"e"],["c",0,10.0,"e"],["c",0,8.49,"e"],["c",0,8.52,"e"],["c",0,8.36,"e"],["c",0,8.23,"e"],["c",0,10.08,"e"],["c",0,9.12,"e"]]},{"m":"Mac","v":"v6_fixes","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":17,"bu":18,"dur":297.4,"ms":216.2,"pt":18561,"mc":17,"fc":"false_done","rv":true,"s":[["o",1,7.23,"e"],["c",1,7.89,"e"],["t",1,9.92,"e"],["c",0,8.82,"e"],["c",1,7.45,"e"],["t",1,34.55,"e"],["c",0,8.52,"e"],["h",1,9.4,"e"],["o",1,6.47,"e"],["c",1,8.45,"e"],["t",1,34.39,"e"],["c",1,7.93,"e"],["t",1,10.12,"e"],["c",1,9.65,"e"],["c",1,17.2,"e"],["h",0,14.8,"e"],["s",null,13.44,"d"]]},{"m":"Windows","v":"v2_index","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":10,"bu":12,"dur":361.7,"ms":319.3,"pt":10947,"mc":10,"fc":"lost_value","rv":true,"s":[["h",0,21.99,"e"],["c",null,21.07,"x"],["o",1,24.42,"e"],["w",1,92.37,"e"],["c",1,11.24,"e"],["c",1,16.49,"e"],["t",1,84.75,"e"],["t",1,16.51,"e"],["c",1,16.21,"e"],["s",null,14.27,"d"]]},{"m":"Windows","v":"v2_index","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":10,"bu":12,"dur":367.5,"ms":324.9,"pt":11283,"mc":10,"fc":"lost_value","rv":true,"s":[["h",0,21.12,"e"],["c",null,18.93,"x"],["o",1,19.88,"e"],["w",1,86.64,"e"],["c",1,16.75,"e"],["t",1,19.64,"e"],["c",1,12.83,"e"],["t",1,16.45,"e"],["c",1,16.63,"e"],["s",null,95.99,"d"]]},{"m":"Windows","v":"v2_index","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":10,"bu":12,"dur":409.0,"ms":368.6,"pt":11106,"mc":10,"fc":"lost_value","rv":true,"s":[["b",0,23.04,"e"],["c",null,18.6,"x"],["o",1,20.44,"e"],["w",1,115.37,"e"],["c",1,14.8,"e"],["t",1,101.59,"e"],["c",1,14.08,"e"],["t",1,21.45,"e"],["c",1,21.62,"e"],["s",null,17.58,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":10,"bu":16,"dur":393.8,"ms":346.8,"pt":11480,"mc":10,"fc":"","rv":false,"s":[["o",1,22.33,"e"],["c",1,86.43,"e"],["c",1,17.54,"e"],["t",1,19.38,"e"],["c",0,21.97,"e"],["c",1,16.86,"e"],["t",1,92.79,"e"],["c",0,23.52,"e"],["c",0,25.14,"e"],["s",null,20.87,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":14,"bu":16,"dur":504.9,"ms":443.8,"pt":15363,"mc":14,"fc":"","rv":false,"s":[["o",1,21.56,"e"],["c",1,85.34,"e"],["c",1,23.52,"e"],["t",1,21.66,"e"],["c",0,23.85,"e"],["c",0,20.81,"e"],["c",0,23.49,"e"],["c",1,19.82,"e"],["c",1,12.32,"e"],["c",1,27.31,"e"],["t",1,93.42,"e"],["c",0,22.82,"e"],["c",0,26.03,"e"],["s",null,21.8,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":16,"dur":339.5,"ms":287.8,"pt":11348,"mc":11,"fc":"","rv":false,"s":[["o",1,20.45,"e"],["c",1,17.41,"e"],["c",1,20.18,"e"],["t",1,16.88,"e"],["c",0,16.34,"e"],["c",1,21.13,"e"],["t",1,90.65,"e"],["c",0,17.16,"e"],["c",0,19.82,"e"],["c",0,23.63,"e"],["s",null,24.12,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":18,"bu":18,"dur":473.5,"ms":372.3,"pt":17606,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,22.38,"e"],["c",0,22.71,"e"],["c",0,27.46,"e"],["c",1,23.19,"e"],["t",1,23.24,"e"],["c",1,20.88,"e"],["t",1,27.47,"e"],["c",0,17.87,"e"],["b",1,17.39,"e"],["h",1,21.38,"e"],["o",1,20.1,"e"],["c",1,17.4,"e"],["t",1,18.77,"e"],["c",1,14.53,"e"],["t",1,18.87,"e"],["c",1,18.33,"e"],["c",0,20.51,"e"],["s",null,19.76,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":16,"bu":18,"dur":465.4,"ms":371.2,"pt":17045,"mc":16,"fc":"lost_value","rv":true,"s":[["c",null,17.11,"x"],["o",1,14.17,"e"],["c",1,15.07,"e"],["t",1,19.26,"e"],["c",1,14.81,"e"],["t",1,93.05,"e"],["c",0,20.46,"e"],["b",1,17.49,"e"],["b",1,17.38,"e"],["o",1,19.94,"e"],["c",1,18.75,"e"],["t",1,17.74,"e"],["c",1,20.08,"e"],["t",1,18.29,"e"],["c",1,21.09,"e"],["s",null,26.53,"d"]]},{"m":"Windows","v":"v2_index","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":14,"bu":18,"dur":398.5,"ms":318.2,"pt":14597,"mc":14,"fc":"false_done","rv":true,"s":[["c",null,17.9,"x"],["o",1,17.32,"e"],["c",1,14.85,"e"],["t",1,17.99,"e"],["c",1,16.24,"e"],["t",1,82.97,"e"],["c",0,16.52,"e"],["o",1,19.01,"e"],["c",1,12.91,"e"],["t",1,24.11,"e"],["c",1,15.08,"e"],["t",1,20.43,"e"],["c",1,25.4,"e"],["s",null,17.44,"d"]]},{"m":"Windows","v":"v1_baseline","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":9,"bu":12,"dur":886.4,"ms":845.9,"pt":16716,"mc":9,"fc":"","rv":false,"s":[["o",1,106.07,"e"],["w",1,94.64,"e"],["c",1,90.09,"e"],["t",1,78.33,"e"],["t",1,98.28,"e"],["c",1,95.8,"e"],["t",1,103.45,"e"],["c",1,88.78,"e"],["s",null,90.43,"d"]]},{"m":"Windows","v":"v1_baseline","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":8,"bu":12,"dur":658.3,"ms":618.0,"pt":14789,"mc":8,"fc":"","rv":false,"s":[["o",1,22.59,"e"],["w",1,78.88,"e"],["c",1,83.9,"e"],["t",1,84.71,"e"],["t",1,90.06,"e"],["t",1,94.41,"e"],["c",1,80.0,"e"],["s",null,83.44,"d"]]},{"m":"Windows","v":"v1_baseline","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":9,"bu":12,"dur":805.5,"ms":759.5,"pt":16708,"mc":9,"fc":"","rv":false,"s":[["o",1,21.57,"e"],["w",1,93.94,"e"],["c",1,82.53,"e"],["t",1,88.38,"e"],["t",1,97.82,"e"],["c",1,101.65,"e"],["t",1,88.88,"e"],["c",1,86.33,"e"],["s",null,98.35,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":10,"bu":16,"dur":966.7,"ms":906.9,"pt":18893,"mc":10,"fc":"","rv":false,"s":[["o",1,23.23,"e"],["c",1,86.75,"e"],["c",1,111.83,"e"],["t",1,134.31,"e"],["c",1,112.81,"e"],["t",1,86.37,"e"],["c",0,86.0,"e"],["c",0,84.56,"e"],["c",0,89.28,"e"],["s",null,91.77,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"PASS","sc":1.0,"dn":true,"stop":"model_done","st":11,"bu":16,"dur":1008.2,"ms":953.0,"pt":20875,"mc":11,"fc":"","rv":false,"s":[["o",1,22.28,"e"],["c",1,83.02,"e"],["t",1,95.71,"e"],["c",1,90.31,"e"],["c",1,83.19,"e"],["c",1,95.3,"e"],["t",1,102.48,"e"],["c",0,109.57,"e"],["c",0,95.43,"e"],["c",0,92.92,"e"],["s",null,82.84,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":16,"dur":896.7,"ms":847.7,"pt":16553,"mc":9,"fc":"false_done","rv":false,"s":[["r",1,89.29,"e"],["o",0,78.98,"e"],["h",1,78.76,"e"],["o",1,98.35,"e"],["c",1,99.61,"e"],["t",1,103.01,"e"],["c",1,99.09,"e"],["t",1,113.55,"e"],["s",null,87.03,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":17,"bu":18,"dur":1689.9,"ms":1598.5,"pt":32951,"mc":17,"fc":"grounding","rv":false,"s":[["o",1,89.63,"e"],["c",1,91.63,"e"],["t",1,91.27,"e"],["c",0,99.34,"e"],["t",1,97.59,"e"],["c",1,93.14,"e"],["t",1,102.81,"e"],["c",0,106.41,"e"],["o",1,91.45,"e"],["c",0,92.15,"e"],["c",1,82.99,"e"],["c",0,90.17,"e"],["t",1,101.89,"e"],["c",1,92.31,"e"],["t",1,91.69,"e"],["c",1,95.66,"e"],["s",null,88.36,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.5,"dn":true,"stop":"model_done","st":18,"bu":18,"dur":1787.7,"ms":1697.9,"pt":35325,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,86.25,"e"],["c",1,86.97,"e"],["t",1,93.1,"e"],["c",1,83.86,"e"],["t",1,88.18,"e"],["c",0,108.69,"e"],["o",1,109.91,"e"],["c",1,95.89,"e"],["c",0,94.85,"e"],["c",0,103.07,"e"],["c",0,88.37,"e"],["c",0,85.89,"e"],["c",0,90.56,"e"],["t",1,91.97,"e"],["c",1,84.66,"e"],["t",1,91.4,"e"],["c",1,93.84,"e"],["s",null,120.39,"d"]]},{"m":"Windows","v":"v1_baseline","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":1652.0,"ms":1564.9,"pt":34875,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,98.94,"e"],["c",1,86.22,"e"],["t",1,23.01,"e"],["c",1,85.55,"e"],["c",1,87.02,"e"],["c",1,85.08,"e"],["t",1,87.25,"e"],["c",0,81.45,"e"],["o",1,79.36,"e"],["c",0,88.82,"e"],["c",0,105.61,"e"],["c",0,112.67,"e"],["c",0,88.41,"e"],["c",1,86.82,"e"],["c",1,85.99,"e"],["c",1,99.9,"e"],["t",1,92.49,"e"],["c",1,90.33,"e"]]},{"m":"Windows","v":"v3_full","t":"ContactsAddContact","n":1,"seed":"1155463587","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":12,"bu":12,"dur":358.5,"ms":315.0,"pt":12731,"mc":12,"fc":"grounding","rv":true,"s":[["h",0,35.6,"e"],["c",null,17.8,"x"],["o",1,21.71,"e"],["c",1,91.14,"e"],["r",1,20.83,"e"],["r",0,17.14,"e"],["c",0,12.66,"e"],["r",0,23.27,"e"],["r",0,17.45,"e"],["c",0,20.76,"e"],["b",1,19.48,"e"],["c",1,17.13,"e"]]},{"m":"Windows","v":"v3_full","t":"ContactsAddContact","n":2,"seed":"1324763856","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":9,"bu":12,"dur":299.5,"ms":261.4,"pt":10505,"mc":10,"fc":"lost_value","rv":true,"s":[["h",0,19.37,"e"],["b",0,14.47,"e"],["o",1,18.14,"e"],["w",1,82.33,"e"],["c",1,19.66,"e"],["t",1,23.55,"e"],["t",1,19.82,"e"],["c",1,19.15,"e"],["s",null,18.19,"d"]]},{"m":"Windows","v":"v3_full","t":"ContactsAddContact","n":3,"seed":"596600690","ver":"FAIL","sc":0.0,"dn":true,"stop":"model_done","st":11,"bu":12,"dur":269.6,"ms":223.3,"pt":11693,"mc":12,"fc":"lost_value","rv":true,"s":[["b",0,16.87,"e"],["h",0,14.49,"e"],["b",0,15.97,"e"],["b",0,13.83,"e"],["o",1,18.22,"e"],["c",1,16.49,"e"],["t",1,19.86,"e"],["c",1,17.55,"e"],["t",1,20.02,"e"],["c",1,24.78,"e"],["s",null,19.58,"d"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNote","n":1,"seed":"1448135622","ver":"FAIL","sc":1.0,"dn":false,"stop":"step_limit","st":16,"bu":16,"dur":553.3,"ms":485.4,"pt":18365,"mc":16,"fc":"grounding","rv":false,"s":[["o",1,27.24,"e"],["c",1,108.72,"e"],["t",1,21.31,"e"],["c",0,19.91,"e"],["c",0,26.45,"e"],["c",1,25.07,"e"],["t",1,20.04,"e"],["c",0,20.02,"e"],["c",0,20.05,"e"],["c",null,24.63,"x"],["c",null,28.32,"x"],["c",1,28.92,"e"],["c",1,30.65,"e"],["b",1,39.4,"e"],["c",1,26.11,"e"],["t",1,18.53,"e"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNote","n":2,"seed":"2337133809","ver":"FAIL","sc":0.0,"dn":false,"stop":"loop_abort","st":14,"bu":16,"dur":382.3,"ms":326.4,"pt":15621,"mc":14,"fc":"grounding","rv":false,"s":[["o",1,25.91,"e"],["c",1,20.39,"e"],["t",1,21.81,"e"],["c",1,18.3,"e"],["c",1,12.03,"e"],["c",1,16.7,"e"],["t",1,25.59,"e"],["c",0,18.58,"e"],["c",0,20.82,"e"],["c",null,25.14,"x"],["c",null,27.61,"x"],["c",0,33.75,"e"],["c",0,32.58,"e"],["c",null,27.15,"x"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNote","n":3,"seed":"1196614525","ver":"FAIL","sc":0.0,"dn":false,"stop":"loop_abort","st":10,"bu":16,"dur":282.5,"ms":225.4,"pt":10701,"mc":10,"fc":"grounding","rv":false,"s":[["o",1,15.62,"e"],["c",1,13.49,"e"],["t",1,32.71,"e"],["c",1,14.41,"e"],["t",1,16.26,"e"],["c",0,15.34,"e"],["c",0,38.04,"e"],["c",null,17.88,"x"],["c",null,29.61,"x"],["c",null,32.03,"x"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNoteAndSms","n":1,"seed":"3221046986","ver":"FAIL","sc":0.5,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":508.8,"ms":416.8,"pt":20010,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,14.54,"e"],["c",0,14.83,"e"],["c",1,33.99,"e"],["t",1,14.41,"e"],["c",0,18.31,"e"],["c",1,16.28,"e"],["t",1,20.69,"e"],["c",0,19.56,"e"],["c",0,35.12,"e"],["c",null,31.76,"x"],["b",1,25.38,"e"],["c",0,30.19,"e"],["b",1,26.36,"e"],["c",1,20.94,"e"],["t",1,17.38,"e"],["c",1,18.29,"e"],["c",1,39.68,"e"],["c",1,19.08,"e"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNoteAndSms","n":2,"seed":"3411394365","ver":"FAIL","sc":0.0,"dn":false,"stop":"loop_abort","st":17,"bu":18,"dur":776.5,"ms":629.9,"pt":21256,"mc":17,"fc":"grounding","rv":false,"s":[["o",1,24.56,"e"],["w",1,106.05,"e"],["c",1,15.42,"e"],["t",1,18.61,"e"],["t",1,53.51,"e"],["c",1,18.69,"e"],["c",1,17.63,"e"],["c",0,44.56,"e"],["c",0,22.79,"e"],["t",1,49.66,"e"],["c",0,34.07,"e"],["c",0,34.21,"e"],["c",null,34.1,"x"],["c",0,34.42,"e"],["c",0,43.22,"e"],["c",null,43.46,"x"],["c",null,34.95,"x"]]},{"m":"Windows","v":"v3_full","t":"MarkorCreateNoteAndSms","n":3,"seed":"3564688147","ver":"FAIL","sc":0.0,"dn":false,"stop":"step_limit","st":18,"bu":18,"dur":782.0,"ms":583.3,"pt":21408,"mc":18,"fc":"grounding","rv":false,"s":[["o",1,18.16,"e"],["c",1,21.24,"e"],["c",0,19.21,"e"],["c",1,21.42,"e"],["t",1,19.2,"e"],["c",1,23.31,"e"],["c",1,21.21,"e"],["c",1,123.83,"e"],["c",1,22.33,"e"],["c",1,23.7,"e"],["c",1,30.3,"e"],["t",1,25.87,"e"],["c",1,29.12,"e"],["c",1,38.37,"e"],["c",0,40.69,"e"],["c",0,42.35,"e"],["c",1,40.79,"e"],["c",1,22.24,"e"]]}];
+</script>
+<script>
+(() => {
+'use strict';
+const NS = 'http://www.w3.org/2000/svg';
+const VERS = ['v1_baseline','v2_index','v3_full','v4_tracker','v5_8b','v6_fixes'];
+const VL = {v1_baseline:'V1', v2_index:'V2', v3_full:'V3', v4_tracker:'V4', v5_8b:'V5', v6_fixes:'V6'};
+const VD = {v1_baseline:'screenshot + coordinates', v2_index:'tree + index', v3_full:'V2 + full harness', v4_tracker:'V2 + goal tracker', v5_8b:'V2 with 8B model', v6_fixes:'V5 + two code fixes'};
+const TASKS = ['ContactsAddContact','MarkorCreateNote','MarkorCreateNoteAndSms'];
+const TL = {ContactsAddContact:'Add contact', MarkorCreateNote:'Markor note', MarkorCreateNoteAndSms:'Note + SMS'};
+const ML = {Mac:'Mac', Windows:'Win'};
+const MC = {Mac:'mac', Windows:'win'};
+const COLS = [];
+for (const v of VERS) COLS.push({m:'Mac', v});
+for (const v of VERS.slice(0,3)) COLS.push({m:'Windows', v});
+COLS.forEach(c => { c.key = c.m + '|' + c.v; c.label = VL[c.v] + ' · ' + ML[c.m]; c.runs = RUNS.filter(r => r.m === c.m && r.v === c.v); });
+
+const OUT = {
+  pass:      {l:'PASS', long:'PASS: goal reached and “complete” reported'},
+  silent:    {l:'Goal reached, never “complete”', long:'Goal reached, but “complete” never reported'},
+  wrongdone: {l:'“Complete”, goal missed', long:'“Complete” reported, goal not (fully) reached'},
+  none:      {l:'Neither', long:'Neither goal reached nor “complete” reported'},
+};
+const OKEYS = ['pass','silent','wrongdone','none'];
+const outcome = r => r.ver === 'PASS' ? 'pass' : (r.sc === 1 && !r.dn) ? 'silent' : r.dn ? 'wrongdone' : 'none';
+RUNS.forEach(r => r.o = outcome(r));
+
+const ACTS = {c:'Tap (click)', t:'Type text', b:'Back', o:'Open app', h:'Home', x:'Other'};
+const AKEYS = ['c','t','b','o','h','x'];
+const actKey = a => 'ctboh'.includes(a) ? a : 'x';
+
+// instances: sorted by task then seed as in report order
+const INST = [];
+for (const t of TASKS) {
+  const seeds = [...new Set(RUNS.filter(r => r.t === t && r.m === 'Mac' && r.v === 'v1_baseline').sort((a,b)=>a.n-b.n).map(r => r.seed))];
+  const SH = {ContactsAddContact:'Contact', MarkorCreateNote:'Note', MarkorCreateNoteAndSms:'SMS'};
+  seeds.forEach((s,i) => INST.push({t, seed:s, label: TL[t] + ' #' + (i+1), short: SH[t] + ' #' + (i+1)}));
+}
+const runAt = (c, inst) => c.runs.find(r => r.t === inst.t && r.seed === inst.seed);
+
+// ---------- helpers ----------
+const fmt = (x, d=0) => x.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+const pct = x => fmt(100*x) + '%';
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, x, y, s, attrs={}) { const t = svgEl('text', Object.assign({x, y}, attrs), parent); t.textContent = s; return t; }
+function newSvg(host, w, h) { host.textContent = ''; return svgEl('svg', {viewBox:`0 0 ${w} ${h}`, width:'100%', role:'img'}, host); }
+function lin(d0, d1, r0, r1) { const f = v => r0 + (v - d0) / (d1 - d0) * (r1 - r0); return f; }
+function tip(e, s) { e.setAttribute('data-tip', s); return e; }
+// rounded data-end bar (horizontal), square at baseline
+function hbar(parent, x, y, w, h, cls, roundEnd=true) {
+  const r = Math.min(4, w/2, h/2);
+  if (!roundEnd || w < 2*r) return svgEl('rect', {x, y, width:Math.max(0,w), height:h, class:cls}, parent);
+  const d = `M${x},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h-r}Q${x+w},${y+h} ${x+w-r},${y+h}H${x}Z`;
+  return svgEl('path', {d, class:cls}, parent);
+}
+function legend(id, items) {
+  const el = document.getElementById(id); el.textContent = '';
+  for (const [cls, label, extra] of items) {
+    const s = document.createElement('span'); const i = document.createElement('i');
+    i.className = cls + (extra ? ' ' + extra : ''); s.append(i, label); el.appendChild(s);
+  }
+}
+function table(id, head, rows, numCols=[]) {
+  const host = document.getElementById(id); host.textContent = '';
+  const t = document.createElement('table'); const tr = document.createElement('tr');
+  head.forEach((h,i) => { const th = document.createElement('th'); th.textContent = h; if (numCols.includes(i)) th.className='n'; tr.appendChild(th); });
+  const thead = document.createElement('thead'); thead.appendChild(tr); t.appendChild(thead);
+  const tb = document.createElement('tbody');
+  rows.forEach(r => { const row = document.createElement('tr'); r.forEach((c,i) => { const td = document.createElement('td'); td.textContent = c; if (numCols.includes(i)) td.className='n'; row.appendChild(td); }); tb.appendChild(row); });
+  t.appendChild(tb); host.appendChild(t);
+}
+const W = id => Math.max(300, document.getElementById(id).clientWidth);
+const narrow = w => w < 560;
+function wilson(k, n, z=1.96) {
+  const p = k/n, d = 1 + z*z/n, c = (p + z*z/(2*n))/d, h = z*Math.sqrt(p*(1-p)/n + z*z/(4*n*n))/d;
+  return [Math.max(0,c-h), Math.min(1,c+h)];
+}
+function xAxisPct(svg, x, y0, y1, ticks=[0,.25,.5,.75,1]) {
+  for (const t of ticks) { svgEl('line', {x1:x(t), x2:x(t), y1:y0, y2:y1, class:'grid'}, svg); txt(svg, x(t), y1+16, pct(t), {class:'mut', 'text-anchor':'middle'}); }
+}
+const runTip = r => `${TL[r.t]} · run ${r.n} · ${VL[r.v]} ${ML[r.m]}\n${OUT[r.o].long}\n${r.st} of ${r.bu} steps · checker ${r.sc} · stop: ${r.stop}` + (r.fc ? `\nclass in log: ${r.fc}${r.rv ? ' (reviewed)' : ' (suggestion)'}` : '');
+
+// ---------- tiles ----------
+function tiles() {
+  const n = RUNS.length, pass = RUNS.filter(r => r.o === 'pass').length, steps = RUNS.reduce((a,r)=>a+r.s.length,0);
+  const wd = RUNS.filter(r => r.o === 'wrongdone').length;
+  const data = [
+    [fmt(n), 'scored runs', '54 Mac + 27 Windows, excluding 11 ERROR'],
+    [fmt(steps), 'agent steps', 'one model call, screenshot and log line each'],
+    [`${pass} of ${n}`, 'runs passed', 'across all versions and machines'],
+    [`${wd} of ${n-pass}`, 'failures with a false “complete”', 'agent reports success, checker does not'],
+  ];
+  const host = document.getElementById('tiles'); host.textContent = '';
+  for (const [v,l,d] of data) { const t = document.createElement('div'); t.className='tile'; t.innerHTML = '<div class="v"></div><div class="l"></div><div class="d"></div>'; t.children[0].textContent=v; t.children[1].textContent=l; t.children[2].textContent=d; host.appendChild(t); }
+}
+
+// ---------- G1 plan ----------
+const MECH = [
+  ['Tree + index instead of screenshot + pixels', {v1_baseline:0,v2_index:1,v3_full:1,v4_tracker:1,v5_8b:1,v6_fixes:1}],
+  ['8B instead of 4B model', {v5_8b:1,v6_fixes:1}],
+  ['Wait for a stable screen', {v3_full:1}],
+  ['“Action had no effect” hint', {v3_full:1}],
+  ['Loop guard', {v3_full:1}],
+  ['Status bar + scratch notes', {v3_full:1}],
+  ['Check step before “complete”', {v3_full:1}],
+  ['Goal-value tracker + veto', {v4_tracker:1}],
+  ['Clear prefilled field', {v6_fixes:1}],
+  ['“Complete” hint after save', {v6_fixes:1}],
+  ['Step limit, payment ban, app list', {v1_baseline:1,v2_index:1,v3_full:1,v4_tracker:1,v5_8b:1,v6_fixes:1}],
+];
+const BASE = {v2_index:'v1_baseline', v3_full:'v2_index', v4_tracker:'v2_index', v5_8b:'v2_index', v6_fixes:'v5_8b'};
+function g1() {
+  const w = W('c1'), nar = narrow(w), lw = nar ? 150 : 300, top = 58, rh = 26;
+  const h = top + MECH.length*rh + 8;
+  const svg = newSvg(document.getElementById('c1'), w, h);
+  const cw = (w - lw) / VERS.length;
+  VERS.forEach((v,i) => {
+    const cx = lw + cw*(i+.5);
+    txt(svg, cx, 18, VL[v], {class:'lab', 'text-anchor':'middle', 'font-weight':700});
+    txt(svg, cx, 34, BASE[v] ? 'base ' + VL[BASE[v]] : 'starting point', {class:'mut', 'text-anchor':'middle'});
+    const ch = MECH.filter(([,m]) => BASE[v] && (!!m[v]) !== (!!m[BASE[v]])).length;
+    txt(svg, cx, 48, v === 'v1_baseline' ? '' : ch + (ch === 1 ? ' change' : ' changes'), {class:'mut', 'text-anchor':'middle'});
+  });
+  MECH.forEach(([name, m], j) => {
+    const y = top + j*rh + rh/2;
+    svgEl('line', {x1:0, x2:w, y1:y+rh/2, y2:y+rh/2, class:'grid'}, svg);
+    const lim = nar ? 22 : 40; const label = name.length > lim ? name.slice(0, lim-1) + '…' : name;
+    tip(txt(svg, 0, y+4, label, {class:'lab'}), name);
+    VERS.forEach((v,i) => {
+      const cx = lw + cw*(i+.5);
+      const on = !!m[v], changed = BASE[v] && on !== !!m[BASE[v]];
+      if (on) svgEl('circle', {cx, cy:y, r:5, style:'fill:var(--ink2)'}, svg);
+      else svgEl('circle', {cx, cy:y, r:2, style:'fill:var(--axis)'}, svg);
+      if (changed) svgEl('circle', {cx, cy:y, r:9.5, style:'fill:none;stroke:var(--brand);stroke-width:2'}, svg);
+      const hit = svgEl('rect', {x:cx-cw/2, y:y-rh/2, width:cw, height:rh, style:'fill:transparent'}, svg);
+      tip(hit, `${VL[v]} (${VD[v]})\n${name}: ${on ? 'on' : 'off'}` + (changed ? (on ? '\nnew compared with ' : '\nremoved compared with ') + VL[BASE[v]] : ''));
+    });
+  });
+  table('t1', ['Mechanism', ...VERS.map(v => VL[v])], MECH.map(([n,m]) => [n, ...VERS.map(v => m[v] ? 'yes' : '–')]));
+}
+
+// ---------- G2 matrix ----------
+function g2() {
+  legend('lg-out2', OKEYS.map(k => ['bg-'+k, OUT[k].l]));
+  const w = W('c2'), nar = narrow(w), lw = nar ? 108 : 150, top = 44, gapG = 10;
+  const cw = (w - lw - gapG) / COLS.length, rh = Math.min(34, Math.max(24, cw*0.8));
+  const h = top + INST.length*rh + 2*8 + 6;
+  const svg = newSvg(document.getElementById('c2'), w, h);
+  const cx = i => lw + i*cw + (i >= 6 ? gapG : 0);
+  txt(svg, cx(0), 12, 'MacBook', {class:'mut'}); txt(svg, cx(6), 12, 'Windows', {class:'mut'});
+  COLS.forEach((c,i) => txt(svg, cx(i)+cw/2, 34, nar ? VL[c.v] : VL[c.v], {class:'lab', 'text-anchor':'middle', 'font-weight':600}));
+  INST.forEach((inst, j) => {
+    const g = Math.floor(j/3), y = top + j*rh + g*8;
+    if (j % 3 === 0) txt(svg, 0, y + 12, TL[inst.t], {class:'lab', 'font-weight':600});
+    txt(svg, 0, y + 26 > y + rh ? y + rh - 4 : y + 26, 'Seed ' + inst.seed.slice(0,4) + '…', {class:'mut'}).setAttribute('opacity', j % 3 === 0 ? 1 : 1);
+    COLS.forEach((c,i) => {
+      const r = runAt(c, inst); if (!r) return;
+      const cell = svgEl('rect', {x:cx(i)+1, y:y+1, width:cw-2, height:rh-2, rx:2, class:'f-'+r.o}, svg);
+      cell.setAttribute('tabindex', '0'); tip(cell, runTip(r));
+    });
+  });
+  table('t2', ['Instance', 'Seed', ...COLS.map(c => c.label)], INST.map(inst => [inst.label, inst.seed, ...COLS.map(c => { const r = runAt(c, inst); return r ? (r.o === 'pass' ? 'PASS' : OUT[r.o].l) + ' (' + r.st + ')' : '–'; })]));
+}
+
+// ---------- G3 wilson ----------
+function g3() {
+  const w = W('c3'), nar = narrow(w), lw = nar ? 108 : 270, rh = 30, top = 8;
+  const h = top + COLS.length*rh + 8 + 28;
+  const svg = newSvg(document.getElementById('c3'), w, h);
+  const x = lin(0, 1, lw + 8, w - 16);
+  const yEnd = top + COLS.length*rh + 8;
+  xAxisPct(svg, x, top, yEnd);
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const y = top + i*rh + rh/2 + (i >= 6 ? 8 : 0);
+    const k = c.runs.filter(r => r.o === 'pass').length, n = c.runs.length, [lo, hi] = wilson(k, n);
+    txt(svg, 0, y+4, nar ? `${VL[c.v]} ${ML[c.m]}` : `${VL[c.v]} · ${ML[c.m]} · ${VD[c.v]}`, {class:'lab'});
+    txt(svg, lw - 4, y+4, `${k}/${n}`, {class:'mono', 'text-anchor':'end'});
+    svgEl('line', {x1:x(lo), x2:x(hi), y1:y, y2:y, class:'st-'+MC[c.m], 'stroke-width':2, 'stroke-linecap':'round'}, svg);
+    svgEl('circle', {cx:x(k/n), cy:y, r:6, class:'ring'}, svg);
+    const d = svgEl('circle', {cx:x(k/n), cy:y, r:5, class:'f-'+MC[c.m]}, svg);
+    const hit = svgEl('rect', {x:lw, y:y-rh/2, width:w-lw, height:rh, style:'fill:transparent', tabindex:0}, svg);
+    tip(hit, `${VL[c.v]} · ${c.m}: ${k} of ${n} passed (${pct(k/n)})\n95% interval: ${pct(lo)} to ${pct(hi)}`);
+    rows.push([c.label, VD[c.v], `${k}/${n}`, pct(k/n), pct(lo), pct(hi)]);
+  });
+  // reference line at V1 Mac lower bound? keep clean
+  table('t3', ['Version', 'Description', 'PASS', 'Rate', 'Interval low', 'Interval high'], rows, [2,3,4,5]);
+}
+
+// ---------- G4 decomposition ----------
+function g4() {
+  legend('lg-out4', OKEYS.map(k => ['bg-'+k, OUT[k].long]));
+  const fails = RUNS.filter(r => r.o !== 'pass').length;
+  const wd = RUNS.filter(r => r.o === 'wrongdone').length, si = RUNS.filter(r => r.o === 'silent').length;
+  document.getElementById('s4').textContent = `Of ${fails} failures, the agent reported “complete” ${wd} times although the goal was not reached, and ${si} times the goal was reached without it saying “complete”. Together that is ${wd+si} of ${fails}.`;
+  const w = W('c4'), nar = narrow(w), lw = nar ? 64 : 92, rh = 30, top = 4;
+  const h = top + COLS.length*rh + 8 + 26;
+  const svg = newSvg(document.getElementById('c4'), w, h);
+  const x0 = lw + 8, x1 = w - 4, sc = (x1 - x0) / 9;
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const y = top + i*rh + (i >= 6 ? 8 : 0), bh = Math.min(22, rh-8);
+    txt(svg, 0, y + bh/2 + 4 + 3, c.label, {class:'lab'});
+    let xx = x0; const cnt = {};
+    OKEYS.forEach(k => cnt[k] = c.runs.filter(r => r.o === k).length);
+    const visible = OKEYS.filter(k => cnt[k] > 0), last = visible[visible.length-1];
+    visible.forEach(k => {
+      const wseg = cnt[k]*sc - 2;
+      const seg = hbar(svg, xx, y+3, wseg, bh, 'f-'+k, k === last);
+      seg.setAttribute('tabindex', 0); tip(seg, `${c.label}\n${OUT[k].long}: ${cnt[k]} of ${c.runs.length}`);
+      if (wseg > 18) { const t = txt(svg, xx + wseg/2, y+3+bh/2+4, cnt[k], {'text-anchor':'middle', class: k === 'none' ? 'lab' : 'in'}); t.style.pointerEvents = 'none'; if (k==='none') t.setAttribute('font-size', 11); }
+      xx += cnt[k]*sc;
+    });
+    rows.push([c.label, ...OKEYS.map(k => cnt[k])]);
+  });
+  const yb = top + COLS.length*rh + 10;
+  [0,3,6,9].forEach(t => txt(svg, x0 + t*sc, yb+12, t + (t===9 ? ' runs' : ''), {class:'mut', 'text-anchor': t===9 ? 'end' : 'middle'}));
+  table('t4', ['Version', ...OKEYS.map(k => OUT[k].l)], rows, [1,2,3,4]);
+}
+
+// ---------- G5 crosstab ----------
+function g5() {
+  const fails = RUNS.filter(r => r.o !== 'pass');
+  const labels = ['grounding','lost_value','false_done','too_early','wrong_app'];
+  const outs = ['silent','wrongdone','none'];
+  const cnt = (l,o) => fails.filter(r => r.fc === l && r.o === o).length;
+  const max = Math.max(...labels.flatMap(l => outs.map(o => cnt(l,o))));
+  const w = W('c5'), nar = narrow(w), lw = nar ? 92 : 130, top = nar ? 54 : 40, rh = 40;
+  const cw = Math.min(170, (w - lw - 70) / 3);
+  const h = top + labels.length*rh + 6;
+  const svg = newSvg(document.getElementById('c5'), w, h);
+  outs.forEach((o,i) => {
+    const cx = lw + i*cw + cw/2;
+    const words = OUT[o].l.split(' ');
+    if (nar) { const mid = Math.ceil(words.length/2); txt(svg, cx, 16, words.slice(0,mid).join(' '), {class:'lab', 'text-anchor':'middle'}); txt(svg, cx, 32, words.slice(mid).join(' '), {class:'lab', 'text-anchor':'middle'}); }
+    else txt(svg, cx, 26, OUT[o].l, {class:'lab', 'text-anchor':'middle'});
+    svgEl('rect', {x:cx-cw/2+cw*0.3, y:top-8, width:cw*0.4, height:3, rx:1.5, class:'f-'+o}, svg);
+  });
+  txt(svg, lw + 3*cw + 10, top - 6, 'Total', {class:'mut'});
+  const ramp = v => v === 0 ? 'var(--panel)' : v <= max*0.15 ? 'var(--q1)' : v <= max*0.4 ? 'var(--q2)' : v <= max*0.7 ? 'var(--q3)' : 'var(--q4)';
+  labels.forEach((l,j) => {
+    const y = top + j*rh;
+    txt(svg, 0, y + rh/2 + 4, l, {class:'lab mono'});
+    let sum = 0;
+    outs.forEach((o,i) => {
+      const v = cnt(l,o); sum += v;
+      const cell = svgEl('rect', {x:lw + i*cw + 1, y:y+1, width:cw-2, height:rh-2, rx:2, style:'fill:' + ramp(v)}, svg);
+      cell.setAttribute('tabindex', 0); tip(cell, `Label “${l}” with “${OUT[o].long}”: ${v} runs`);
+      const t = txt(svg, lw + i*cw + cw/2, y + rh/2 + 5, v, {'text-anchor':'middle', 'font-size':13, 'font-weight':600});
+      t.style.fill = v > max*0.4 ? 'var(--on-dark)' : 'var(--ink)'; t.style.pointerEvents = 'none';
+    });
+    txt(svg, lw + 3*cw + 10, y + rh/2 + 5, sum, {class:'mono'});
+  });
+  table('t5', ['Label in log', ...outs.map(o => OUT[o].l), 'Total'], labels.map(l => [l, ...outs.map(o => cnt(l,o)), outs.reduce((a,o)=>a+cnt(l,o),0)]), [1,2,3,4]);
+}
+
+// ---------- G6 instance difficulty ----------
+function g6() {
+  const w = W('c6'), nar = narrow(w), lw = nar ? 120 : 170, rh = 26, top = 4;
+  const h = top + INST.length*rh + 2*10 + 26;
+  const svg = newSvg(document.getElementById('c6'), w, h);
+  const x0 = lw + 6, x1 = w - 40, sc = (x1 - x0) / 9;
+  [0,3,6,9].forEach(t => { const xx = x0 + t*sc; svgEl('line', {x1:xx, x2:xx, y1:top, y2:h-24, class:'grid'}, svg); txt(svg, xx, h-8, t, {class:'mut', 'text-anchor':'middle'}); });
+  const rows = [];
+  INST.forEach((inst, j) => {
+    const g = Math.floor(j/3), y = top + j*rh + g*10;
+    const k = COLS.filter(c => { const r = runAt(c, inst); return r && r.o === 'pass'; }).length;
+    const who = COLS.filter(c => { const r = runAt(c, inst); return r && r.o === 'pass'; }).map(c => c.label);
+    txt(svg, 0, y + rh/2 + 4, inst.label, {class:'lab'});
+    if (k > 0) hbar(svg, x0, y + 5, k*sc, rh - 10, 'f-pass');
+    else svgEl('rect', {x:x0, y:y+5, width:2, height:rh-10, style:'fill:var(--axis)'}, svg);
+    txt(svg, x0 + Math.max(k*sc, 2) + 6, y + rh/2 + 4, `${k}/9`, {class:'mono'});
+    const hit = svgEl('rect', {x:x0, y, width:x1-x0, height:rh, style:'fill:transparent', tabindex:0}, svg);
+    tip(hit, `${inst.label} (seed ${inst.seed})\n${k} of 9 passed` + (who.length ? '\n' + who.join(', ') : ''));
+    rows.push([inst.label, inst.seed, k, who.join(', ') || '–']);
+  });
+  table('t6', ['Instance', 'Seed', 'passed of 9', 'by'], rows, [2]);
+}
+
+// ---------- G7 budget strip ----------
+function g7() {
+  legend('lg-out7', OKEYS.map(k => ['bg-'+k, OUT[k].l, 'dot']));
+  const w = W('c7'), nar = narrow(w), lw = nar ? 64 : 92, rh = 30, top = 22;
+  const pileW = nar ? 8*9 + 16 : 8*11 + 24;
+  const h = top + COLS.length*rh + 8 + 28;
+  const svg = newSvg(document.getElementById('c7'), w, h);
+  const x = lin(0.4, 1, lw + 10, w - pileW - 6);
+  const yEnd = top + COLS.length*rh + 8;
+  [.4,.6,.8].forEach(t => { svgEl('line', {x1:x(t), x2:x(t), y1:top, y2:yEnd, class:'grid'}, svg); txt(svg, x(t), yEnd+16, pct(t), {class:'mut', 'text-anchor':'middle'}); });
+  const xl = x(1) + 6;
+  svgEl('rect', {x:xl - 2, y:top - 4, width:w - xl + 2, height:yEnd - top + 4, style:'fill:var(--panel)'}, svg);
+  svgEl('line', {x1:xl - 2, x2:xl - 2, y1:top - 4, y2:yEnd, class:'axis'}, svg);
+  txt(svg, xl + 4, top - 8, 'stopped at the limit', {class:'mut'});
+  txt(svg, x(.4), top - 8, 'ended by itself: share of budget', {class:'mut'});
+  txt(svg, xl + 4, yEnd + 16, '100%', {class:'mut'});
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const yc = top + i*rh + rh/2 + (i >= 6 ? 8 : 0);
+    txt(svg, 0, yc + 4, c.label, {class:'lab'});
+    const placed = []; let pile = 0;
+    const order = [...c.runs].sort((a,b) => (a.st/a.bu - b.st/b.bu) || OKEYS.indexOf(a.o) - OKEYS.indexOf(b.o));
+    order.forEach(r => {
+      let cx, cy = yc;
+      if (r.stop === 'step_limit') { cx = xl + 8 + pile*(nar ? 9 : 11); pile++; }
+      else {
+        cx = x(r.st/r.bu);
+        const offs = [0,-9,9];
+        const o = offs.find(o => !placed.some(p => Math.abs(p.x-cx) < 10 && p.o === o));
+        if (o === undefined) cx += 10 * placed.filter(p => Math.abs(p.x-cx) < 10).length; else cy = yc + o;
+        placed.push({x:cx, o: o ?? 0});
+      }
+      svgEl('circle', {cx, cy, r:5.5, class:'ring'}, svg);
+      const d = svgEl('circle', {cx, cy, r:4.5, class:'f-'+r.o, tabindex:0}, svg);
+      tip(d, runTip(r));
+      rows.push([c.label, TL[r.t], r.n, r.st, r.bu, pct(r.st/r.bu), OUT[r.o].l, r.stop]);
+    });
+  });
+  table('t7', ['Version', 'Task', 'Run', 'Steps', 'Budget', 'Share', 'Outcome', 'Stop'], rows, [2,3,4,5]);
+}
+
+// ---------- G8 latency ----------
+function g8() {
+  const w = W('c8'), nar = narrow(w), lw = nar ? 64 : 92, rh = 34, top = 6;
+  const h = top + COLS.length*rh + 8 + 28;
+  const svg = newSvg(document.getElementById('c8'), w, h);
+  const all = RUNS.flatMap(r => r.s.map(s => s[2])).filter(v => v > 0);
+  const max = Math.ceil(Math.max(...all)/20)*20;
+  const x = lin(0, max, lw + 10, w - 14);
+  const yEnd = top + COLS.length*rh + 8;
+  for (let t = 0; t <= max; t += (nar ? 40 : 20)) { svgEl('line', {x1:x(t), x2:x(t), y1:top, y2:yEnd, class:'grid'}, svg); txt(svg, x(t), yEnd+16, t + (t===0 ? '' : ' s'), {class:'mut', 'text-anchor':'middle'}); }
+  const q = (a, p) => { const s = [...a].sort((u,v)=>u-v); const i = (s.length-1)*p, lo = Math.floor(i); return s[lo] + (s[Math.ceil(i)] - s[lo])*(i-lo); };
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const yc = top + i*rh + rh/2 + (i >= 6 ? 8 : 0);
+    txt(svg, 0, yc + 4, c.label, {class:'lab'});
+    const lat = c.runs.flatMap(r => r.s.map(s => s[2])).filter(v => v > 0);
+    let seed = 7; const rnd = () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+    lat.forEach(v => svgEl('circle', {cx:x(v), cy:yc + (rnd()-.5)*14, r:2.2, class:'f-'+MC[c.m], 'fill-opacity':0.28}, svg));
+    const p10 = q(lat,.1), p50 = q(lat,.5), p90 = q(lat,.9);
+    svgEl('line', {x1:x(p10), x2:x(p90), y1:yc, y2:yc, class:'st-'+MC[c.m], 'stroke-width':3, 'stroke-linecap':'round'}, svg);
+    svgEl('circle', {cx:x(p50), cy:yc, r:6.5, class:'ring'}, svg);
+    svgEl('circle', {cx:x(p50), cy:yc, r:5.5, class:'f-'+MC[c.m]}, svg);
+    if ((c.m === 'Mac' && (c.v === 'v1_baseline' || c.v === 'v2_index')) || (c.m==='Windows' && c.v==='v1_baseline'))
+      txt(svg, x(p50), yc - 10, fmt(p50,1) + ' s', {class:'lab', 'text-anchor':'middle', 'font-size':11});
+    const hit = svgEl('rect', {x:lw, y:yc-rh/2, width:w-lw, height:rh, style:'fill:transparent', tabindex:0}, svg);
+    tip(hit, `${c.label} (${lat.length} model calls)\nmedian ${fmt(p50,1)} s · 80% between ${fmt(p10,1)} and ${fmt(p90,1)} s\nmaximum ${fmt(Math.max(...lat),1)} s`);
+    rows.push([c.label, lat.length, fmt(p10,1), fmt(p50,1), fmt(p90,1), fmt(Math.max(...lat),1)]);
+  });
+  table('t8', ['Version', 'Calls', 'P10 (s)', 'Median (s)', 'P90 (s)', 'Max (s)'], rows, [1,2,3,4,5]);
+}
+
+// ---------- G9 tokens ----------
+function g9() {
+  const w = W('c9'), nar = narrow(w), lw = nar ? 64 : 92, rh = 28, top = 4;
+  const h = top + COLS.length*rh + 8 + 28;
+  const svg = newSvg(document.getElementById('c9'), w, h);
+  const x = lin(0, 2000, lw + 10, w - 60);
+  const yEnd = top + COLS.length*rh + 8;
+  [0,500,1000,1500,2000].forEach(t => { if (nar && (t===500||t===1500)) return; svgEl('line', {x1:x(t), x2:x(t), y1:top, y2:yEnd, class:'grid'}, svg); txt(svg, x(t), yEnd+16, fmt(t), {class:'mut', 'text-anchor':'middle'}); });
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const y = top + i*rh + (i >= 6 ? 8 : 0);
+    const tok = c.runs.reduce((a,r)=>a+r.pt,0), calls = c.runs.reduce((a,r)=>a+r.mc,0), v = tok/calls;
+    txt(svg, 0, y + rh/2 + 4, c.label, {class:'lab'});
+    const b = hbar(svg, x(0), y + 5, x(v) - x(0), Math.min(18, rh - 10), 'f-'+MC[c.m]);
+    b.setAttribute('tabindex', 0); tip(b, `${c.label}: ${fmt(v)} prompt tokens per call\n(${fmt(tok)} tokens in ${calls} calls)`);
+    if (c.m === 'Mac' && (c.v === 'v1_baseline' || c.v === 'v2_index')) txt(svg, x(v) + 6, y + rh/2 + 4, fmt(v), {class:'lab mono'});
+    rows.push([c.label, calls, fmt(tok), fmt(v)]);
+  });
+  table('t9', ['Version', 'Calls', 'Prompt tokens total', 'per call'], rows, [1,2,3]);
+}
+
+// ---------- G10 scatter ----------
+function g10() {
+  const w = W('c10'), nar = narrow(w), h = nar ? 320 : 380;
+  const svg = newSvg(document.getElementById('c10'), w, h);
+  const ml = 46, mr = 20, mt = 16, mb = 40;
+  const pts = COLS.map(c => ({c, t: c.runs.reduce((a,r)=>a+r.dur,0)/c.runs.length/60, s: c.runs.filter(r=>r.o==='pass').length/c.runs.length, k: c.runs.filter(r=>r.o==='pass').length}));
+  const xmax = Math.ceil(Math.max(...pts.map(p=>p.t))/5)*5;
+  const x = lin(0, xmax, ml, w - mr), y = lin(0, .8, h - mb, mt);
+  for (let t = 0; t <= xmax; t += 5) { svgEl('line', {x1:x(t), x2:x(t), y1:mt, y2:h-mb, class:'grid'}, svg); txt(svg, x(t), h-mb+16, t + ' min', {class:'mut', 'text-anchor':'middle'}); }
+  [0,.2,.4,.6,.8].forEach(t => { svgEl('line', {x1:ml, x2:w-mr, y1:y(t), y2:y(t), class:'grid'}, svg); txt(svg, ml-6, y(t)+4, pct(t), {class:'mut', 'text-anchor':'end'}); });
+  txt(svg, w - mr, h - 6, 'average run time per run →', {class:'mut', 'text-anchor':'end'});
+  txt(svg, ml, mt - 4, '↑ success rate', {class:'mut'});
+  // label offsets to avoid collisions
+  const off = {'Mac|v1_baseline':[8,-8,'start'], 'Mac|v2_index':[8,14,'start'], 'Mac|v3_full':[8,-8,'start'], 'Mac|v4_tracker':[8,-8,'start'], 'Mac|v5_8b':[8,-8,'start'], 'Mac|v6_fixes':[8,14,'start'], 'Windows|v1_baseline':[-8,-8,'end'], 'Windows|v2_index':[8,-8,'start'], 'Windows|v3_full':[-8,-8,'end']};
+  const rows = [];
+  pts.forEach(p => {
+    const cx = x(p.t), cy = y(p.s), hollow = p.c.key === 'Mac|v6_fixes';
+    svgEl('circle', {cx, cy, r:7, class:'ring'}, svg);
+    const d = svgEl('circle', {cx, cy, r:hollow ? 4.5 : 5.5, class: hollow ? 'st-'+MC[p.c.m] : 'f-'+MC[p.c.m], style: hollow ? 'fill:var(--bg);stroke-width:2' : null, tabindex:0}, svg);
+    tip(d, `${p.c.label} (${VD[p.c.v]})\n${p.k} of 9 passed · avg ${fmt(p.t,1)} min per run` + (hollow ? '\ntime distorted by other load' : ''));
+    const o = off[p.c.key] || [8,-8,'start'];
+    txt(svg, cx + o[0], cy + o[1], p.c.label, {class:'lab', 'text-anchor':o[2], 'font-size':11.5});
+    rows.push([p.c.label, VD[p.c.v], fmt(p.t,1), `${p.k}/9`, pct(p.s)]);
+  });
+  table('t10', ['Version', 'Description', 'Avg run time (min)', 'PASS', 'Rate'], rows, [2,3,4]);
+}
+
+// ---------- G11 no-effect share ----------
+function g11() {
+  const w = W('c11'), nar = narrow(w), lw = nar ? 120 : 230, rh = 32, top = 6;
+  const h = top + VERS.length*rh + 30;
+  const svg = newSvg(document.getElementById('c11'), w, h);
+  const x = lin(0, .8, lw + 10, w - 16);
+  const yEnd = top + VERS.length*rh;
+  [0,.2,.4,.6,.8].forEach(t => { svgEl('line', {x1:x(t), x2:x(t), y1:top, y2:yEnd, class:'grid'}, svg); txt(svg, x(t), yEnd+16, pct(t), {class:'mut', 'text-anchor':'middle'}); });
+  const share = c => { const st = c.runs.flatMap(r => r.s).filter(s => s[1] !== null); const ne = st.filter(s => s[1] === 0).length; return [ne, st.length]; };
+  const rows = [];
+  VERS.forEach((v,i) => {
+    const yc = top + i*rh + rh/2;
+    txt(svg, 0, yc + 4, nar ? VL[v] + ' ' + VD[v].slice(0, 12) + (VD[v].length > 12 ? '…' : '') : `${VL[v]} · ${VD[v]}`, {class:'lab'});
+    const cs = COLS.filter(c => c.v === v);
+    const vals = cs.map(c => { const [ne, n] = share(c); return {c, ne, n, p: ne/n}; });
+    if (vals.length === 2) svgEl('line', {x1:x(vals[0].p), x2:x(vals[1].p), y1:yc, y2:yc, style:'stroke:var(--axis);stroke-width:2'}, svg);
+    vals.forEach(o => {
+      svgEl('circle', {cx:x(o.p), cy:yc, r:6.5, class:'ring'}, svg);
+      const d = svgEl('circle', {cx:x(o.p), cy:yc, r:5.5, class:'f-'+MC[o.c.m], tabindex:0}, svg);
+      tip(d, `${o.c.label}: ${o.ne} of ${o.n} steps without effect (${pct(o.p)})`);
+      rows.push([o.c.label, o.ne, o.n, pct(o.p)]);
+    });
+    if (v === 'v4_tracker') txt(svg, x(vals[0].p) + 12, yc + 4, pct(vals[0].p), {class:'lab', 'font-weight':600});
+  });
+  table('t11', ['Version', 'without effect', 'Steps', 'Share'], rows, [1,2,3]);
+}
+
+// ---------- G12 action mix ----------
+function g12() {
+  legend('lg-act12', AKEYS.map(k => ['bg-'+k, ACTS[k]]));
+  const w = W('c12'), nar = narrow(w), lw = nar ? 64 : 92, rh = 30, top = 4;
+  const h = top + COLS.length*rh + 8 + 26;
+  const svg = newSvg(document.getElementById('c12'), w, h);
+  const x0 = lw + 8, x1 = w - 4;
+  const rows = [];
+  COLS.forEach((c,i) => {
+    const y = top + i*rh + (i >= 6 ? 8 : 0), bh = Math.min(22, rh-8);
+    txt(svg, 0, y + bh/2 + 7, c.label, {class:'lab'});
+    const acts = c.runs.flatMap(r => r.s.map(s => actKey(s[0])));
+    const n = acts.length, cnt = {}; AKEYS.forEach(k => cnt[k] = acts.filter(a => a === k).length);
+    let xx = x0; const vis = AKEYS.filter(k => cnt[k] > 0), last = vis[vis.length-1];
+    vis.forEach(k => {
+      const wseg = cnt[k]/n*(x1-x0) - 2;
+      const seg = hbar(svg, xx, y+3, wseg, bh, 'f-'+k, k === last);
+      seg.setAttribute('tabindex', 0); tip(seg, `${c.label} · ${ACTS[k]}\n${cnt[k]} of ${n} actions (${pct(cnt[k]/n)})`);
+      if (k === 'b' && cnt[k] >= 20) { const t = txt(svg, xx + wseg/2, y+3+bh/2+4, cnt[k] + '×', {'text-anchor':'middle', class:'in'}); t.style.pointerEvents='none'; }
+      xx += cnt[k]/n*(x1-x0);
+    });
+    rows.push([c.label, n, ...AKEYS.map(k => cnt[k])]);
+  });
+  const yb = top + COLS.length*rh + 10;
+  [0,.5,1].forEach(t => txt(svg, x0 + t*(x1-x0), yb+12, pct(t), {class:'mut', 'text-anchor': t===0 ? 'start' : t===1 ? 'end' : 'middle'}));
+  table('t12', ['Version', 'Actions', ...AKEYS.map(k => ACTS[k])], rows, [1,2,3,4,5,6,7]);
+}
+
+// ---------- G13 trajectory barcode ----------
+const selA = document.getElementById('selA'), selB = document.getElementById('selB');
+COLS.forEach(c => { for (const s of [selA, selB]) { const o = document.createElement('option'); o.value = c.key; o.textContent = `${c.label} (${VD[c.v]})`; s.appendChild(o); } });
+selA.value = 'Mac|v2_index'; selB.value = 'Mac|v4_tracker';
+try { const s = JSON.parse(localStorage.getItem('g13sel') || 'null'); if (s && COLS.some(c=>c.key===s[0]) && COLS.some(c=>c.key===s[1])) { selA.value = s[0]; selB.value = s[1]; } } catch (e) {}
+function g13() {
+  legend('lg-act13', [...AKEYS.map(k => ['bg-'+k, ACTS[k]]), ['', 'no effect', 'hollow']]);
+  const w = W('c13'), nar = narrow(w), lw = nar ? 62 : 132, rw = nar ? 0 : 150;
+  const maxSteps = 18, cell = Math.max(8, Math.min(26, (w - lw - rw - 10) / maxSteps)), gap = 2, rh = cell + 6;
+  const panels = [selA.value, selB.value].map(k => COLS.find(c => c.key === k));
+  const ph = 22 + INST.length*rh + 10;
+  const h = panels.length*ph + 8;
+  const svg = newSvg(document.getElementById('c13'), w, h);
+  const rows = [];
+  panels.forEach((c, pi) => {
+    const y0 = pi*ph;
+    txt(svg, 0, y0 + 14, `${c.label} · ${VD[c.v]}`, {class:'lab', 'font-weight':700});
+    INST.forEach((inst, j) => {
+      const y = y0 + 22 + j*rh;
+      const r = runAt(c, inst); if (!r) return;
+      txt(svg, 0, y + cell/2 + 4, nar ? inst.short : inst.label, {class:'lab', 'font-size':11.5});
+      // budget marker
+      const bx = lw + r.bu*cell;
+      svgEl('line', {x1:bx, x2:bx, y1:y-1, y2:y+cell+1, class:'axis'}, svg);
+      r.s.forEach((s, si) => {
+        const k = actKey(s[0]), cx = lw + si*cell, blocked = s[3] === 'x', noEff = s[1] === 0;
+        let m;
+        if (noEff || blocked) m = svgEl('rect', {x:cx+1.75, y:y+0.75, width:cell-gap-1.5, height:cell-1.5, rx:2, class:'st-'+k, style:'fill:none;stroke-width:1.5'}, svg);
+        else m = svgEl('rect', {x:cx+1, y, width:cell-gap, height:cell, rx:2, class:'f-'+k}, svg);
+        if (blocked) { svgEl('line', {x1:cx+3, y1:y+2, x2:cx+cell-gap-1, y2:y+cell-2, class:'st-'+k, 'stroke-width':1.5}, svg); svgEl('line', {x1:cx+cell-gap-1, y1:y+2, x2:cx+3, y2:y+cell-2, class:'st-'+k, 'stroke-width':1.5}, svg); }
+        const hit = svgEl('rect', {x:cx, y:y-2, width:cell, height:cell+4, style:'fill:transparent'}, svg);
+        tip(hit, `${inst.label} · step ${si+1}\n${ACTS[k] === 'Other' ? ({w:'wait', s:'status / “complete”', r:'scroll', l:'long press'}[s[0]] || s[0]) : ACTS[k]}` + (blocked ? '\nblocked by the harness' : noEff ? '\nscreen unchanged' : '') + (s[2] ? `\nmodel ${fmt(s[2],1)} s` : ''));
+      });
+      const endLabel = r.o === 'pass' ? 'PASS' : r.o === 'silent' ? 'at goal, silent' : r.o === 'wrongdone' ? '“complete”, wrong' : r.stop === 'loop_abort' ? 'loop abort' : 'step limit';
+      const ex = nar ? lw + maxSteps*cell + 4 : lw + maxSteps*cell + 10;
+      svgEl('circle', {cx:ex + 4, cy:y + cell/2, r:4, class:'f-'+r.o}, svg);
+      if (!nar) txt(svg, ex + 13, y + cell/2 + 4, endLabel, {class:'lab', 'font-size':11.5});
+      const rowHit = svgEl('rect', {x:ex-2, y, width: rw || 14, height:cell, style:'fill:transparent', tabindex:0}, svg);
+      tip(rowHit, runTip(r));
+      rows.push([c.label, inst.label, r.s.map(s => (s[3]==='x' ? 'X' : '') + (s[1]===0 ? s[0].toLowerCase() : s[0].toUpperCase())).join(' '), endLabel]);
+    });
+  });
+  table('t13', ['Version', 'Instance', 'Steps (upper case = effect, lower case = none, X = blocked)', 'Outcome'], rows);
+}
+[selA, selB].forEach(s => s.addEventListener('change', () => { try { localStorage.setItem('g13sel', JSON.stringify([selA.value, selB.value])); } catch (e) {} g13(); }));
+
+// ---------- G14 reproducibility ----------
+function g14() {
+  const w = W('c14'), nar = narrow(w);
+  const n = 3, gapX = nar ? 12 : 36, lab = 46;
+  const pw = Math.min(250, (w - gapX*(n-1)) / n), cs = (pw - lab) / 2;
+  const top = 42, h = top + 20 + 2*cs + 34;
+  const svg = newSvg(document.getElementById('c14'), w, h);
+  const rows = [];
+  VERS.slice(0,3).forEach((v, i) => {
+    const x0 = i*(pw + gapX);
+    const mac = COLS.find(c => c.m==='Mac' && c.v===v), win = COLS.find(c => c.m==='Windows' && c.v===v);
+    const m = {PP:0, PF:0, FP:0, FF:0};
+    INST.forEach(inst => { const a = runAt(win, inst), b = runAt(mac, inst); if (a && b) m[(a.o==='pass'?'P':'F') + (b.o==='pass'?'P':'F')]++; });
+    const agree = m.PP + m.FF;
+    txt(svg, x0, 14, `${VL[v]} · ${VD[v]}`, {class:'lab', 'font-weight':700, 'font-size': nar ? 11 : 12});
+    txt(svg, x0, 30, `${agree} of 9 agree`, {class:'mut'});
+    txt(svg, x0 + lab + cs, top + 10, 'Mac →', {class:'mut', 'text-anchor':'middle'});
+    txt(svg, x0, top + 14, 'Win ↓', {class:'mut'});
+    ['PASS','FAIL'].forEach((s,k) => txt(svg, x0 + lab + cs*k + cs/2, top + 26 + 2*cs + 14, s, {class:'mut', 'text-anchor':'middle'}));
+    ['PASS','FAIL'].forEach((s,k) => txt(svg, x0 + lab - 6, top + 20 + cs*k + cs/2 + 4, s, {class:'mut', 'text-anchor':'end'}));
+    const cells = [['PP',0,0],['PF',0,1],['FP',1,0],['FF',1,1]];
+    cells.forEach(([key, rr, cc]) => {
+      const v_ = m[key], diag = rr === cc;
+      const fill = v_ === 0 ? 'var(--panel)' : v_ <= 2 ? 'var(--q2)' : v_ <= 4 ? 'var(--q3)' : 'var(--q4)';
+      const cx = x0 + lab + cc*cs, cy = top + 20 + rr*cs;
+      const rect = svgEl('rect', {x:cx+1, y:cy+1, width:cs-2, height:cs-2, rx:3, style:'fill:' + fill}, svg);
+      if (!diag && v_ > 0) svgEl('rect', {x:cx+2, y:cy+2, width:cs-4, height:cs-4, rx:2.5, style:'fill:none;stroke:var(--s2);stroke-width:2'}, svg);
+      rect.setAttribute('tabindex', 0);
+      tip(rect, `${VL[v]}: Windows ${key[0]==='P'?'PASS':'FAIL'}, Mac ${key[1]==='P'?'PASS':'FAIL'}\n${v_} of 9 seeds` + (diag ? '' : '\nno agreement'));
+      const t = txt(svg, cx + cs/2, cy + cs/2 + 7, v_, {'text-anchor':'middle', 'font-size':20, 'font-weight':700});
+      t.style.fill = v_ > 2 ? 'var(--on-dark)' : 'var(--ink)'; t.style.pointerEvents = 'none';
+    });
+    rows.push([VL[v], m.PP, m.PF, m.FP, m.FF, `${agree}/9`]);
+  });
+  // vertical label for Windows
+  table('t14', ['Version', 'both PASS', 'Win PASS, Mac FAIL', 'Win FAIL, Mac PASS', 'both FAIL', 'agree'], rows, [1,2,3,4,5]);
+}
+
+// ---------- tooltip ----------
+const tipEl = document.getElementById('tip');
+function showTip(target, x, y) {
+  tipEl.textContent = target.getAttribute('data-tip'); tipEl.hidden = false;
+  const r = tipEl.getBoundingClientRect(); let tx = x + 14, ty = y + 14;
+  if (tx + r.width > innerWidth - 8) tx = x - r.width - 14;
+  if (ty + r.height > innerHeight - 8) ty = y - r.height - 14;
+  tipEl.style.left = Math.max(8, tx) + 'px'; tipEl.style.top = Math.max(8, ty) + 'px';
+}
+document.addEventListener('pointermove', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) showTip(t, e.clientX, e.clientY); else tipEl.hidden = true; });
+document.addEventListener('focusin', e => { const t = e.target.closest && e.target.closest('[data-tip]'); if (t) { const b = t.getBoundingClientRect(); showTip(t, b.right, b.top); } });
+document.addEventListener('focusout', () => tipEl.hidden = true);
+addEventListener('scroll', () => tipEl.hidden = true, {passive:true});
+
+// ---------- draw ----------
+const ALL = [tiles, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14];
+function draw() { for (const f of ALL) { try { f(); } catch (e) { console.error(f.name, e); } } }
+draw();
+let lastW = 0, raf = 0;
+new ResizeObserver(() => { const ww = document.querySelector('.wrap').clientWidth; if (ww === lastW) return; lastW = ww; cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }).observe(document.querySelector('.wrap'));
+})();
+</script>
+
+</body>
+</html>

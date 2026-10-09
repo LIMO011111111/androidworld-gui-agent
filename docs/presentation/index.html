@@ -317,7 +317,7 @@
               <p class="sub">Our code looks element 3 up in the tree. It either finds it or it doesn't: a failure we can see and log.</p>
             </div>
           </div>
-          <aside class="notes">Zitate Tag 1: "Most GUI-agent failures are pointing failures, not reasoning failures", "Where grounding happens decides who you can blame". Das ist genau die eine Änderung zwischen V1 und V2. Mündlich: V1 prüft die Zahlen des Modells nie, ein falscher Tipp bleibt stumm. V2/V3: der Index muss im Tree existieren, ein falscher Tipp wird vom Code abgefangen, bevor er passiert. Sprechtext: notes/Sprechtext-Folien.md.</aside>
+          <aside class="notes">Zitate Tag 1: "Most GUI-agent failures are pointing failures, not reasoning failures", "Where grounding happens decides who you can blame". Das ist genau die eine Änderung zwischen V1 und V2. Mündlich: V1 prüft die Zahlen des Modells nie, ein falscher Tipp bleibt stumm. V2 bis V6: der Index muss im Tree existieren, ein falscher Tipp wird vom Code abgefangen, bevor er passiert. V4 bis V6 ändern daran nichts, sie bauen alle auf V2 auf (Tree + Index). Sprechtext: notes/Sprechtext-Folien.md.</aside>
         </section>
 
         <!-- 12 · Context engineering — content.md #12 -->
@@ -919,7 +919,7 @@ keyboard_enter · wait · status</pre>
         <section class="center tum-deep" data-background-color="#003359">
           <h2 class="title title--xl">Backup</h2>
           <hr class="rule rule--wide" />
-          <p class="lead" style="max-width:48ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train · Technical: goal tracker · V6 rules · failure classifier · payment ban · config knobs · all 54 Mac runs · same seed, six versions</p>
+          <p class="lead" style="max-width:48ch">V2 log rows · V3 · Skills, user memory, RAG · Reward design · Why we did not train · Technical: goal tracker · V6 rules · failure classifier · payment ban · config knobs · all 54 Mac runs · same seed, six versions · where the 81 runs come from · 14 charts re-reading all 81 runs</p>
           <aside class="notes">Nur für die Fragerunde.</aside>
         </section>
 
@@ -1221,6 +1221,163 @@ keyboard_enter · wait · status</pre>
           </table>
           <p class="sub" style="margin-top:10px;font-size:15px">Same seed = same name, number, file name and text. No instance passes in every version; the .txt tasks (extension field) never pass after V1. Reading across a row shows the noise; reading down a column shows the pattern.</p>
           <aside class="notes">runs/summary.md, Tabelle "Same task instance, side by side", Mac. Nützlich bei der Frage "ist das nicht alles Zufall?": Zeilen sind das Rauschen, Spalten das Muster. Hugo Pereira: V1 und V2 bestehen, ab V3 nie wieder, in V4 wegen Back-Schleife, in V5/V6 wegen Umwegen (Foto, wait). Die .txt-Instanzen scheitern ab V2 immer am Endungsfeld oder am Dateinamen mit Endung im Namensfeld.</aside>
+        </section>
+
+        <!-- B13 · Backup: where the 81 runs come from — content.md #B13 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · Evaluation · Run count</p>
+          <h2 class="title" style="max-width:44ch">81 scored runs: all six versions on the Mac, V1 to V3 again on Windows</h2>
+          <hr class="rule" />
+          <table class="compact" style="font-size:18px">
+            <thead><tr><th>Machine</th><th>Versions</th><th>Calculation</th><th>Runs</th></tr></thead>
+            <tbody>
+              <tr><td>MacBook Air M4</td><td>V1 to V6</td><td>3 tasks × 3 runs × 6 versions</td><td>54</td></tr>
+              <tr><td>Windows laptop (CPU)</td><td>V1 to V3</td><td>3 tasks × 3 runs × 3 versions</td><td>27</td></tr>
+              <tr><td><strong>Total</strong></td><td></td><td></td><td><strong>81</strong></td></tr>
+            </tbody>
+          </table>
+          <p class="sub" style="margin-top:14px;font-size:16px">Not counted: 11 ERROR runs (emulator crashes, all Mac V3), re-run with the same seed; the setup runs in <code>runs_setup</code>. Mac and Windows are kept apart, not merged: different Ollama builds mean different model digests, so strictly a different model. V4 and V5 change one thing each; V6 adds two targeted fixes.</p>
+          <aside class="notes">Wenn jemand fragt, wie aus 3 × 3 × 6 = 54 dann 81 werden: "54 on the Mac for all six versions, plus 27 on Windows repeating V1 to V3 as a reproducibility check." Die 11 ERROR-Läufe sind Emulator-Abstürze, mit gleichem Seed wiederholt, in keiner Quote. Achtung: V6 hat zwei Fixes, nicht eine Änderung.</aside>
+        </section>
+
+        <!-- B14 · Backup: data viz figure 1 — content.md #B14 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 1 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">Three versions change exactly one thing; V3 and V6 bundle several</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-01.png" alt="Three versions change exactly one thing; V3 and V6 bundle several" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Dot = mechanism on, ring = new compared with the base version. Only V1→V2, V4 and V5 are clean single-factor tests.</p>
+          <aside class="notes">Bauplan der Versionen. Punktmatrix statt Fließtext; Ring = Änderung gegenüber der Basis. Nur V1→V2, V4, V5 sind saubere Ein-Faktor-Tests, V3 (fünf Mechanismen) und V6 (zwei Fixes) nicht zuordenbar. Quelle: configs/*.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B15 · Backup: data viz figure 2 — content.md #B15 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 2 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">Note + SMS is passed exactly once across all versions and both machines</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-02.png" alt="Note + SMS is passed exactly once across all versions and both machines" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">All 81 runs: rows = task instances (same seed), columns = version and machine. Four outcome types instead of PASS/FAIL.</p>
+          <aside class="notes">Alle 81 Läufe. Nach unten lesen = Muster, quer = Rauschen. Vier Ergebnisarten, weil FAIL zwei verschiedene Fehler zusammenfasst (B17). Quelle: runs/log.csv, runs_windows/log.csv, result.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B16 · Backup: data viz figure 3 — content.md #B16 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 3 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">With 9 runs per version all uncertainty ranges overlap; even 5/9 and 0/9 still touch</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-03.png" alt="With 9 runs per version all uncertainty ranges overlap; even 5/9 and 0/9 still touch" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Dot = success rate, line = 95% Wilson interval. One run moves the rate by 11 points.</p>
+          <aside class="notes">Antwort auf 'how many times did you run it?': V1, V2, V4, V5, V6 lassen sich nicht ranken. Punkt + Intervall statt Balken; Wilson, weil es bei n = 9 nahe 0 nicht negativ wird. Quelle: summary.md (both machines), Wilson interval. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B17 · Backup: data viz figure 4 — content.md #B17 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 4 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">Half of all failures are a wrong judgement about “complete”, not an operating error</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-04.png" alt="Half of all failures are a wrong judgement about “complete”, not an operating error" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">23 of 61 failures reported “complete” with the goal missed; 8 reached the goal and never said so. Read from checker score and the “complete” flag, no manual review.</p>
+          <aside class="notes">Objektive Aufteilung ohne Sichtung: Checker-Score + declared_done. Trennt 'kommt nicht ans Ziel' von 'beurteilt das Ziel falsch'. 31 von 61 Fehlschlägen sind Urteilsfehler. Quelle: result.json: state_score, declared_done. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B18 · Backup: data viz figure 5 — content.md #B18 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 5 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">“grounding” is a catch-all: 45 of 61 failures carry it, including every run that reached the goal</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-05.png" alt="“grounding” is a catch-all: 45 of 61 failures carry it, including every run that reached the goal" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Rows: failure class in the log; columns: what objectively happened. Only 14 of 61 classes were reviewed by hand.</p>
+          <aside class="notes">Ehrliche Grenze unserer Fehleranalyse: Der Runner nennt alles 'grounding', was im Schrittlimit endet. Gute Antwort, falls jemand die Fehlerklassen hinterfragt. Quelle: log.csv failure_class vs. result.json. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B19 · Backup: data viz figure 6 — content.md #B19 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 6 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">The task matters more than the version: the same instance is passed by 0 to 5 of the 9 variants</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-06.png" alt="The task matters more than the version: the same instance is passed by 0 to 5 of the 9 variants" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Number of version-machine combinations (out of 9) that pass each task instance.</p>
+          <aside class="notes">Varianz zwischen Aufgaben &gt; zwischen Versionen. Stützt 'eine Aufgabe pro Schwierigkeitsstufe' und zeigt, wo der Agent bricht: App-Wechsel. Quelle: runs/log.csv, runs_windows/log.csv. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B20 · Backup: data viz figure 7 — content.md #B20 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 7 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">When the agent stops by itself, it is right in only 20 of 43 cases; the other 38 runs are stopped by the harness</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-07.png" alt="When the agent stops by itself, it is right in only 20 of 43 cases; the other 38 runs are stopped by the harness" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Left: runs ended by the agent (or loop guard), by share of budget used. Right: runs stopped by the step limit in code. None of them passed.</p>
+          <aside class="notes">Das Schrittlimit (Pflicht-Guardrail) arbeitet sichtbar: Kein Lauf am Limit war ein Erfolg. Ein Punkt pro Lauf statt Mittelwert, weil die Häufung am Limit die Aussage ist. Quelle: result.json: steps, budget, stop_reason. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B21 · Backup: data viz figure 8 — content.md #B21 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 8 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">Index instead of screenshot makes each model call on the Mac about five times faster (median)</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-08.png" alt="Index instead of screenshot makes each model call on the Mac about five times faster (median)" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Model time per step. Small dots = single steps, large dot = median, bar = middle 80%. One shared seconds axis.</p>
+          <aside class="notes">Kosten sind das robusteste Ergebnis (über 1.000 Aufrufe). Mac Median 25,9 s → 4,9 s. V6-Ausreißer bis 68 s = Fremdlast. Windows ohne GPU beim Screenshot ca. 3,5× langsamer. Quelle: trajectory.jsonl: latency per model call. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B22 · Backup: data viz figure 9 — content.md #B22 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 9 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">The accessibility tree halves the prompt: about 1,000 instead of 1,900 tokens per model call</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-09.png" alt="The accessibility tree halves the prompt: about 1,000 instead of 1,900 tokens per model call" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Average prompt tokens per model call. Almost identical on both machines, so the time gap in B21 is hardware, not prompt.</p>
+          <aside class="notes">Belegt Tag 2 'ein Screenshot ist das Teuerste im Kontextfenster' mit eigenen Zahlen. Quelle: result.json: prompt_tokens, model_calls. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B23 · Backup: data viz figure 10 — content.md #B23 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 10 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">No version is both cheap and good; V1 buys its successes with the longest run time</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-10.png" alt="No version is both cheap and good; V1 buys its successes with the longest run time" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">x = average run time, y = success rate. Hollow: Mac V6, time distorted by other load.</p>
+          <aside class="notes">Management-Frage: Was kostet ein erfolgreicher Lauf? Streudiagramm statt zwei y-Achsen. Quelle: result.json: duration_s; summary.md. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B24 · Backup: data viz figure 11 — content.md #B24 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 11 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">V4 spends two thirds of its steps on actions that do not change the screen</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-11.png" alt="V4 spends two thirds of its steps on actions that do not change the screen" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Share of executed steps without a visible screen change (fingerprint before = after), Mac and Windows.</p>
+          <aside class="notes">Gemeinsame Ursache hinter Save-Loop (Markor), Back-Loop (V4) und Endungsfeld-Taps (V5/V6). Erklärt auch, warum V3s Loop-Guard bei Markor fehlzündet. Quelle: trajectory.jsonl: effect.screen_changed. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B25 · Backup: data viz figure 12 — content.md #B25 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 12 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">Every extra rule shifts what the agent does: V4 presses “Back” 35 times, V2 only six</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-12.png" alt="Every extra rule shifts what the agent does: V4 presses “Back” 35 times, V2 only six" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">All actions split by type, per version and machine. “Other” = wait, scroll, report complete.</p>
+          <aside class="notes">Macht die V4-Lehre messbar: Ein korrekter Prompt-Block verändert das Verhalten eines 4B-Modells deutlich. Quelle: trajectory.jsonl: action_type. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B26 · Backup: data viz figure 13 — content.md #B26 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 13 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">V2 against V4 on the Mac, step by step</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-13.png" alt="V2 against V4 on the Mac, step by step" style="display:block;max-width:100%;max-height:365px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Each row is a run, each box a step. Hollow = screen did not change, cross = blocked by the harness. Right: outcome.</p>
+          <aside class="notes">Alle Läufe zweier Versionen Schritt für Schritt. V4 Contacts: Home, dann elfmal 'Zurück' ohne Wirkung. Andere Paare interaktiv in notes/GUI-Agent-81-Runs.html. Quelle: trajectory.jsonl. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
+        </section>
+
+        <!-- B27 · Backup: data viz figure 14 — content.md #B27 -->
+        <section data-background-color="#ffffff">
+          <p class="eyebrow">Backup · All 81 runs, re-read · Figure 14 of 14</p>
+          <h2 class="title" style="max-width:62ch;font-size:28px">22 of 27 runs end the same on both machines, mostly because both fail</h2>
+          <hr class="rule" />
+          <img src="assets/viz/fig-14.png" alt="22 of 27 runs end the same on both machines, mostly because both fail" style="display:block;max-width:100%;max-height:385px;margin:0" />
+          <p class="sub" style="margin-top:8px;font-size:15px">Per version: Windows result (rows) against Mac result (columns), same seed. Of the 10 pairs with at least one PASS, every second one flips.</p>
+          <aside class="notes">Reproduzierbarkeit ehrlich: Übereinstimmung kommt v. a. aus gemeinsamen FAILs (V3 9/9). Von 10 Paaren mit mindestens einem PASS kippen 5. Quelle: runs/log.csv vs. runs_windows/log.csv by seed. Interaktive Fassung mit Tabellen: notes/GUI-Agent-81-Runs.html.</aside>
         </section>
 
       </div>
